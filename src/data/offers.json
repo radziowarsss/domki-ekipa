@@ -109,7 +109,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "532 213 244",
-    "link": "https://wielonek.com",
+    "link": "http://www.wielonek.com/oferta/",
     "note": "Plaża, pomosty, kajaki/rowery wodne, łódka.",
     "feat": 0
   },
@@ -185,7 +185,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "694 766 246",
-    "link": "https://domnadlakami.pl",
+    "link": "https://domnadlakami.pl/rezerwacja/",
     "note": "Jacuzzi na tarasie, las.",
     "feat": 0
   },
@@ -204,7 +204,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://czystejeziora.pl",
+    "link": "https://czystejeziora.pl/domki/",
     "note": "Jezioro 400 m, rowery w cenie, grill, altana.",
     "feat": 0
   },
@@ -223,7 +223,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://osrodek-ciche.pl",
+    "link": "https://osrodek-ciche.pl/cennik",
     "note": "I linia brzegowa, pomosty, plaża, las.",
     "feat": 0
   },
@@ -261,7 +261,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://stepol.fajnewczasy.com",
+    "link": "https://stepol.fajnewczasy.com/oferta.html",
     "note": "Plaża, teren 7,5 ha, gastronomia, sprzęt wodny.",
     "feat": 0
   },
@@ -394,7 +394,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "696 283 281",
-    "link": "https://osadastararzeka.pl",
+    "link": "https://osadastararzeka.pl/regulamin-rezerwacji/",
     "note": "Balia + sauna + Wda + ognisko, kuchnia letnia. Drożej.",
     "feat": 0
   },
@@ -432,7 +432,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "603 911 225",
-    "link": "https://apanowka.pl",
+    "link": "https://www.apanowka.pl/cennik",
     "note": "Balia z jacuzzi, kominek, grill.",
     "feat": 0
   },
@@ -489,7 +489,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "606 424 772",
-    "link": "https://osir.wloclawek.pl",
+    "link": "https://osir.wloclawek.pl/cenniki/",
     "note": "Oficjalnie od 1 doby, nad samą wodą, grill+ognisko+kajaki. Najtaniej z pewną 1 nocą.",
     "feat": 1
   },
@@ -603,7 +603,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://www.eholiday.pl/",
+    "link": "",
     "note": "Najtańszy cały dom dla 6; kajak + grill, plaża 4 min.",
     "feat": 1
   },
@@ -622,7 +622,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "791 491 960",
-    "link": "https://spastyrusdomki.pl",
+    "link": "https://spastyrusdomki.pl/cennik-2024/",
     "note": "Jacuzzi w cenie + sauna + palenisko, 300 m od najczystszego jeziora w PL.",
     "feat": 1
   },
@@ -660,7 +660,7 @@
     "balia": 1,
     "jez": 0,
     "tel": "690 088 500",
-    "link": "https://skorzecinrybakowka.pl",
+    "link": "https://skorzecinrybakowka.pl/cennik.html",
     "note": "Basen + jacuzzi + sauna, wypoż. rowerów, las.",
     "feat": 0
   },
@@ -698,7 +698,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "730 245 385",
-    "link": "https://skorzecin.org.pl",
+    "link": "https://skorzecin.org.pl/rezerwacja/",
     "note": "Grill, taras, ~300 m do plaży.",
     "feat": 0
   },
@@ -793,7 +793,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "537 399 537",
-    "link": "https://domkinadjeziorami.pl",
+    "link": "https://domkinadjeziorami.pl/rezerwacja-online/",
     "note": "Sauna fińska, kajaki, ognisko free. Cena za CAŁY domek.",
     "feat": 0
   },
@@ -850,7 +850,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "572 306 710",
-    "link": "https://farmawolnejchwili.pl/",
+    "link": "https://farmawolnejchwili.pl/cennik/",
     "note": "Balia + sauna + SUP free, pomost. Świetna, ale w lipcu min 3 doby.",
     "feat": 0
   },
@@ -869,7 +869,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "503 346 911",
-    "link": "https://hotelmikorzyn.pl",
+    "link": "https://hotelmikorzyn.pl/rezerwacja/",
     "note": "Basen + sauna + kajaki na terenie. Min 2 noce — nie wynajmujemy na 1 dobę.",
     "feat": 0
   },
@@ -907,7 +907,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "52 302 54 65",
-    "link": "https://grodpiasta.pl",
+    "link": "https://grodpiasta.pl/uslugi/oferta-komunijna",
     "note": "1 noc bez minimum, sauna + grota solna + ognisko nad jeziorem. Mój #1.",
     "feat": 1
   },
@@ -926,7 +926,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "690 090 025",
-    "link": "https://czapla-camping.pl",
+    "link": "https://czapla-camping.pl/cennik,7",
     "note": "Grill przy domku, ognisko (kosz +450 zł). Cennik dobowy.",
     "feat": 0
   },
@@ -1021,7 +1021,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "601 540 915",
-    "link": "https://zatoka-zablockich.pl",
+    "link": "https://www.zatoka-zablockich.pl/domki/",
     "note": "Plaża, 2 pomosty, altany z grillem, ogniska.",
     "feat": 0
   },
@@ -1059,7 +1059,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://perlowaosada.fajnewczasy.com",
+    "link": "https://perlowaosada.fajnewczasy.com/oferta.html",
     "note": "Jawnie 1 doba, kajaki + rowery wodne w cenie, nad Jeziorakiem.",
     "feat": 1
   },
@@ -1097,7 +1097,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "665 555 790",
-    "link": "https://u-kasi.com.pl",
+    "link": "https://u-kasi.com.pl/?cennik,3",
     "note": "Balia + sauna IR + basen, grill, ognisko, trampolina.",
     "feat": 0
   },
@@ -1135,7 +1135,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "607 107 716",
-    "link": "https://elemis.mazury.pl",
+    "link": "https://elemis.mazury.pl/kontakt/",
     "note": "Pomost, sprzęt wodny gratis, grill, ognisko z muzyką.",
     "feat": 0
   },
@@ -1154,7 +1154,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "796 682 860",
-    "link": "https://siemiany.info",
+    "link": "https://siemiany.info/rezerwacja.html",
     "note": "Jezioro, plaża, grill, ognisko.",
     "feat": 0
   },
@@ -1211,7 +1211,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "609 083 200",
-    "link": "https://porarelaksu.pl",
+    "link": "https://www.porarelaksu.pl/rezerwacja/",
     "note": "Sauna, palenisko, SUP, plaża, kino plenerowe, klima.",
     "feat": 0
   },
@@ -1477,7 +1477,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "604 941 434",
-    "link": "https://rybakowka.pl",
+    "link": "https://rybakowka.pl/cennik-i-rezerwacja",
     "note": "Prywatna balia na tarasie, jezioro, plaża, gastronomia.",
     "feat": 0
   },
@@ -1496,7 +1496,7 @@
     "balia": 1,
     "jez": 0,
     "tel": "507 768 707",
-    "link": "https://lovelaski.pl",
+    "link": "https://lovelaski.pl/rezerwacja",
     "note": "Balia + sauna + kominek, las, psy OK.",
     "feat": 0
   },
@@ -1515,7 +1515,7 @@
     "balia": 1,
     "jez": 0,
     "tel": "502 453 274",
-    "link": "https://ranczotargowka.pl",
+    "link": "https://ranczotargowka.pl/oferta",
     "note": "Glamp z prywatną balią na drewno + sauna. Bierze od 1 nocy — jedyna pewna balia.",
     "feat": 1
   },
@@ -1743,7 +1743,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "669901150",
-    "link": "https://www.odsapnij.pl/",
+    "link": "https://www.odsapnij.pl/domki",
     "note": "Butikowe domki Tiny House z sauna na skarpie z prywatnym dostepem do wody; nastawione na slow travel, zniechecaja do 1-noc pobytow - realnie luka; ceny na zapytanie.",
     "feat": 1
   },
@@ -1762,7 +1762,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "604941434",
-    "link": "https://www.rybakowka.pl/",
+    "link": "https://rybakowka.pl/cennik-i-rezerwacja",
     "note": "Houseboaty i domki modulowe z prywatna balia na tarasie nad Jez. Koronowskim; ~120 miejsc, restauracja; pojemnosc 6-os do potwierdzenia, krotkie pobyty raczej OK.",
     "feat": 0
   },
@@ -2047,7 +2047,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://osrodek-ciche.pl/",
+    "link": "https://osrodek-ciche.pl/cennik",
     "note": "Pietrowe domki 'Brda' dla 6 os z pelna kuchnia i lazienka, nad jez. Wielkie Parteczyny; cennik na stronie.",
     "feat": 0
   },
@@ -2066,7 +2066,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "+48 601 255 533",
-    "link": "https://domek-bory-tucholskie.pl/",
+    "link": "https://domek-bory-tucholskie.pl/cennik/",
     "note": "Parterowy domek 3 sypialnie 2-os, 2 łazienki, kominek, ogrodzony, 2 parkingi; kąpielisko ~200 m; cena i min. nocy do potwierdzenia telefonicznie.",
     "feat": 1
   },
@@ -2446,7 +2446,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "604566552",
-    "link": "https://lwdomkipowidz.pl/",
+    "link": "https://lwdomkipowidz.pl/?p=1047",
     "note": "Murowany domek caloroczny 6 miejsc, ogrzewany; strzezona plaza ~1 km; rezerwacja tylko telefonicznie, min. nocy do potwierdzenia.",
     "feat": 0
   },
@@ -2959,7 +2959,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "",
-    "link": "https://osadaswory.pl/",
+    "link": "https://osadaswory.pl/oferta",
     "note": "Domek 50 m2 w lesie, sauna zewnetrzna nad jeziorem + balia kapielowa; cena zalezna od sezonu, lipiec = wysoki.",
     "feat": 1
   },
@@ -3073,7 +3073,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "733 459 333",
-    "link": "https://resthousewdzydze.pl/",
+    "link": "https://resthousewdzydze.pl/cennik/",
     "note": "Piętrowy domek 6-os (6+1 dostawka) z tarasem nad jez. Jelenie; drugi tel 533 185 777; rezerwacje pn-pt 8-18.",
     "feat": 0
   },
@@ -3225,7 +3225,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "507 028 000",
-    "link": "https://siemiany.fajnewczasy.com/",
+    "link": "https://siemiany.fajnewczasy.com/oferta.html",
     "note": "Wygodny domek dla 6-8 os. w Parku Krajobrazowym Pojezierza Iławskiego, zadaszony taras, plac zabaw, ogrodzona posesja, parking 2 auta. Telefon niepełny na stronie.",
     "feat": 0
   },
@@ -3491,7 +3491,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "http://www.soczewka32.pl/",
+    "link": "http://www.soczewka32.pl/cennik.html",
     "note": "Domki drewniane 5-os. (dla 6 os. moze byc potrzebny wiekszy/2 domki) na skarpie nad zalewem w starym borze sosnowym, 10 km od Plocka; cena od ~47 zl/os; brak balii/sauny.",
     "feat": 0
   },
@@ -3643,7 +3643,7 @@
     "balia": 0,
     "jez": 0,
     "tel": "509 252 724",
-    "link": "https://domkiwuniejowie.pl/",
+    "link": "https://domkiwuniejowie.pl/oferta",
     "note": "Całoroczne domki drewniane ~20 m2 do 5 os. (dla 6 ciasno) blisko term Uniejów; akceptują krótkie pobyty weekendowe.",
     "feat": 0
   },
@@ -4080,7 +4080,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "+48 507 693 906",
-    "link": "https://kokosowyzakatek.pl/",
+    "link": "https://kokosowyzakatek.pl/kontakt.html",
     "note": "3 identyczne calorocz. domki 6-os. wysoki standard nad jez. Lakie; sprzet wodny, brak balii; cena/1 noc do potwierdzenia.",
     "feat": 0
   },
@@ -4650,7 +4650,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "+48 510 874 594",
-    "link": "https://domkiborowiackie.pl/",
+    "link": "https://domkiborowiackie.pl/cennik/",
     "note": "Domek D-2 dla 5-6 os nad jez. Bysławskim; obiekt oferuje jacuzzi, balie wodna i saune finska.",
     "feat": 1
   },
@@ -4745,7 +4745,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "519140517",
-    "link": "https://anastazewo.pl/",
+    "link": "https://anastazewo.pl/domki/domek-4",
     "note": "Wszystkie domki 6-os., drewniana balia z aeromasazem na 8 osob za doplata, 7 min do dzikiej plazy.",
     "feat": 1
   },
@@ -4783,7 +4783,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "730245385",
-    "link": "https://skorzecin.org.pl/",
+    "link": "https://skorzecin.org.pl/rezerwacja/",
     "note": "Odnowione domki 6-os. praktycznie przy plazy nad j. Niedzięgiel, Powidzki Park Krajobrazowy.",
     "feat": 0
   },
@@ -4935,7 +4935,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "http://www.czteryporyskorzecin.pl/",
+    "link": "https://www.czteryporyskorzecin.pl/?page_id=5",
     "note": "5 komfortowych domkow (24 miejsca) dla rodzin, 150 m od linii brzegowej j. Niedzięgiel.",
     "feat": 0
   },
@@ -5106,7 +5106,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "+48 601 540 915",
-    "link": "https://www.zatoka-zablockich.pl/",
+    "link": "https://www.zatoka-zablockich.pl/domki/",
     "note": "9 drewnianych domków (3 piętrowe + 6 skandynawskich), każdy z aneksem, łazienką i tarasem; 1 noc OK, ale domki 5-os wiec szóstka na styk/2 domki.",
     "feat": 0
   },
@@ -5182,7 +5182,7 @@
     "balia": 0,
     "jez": 0,
     "tel": "602325415",
-    "link": "https://www.skarbienice.pl/",
+    "link": "https://www.skarbienice.pl/index.php/cennik-menu",
     "note": "Cicha agroturystyka blisko Żnina i Biskupina, pokoje i domki kempingowe, autentyczna kuchnia; nie nad samym jeziorem, ale spokojna baza dla ekipy.",
     "feat": 0
   },
@@ -5239,7 +5239,7 @@
     "balia": 1,
     "jez": 0,
     "tel": "501022576",
-    "link": "https://www.osadaskoczkowo.pl/",
+    "link": "https://www.osadaskoczkowo.pl/rezerwacje",
     "note": "Dom Czapla: 3 sypialnie, 2 łazienki, balia hot-tub, sauna, jacuzzi 6-os.; woda = prywatny staw, nie jezioro.",
     "feat": 1
   },
@@ -5258,7 +5258,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "660435172",
-    "link": "https://hubertowo.kaszuby.pl/",
+    "link": "https://hubertowo.kaszuby.pl/component/spsimpleportfolio/item/29-dm15?Itemid=0",
     "note": "Dwa murowane domki 6-os., balia i sauna wspólne, plaża, ognisko, 50 m od jez. Raduńskiego; latem sob-sob.",
     "feat": 1
   },
@@ -5334,7 +5334,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "733459333",
-    "link": "https://resthousewdzydze.pl/",
+    "link": "https://resthousewdzydze.pl/cennik/",
     "note": "Piętrowy domek 6-os.(+1) z tarasem na jezioro Jelenie we Wdzydzkim Parku Krajobrazowym; brak balii.",
     "feat": 0
   },
@@ -5372,7 +5372,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "663773918",
-    "link": "https://perlakaszub.com.pl/",
+    "link": "https://perlakaszub.com.pl/kontakt-domki-wiele.html",
     "note": "8 nowych domków 70 m2, klimatyzacja, całoroczne, 100 m od jez. Wielewskiego z plażą i pomostem; pojemność potw. tel.",
     "feat": 0
   },
@@ -5391,7 +5391,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "604792273",
-    "link": "https://wielewskicypel.pl/",
+    "link": "https://wielewskicypel.pl/kontakt",
     "note": "Domki W Lasku 6-os. blisko brzegu jez. Wielewskiego; cena wyjściowa niejasna, dopytać telefonicznie.",
     "feat": 0
   },
@@ -5410,7 +5410,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "606210954",
-    "link": "https://choszczogrod.kaszuby.pl/",
+    "link": "https://choszczogrod.kaszuby.pl/oferta",
     "note": "Domki 2 i 3 dla 6 os. z kominkiem i tarasem, własna linia brzegowa z kąpieliskiem, mini SPA; balia niepotw.",
     "feat": 0
   },
@@ -5524,7 +5524,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "695 312 814",
-    "link": "https://domkimajka.pl/",
+    "link": "https://domkimajka.pl/nasze-domki",
     "note": "Komfortowe domki letniskowe kilkadziesiat metrow od brzegu Jezioraka; rezerwacje przez wlasciciela/OLX, pojemnosc domku do potwierdzenia.",
     "feat": 0
   },
@@ -5562,7 +5562,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "510 145 xxx",
-    "link": "https://domuagaty.fajnewczasy.com/",
+    "link": "https://domuagaty.fajnewczasy.com/oferta.html",
     "note": "Jeden domek 6-os. (pozostale 5-os.) ok. 50 m od jeziora Szelag Wielki, 100 m do lasu; spokojna agroturystyczna okolica.",
     "feat": 0
   },
@@ -5771,7 +5771,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "503 502 626",
-    "link": "https://www.nad-zatoka.pl/",
+    "link": "https://www.nad-zatoka.pl/rezerwacje2",
     "note": "Domek 2 sypialnie + rozkladana sofa dla 6 os, klimatyzacja, taras z grillem, jacuzzi, 400 m od portu jachtowego nad Jeziorskiem.",
     "feat": 1
   },
@@ -5809,7 +5809,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "509 201 020",
-    "link": "https://niko-jeziorsko.pl/",
+    "link": "https://niko-jeziorsko.pl/rezerwacje/",
     "note": "Domek 2-poziomowy 4-6 os (rozkladany narożnik + 2 sypialnie), balia i sauna opalane drewnem, jezioro kilka minut spacerem.",
     "feat": 1
   },
@@ -6151,7 +6151,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "603911225",
-    "link": "https://www.apanowka.pl/",
+    "link": "https://www.apanowka.pl/cennik",
     "note": "Caloroczne drewniane domki do 6 os, prywatna balia z jacuzzi i podswietleniem, kominek, ~300 m od jeziora.",
     "feat": 1
   },
@@ -6170,7 +6170,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "572306710",
-    "link": "https://farmawolnejchwili.pl/",
+    "link": "https://farmawolnejchwili.pl/cennik/",
     "note": "Domek z bali 90 m2 (3 sypialnie) tylko 34 m od jeziora, zadaszona opalana drewnem balia z widokiem na wode, SUP; pelna prywatnosc.",
     "feat": 1
   },
@@ -6189,7 +6189,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "660070323",
-    "link": "https://chcesiebyc.pl/",
+    "link": "https://chcesiebyc.pl/rezerwacja-online/?hotresevent=hotres_step1",
     "note": "Caloroczne domki z balia na swiezym powietrzu i sauna, wlasne zejscie na plaze; domki do 5 os wiec 6 os na dostawke.",
     "feat": 0
   },
@@ -6493,7 +6493,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "",
-    "link": "https://osadachmiel.pl/",
+    "link": "https://osadachmiel.pl/rezerwacja/",
     "note": "13 domków, balie na drewno z jacuzzi+LED, sauna fińska, prywatny dostęp do jeziora.",
     "feat": 1
   },
@@ -6569,7 +6569,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "511569628",
-    "link": "https://www.kaszubskiechrosty.bizn.pl/",
+    "link": "https://www.kaszubskiechrosty.bizn.pl/kontakt/",
     "note": "3 domki 4-6 os, BALIA + sauna sucha/parowa, grill, kajaki. Blisko Kościerzyny.",
     "feat": 1
   },
@@ -6588,7 +6588,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "",
-    "link": "https://www.klifwdzydze.pl/",
+    "link": "https://www.klifwdzydze.pl/cennik.html",
     "note": "Domek Wieżyca Standard/Plus dla max 6, dwupoziomowy z tarasem; przystań, wypożyczalnia.",
     "feat": 0
   },
@@ -6607,7 +6607,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "881300660",
-    "link": "https://wielewskiewzgorze.pl/",
+    "link": "https://wielewskiewzgorze.pl/cennik/",
     "note": "Całoroczne domki piętrowe, SPA+atrakcje, 150m od brzegu.",
     "feat": 0
   },
@@ -6740,7 +6740,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "785 444 719",
-    "link": "https://wielonek.eu/",
+    "link": "https://wielonek.eu/domki/",
     "note": "28 domków 6-os (2 sypialnie + salon + aneks + taras), sauna, restauracja, sprzęt wodny. Pet-friendly.",
     "feat": 0
   },
@@ -7025,7 +7025,7 @@
     "balia": 1,
     "jez": 1,
     "tel": "665555790",
-    "link": "https://www.u-kasi.com.pl/",
+    "link": "https://www.u-kasi.com.pl/?cennik,3",
     "note": "Balia drewniana + sauna infrared, basen, trampolina. Całoroczny. Min. 4 doby, krócej po tel.",
     "feat": 1
   },
@@ -7253,7 +7253,7 @@
     "balia": 0,
     "jez": 1,
     "tel": "794 653 286",
-    "link": "https://jedynka-skorzecin.pl/",
+    "link": "https://jedynka-skorzecin.pl/kontakt/",
     "note": "2 domki 6-os (standard i de luxe), 200 m do plaży, sklep na miejscu",
     "feat": 0
   },
