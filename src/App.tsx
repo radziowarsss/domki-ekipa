@@ -4,6 +4,7 @@ import type { UpdateItem, Avail } from './api';
 import rawOffers from './data/offers.json';
 import { api } from './api';
 import { FloatingIcons, MusicToggle, burst } from './effects';
+import Intro from './Intro';
 
 const OFFERS = rawOffers as unknown as Offer[];
 
@@ -42,7 +43,7 @@ function oneBadge(o: string) {
   return { t: '⚠️ min. nocy — pytaj o lukę', c: 'bg-orange-400/15 text-orange-300 border-orange-400/40' };
 }
 
-const sel = 'bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm outline-none';
+const sel = 'bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-teal-400 transition';
 const TEAM = 6;
 
 type Mode = 'loading' | 'login' | 'authed' | 'offline';
@@ -76,8 +77,8 @@ function OfferCard({
   const feed = [...updates].sort((a, x) => x.ts - a.ts);
 
   return (
-    <article className={'card-in rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800 to-slate-900 hover:-translate-y-1 transition ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30' : 'border-slate-700')}>
-      <div className="font-bold text-lg leading-tight">{d.n}</div>
+    <article className={'card-in group rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800/80 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30 hover:border-amber-500/70' : 'border-slate-700/80 hover:border-slate-600')}>
+      <div className="font-bold text-lg leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
       <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
       <div className="flex flex-wrap gap-1.5">
         {d.feat ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-400/15 text-amber-200 border-amber-400/40">⭐ TOP</span> : null}
@@ -91,21 +92,21 @@ function OfferCard({
         <div>👥 {d.cap}</div>
         <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
       </div>
-      <div className="text-xl font-extrabold">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
+      <div className="text-2xl font-black text-white">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
       {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
 
       <div className="flex items-center gap-1.5 text-[11px]">
         <span className="text-slate-500">termin 3–5.07:</span>
         {AVAIL.map(([k, l]) => (
-          <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-md border ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
+          <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-lg border transition ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
         ))}
       </div>
 
       <div className="flex gap-2 flex-wrap pt-1">
-        {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
-        {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300">{copied ? '✓' : '📋'}</button> : null}
-        {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a> : null}
-        <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
+        {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-teal-400 text-teal-950 hover:brightness-105 transition">📞 {d.tel}</a> : null}
+        {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:border-slate-600 transition">{copied ? '✓' : '📋'}</button> : null}
+        {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗 oferta</a> : null}
+        <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-xl border transition ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
       </div>
 
       <button onClick={() => setOpen((o) => !o)} className="mt-1 text-xs text-slate-400 hover:text-slate-200 text-left">
@@ -145,6 +146,9 @@ function OfferCard({
 
 export default function App() {
   const [mode, setMode] = useState<Mode>('loading');
+  const [showIntro, setShowIntro] = useState<boolean>(() => {
+    try { return localStorage.getItem('domki_intro_seen') !== '1'; } catch { return true; }
+  });
   const [pw, setPw] = useState('');
   const [loginErr, setLoginErr] = useState('');
   const [name, setName] = useState<string>(() => localStorage.getItem('domki_name') || '');
@@ -311,6 +315,15 @@ export default function App() {
     } catch { /* anulowano */ }
   }
 
+  function finishIntro() {
+    try { localStorage.setItem('domki_intro_seen', '1'); } catch { /* ignore */ }
+    setShowIntro(false);
+  }
+  function replayIntro() {
+    setShowIntro(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function lastUpdateTs(id: string): number {
     const arr = updates[id];
     if (!arr || arr.length === 0) return 0;
@@ -373,29 +386,35 @@ export default function App() {
     return evs.sort((x, y) => y.ts - x.ts).slice(0, 15);
   }, [updates, avail]);
 
+  if (showIntro) {
+    return <Intro onEnter={finishIntro} />;
+  }
+
   if (mode === 'loading') {
     return <div className="min-h-screen grid place-items-center text-slate-400">⏳ Ładowanie…</div>;
   }
 
   if (mode === 'login') {
     return (
-      <div className="min-h-screen grid place-items-center px-4">
+      <div className="min-h-screen grid place-items-center px-4 relative">
         <div className="aurora" />
-        <div className="w-full max-w-sm bg-slate-900/80 border border-slate-800 rounded-2xl p-6 text-center backdrop-blur">
-          <div className="text-4xl">🔒🏕️</div>
-          <h1 className="text-2xl font-extrabold mt-2">Domki Ekipa</h1>
-          <p className="text-slate-400 text-sm mt-1">Wpisz hasło, żeby wejść</p>
+        <FloatingIcons />
+        <div className="w-full max-w-sm relative rounded-3xl border border-slate-800 bg-slate-900/70 p-7 text-center backdrop-blur-xl shadow-2xl shadow-black/40">
+          <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/20 to-fuchsia-500/20 text-3xl">🏕️</div>
+          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-teal-300/80">Kronika Ekipy · 2026</div>
+          <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Domki Ekipa</h1>
+          <p className="mt-2 text-sm text-slate-400">Podaj hasło, by wejść do legendy</p>
           <input
             type="password"
             value={pw}
             onChange={(e) => setPw(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && doLogin()}
             placeholder="hasło…"
-            className="mt-4 w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2.5 outline-none"
+            className="mt-5 w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-center outline-none focus:border-teal-400 transition"
             autoFocus
           />
-          <button onClick={doLogin} className="mt-3 w-full bg-teal-400 text-teal-950 font-bold rounded-lg py-2.5">Wejdź 🤙</button>
-          {loginErr && <div className="text-rose-400 text-sm mt-2">{loginErr}</div>}
+          <button onClick={doLogin} className="mt-3 w-full rounded-xl bg-gradient-to-r from-teal-400 to-sky-400 py-3 font-bold text-teal-950 shadow-lg shadow-teal-500/20 hover:brightness-105 transition">Wejdź 🤙</button>
+          {loginErr && <div className="mt-3 text-sm text-rose-400">{loginErr}</div>}
         </div>
       </div>
     );
@@ -409,30 +428,31 @@ export default function App() {
       <MusicToggle />
 
       <header className="px-5 pt-10 pb-6 max-w-6xl mx-auto">
-        <span className="inline-block text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-gradient-to-r from-orange-400 to-rose-500 text-black">
-          🔥 wyjazd ekipy • 2026
+        <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] px-3.5 py-1.5 rounded-full border border-slate-700 bg-slate-900/60 text-slate-300 backdrop-blur">
+          <span className="h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_10px_#54d6c4]"></span>
+          Wyjazd ekipy · 2026
         </span>
-        <h1 className="text-4xl font-extrabold mt-3 bg-gradient-to-r from-teal-200 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
-          🏕️ DOMKI EKIPA
+        <h1 className="text-5xl sm:text-6xl font-black tracking-tight mt-4 bg-gradient-to-r from-teal-200 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
+          DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
           Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️, dzwoń, oznaczaj termin. 🤙
         </p>
 
-        <div className="mt-4 rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/10 to-fuchsia-500/10 p-4 flex flex-wrap items-center gap-4">
+        <div className="mt-5 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-teal-500/10 via-sky-500/5 to-fuchsia-500/10 p-5 flex flex-wrap items-center gap-4 shadow-lg shadow-black/20">
           <div>
             <div className="text-lg font-extrabold">Jedziesz? 🔥</div>
             <div className="text-xs text-slate-400">Kliknij i zaklep miejsce — im więcej nas, tym taniej!</div>
           </div>
-          <div className="flex-1 min-w-[160px] h-4 rounded-full bg-slate-900 border border-slate-700 overflow-hidden">
+          <div className="flex-1 min-w-[160px] h-4 rounded-full bg-slate-950/60 border border-slate-700/70 overflow-hidden">
             <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 transition-all" style={{ width: `${Math.min(going / TEAM, 1) * 100}%` }} />
           </div>
           <div className="font-extrabold whitespace-nowrap">{going}/{TEAM} zaklepane</div>
-          <button onClick={doRsvp} className="bg-gradient-to-br from-emerald-400 to-teal-400 text-emerald-950 font-extrabold rounded-xl px-5 py-2.5">JADĘ! 🙋</button>
+          <button onClick={doRsvp} className="rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 px-5 py-2.5 font-extrabold text-emerald-950 shadow-lg shadow-emerald-500/20 hover:brightness-105 transition">JADĘ! 🙋</button>
         </div>
         {going > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
-            {rsvps.map((r) => <span key={r} className="text-xs px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700">🙋 {r}</span>)}
+            {rsvps.map((r) => <span key={r} className="text-xs px-2.5 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-slate-200">🙋 {r}</span>)}
           </div>
         )}
 
@@ -444,11 +464,11 @@ export default function App() {
         </div>
 
         {topVoted.length > 0 && (
-          <div className="mt-3 rounded-2xl border border-amber-600/30 bg-amber-400/5 p-3">
+          <div className="mt-4 rounded-2xl border border-amber-500/25 bg-amber-400/[0.06] p-4 shadow-lg shadow-black/20">
             <div className="text-sm font-bold mb-1.5">🏆 Top typy ekipy</div>
             <div className="flex flex-wrap gap-2">
               {topVoted.map((t, i) => (
-                <button key={t.n} onClick={() => setSort('votes')} className="text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 hover:border-amber-500 transition">
+                <button key={t.n} onClick={() => setSort('votes')} className="text-xs px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 hover:border-amber-500 hover:bg-slate-800 transition">
                   {['🥇', '🥈', '🥉'][i]} {t.n} <span className="text-rose-300">❤️ {t.v}</span>
                 </button>
               ))}
@@ -462,7 +482,7 @@ export default function App() {
         </div>
 
         {activity.length > 0 && (
-          <div className="mt-4 rounded-2xl border border-slate-700 bg-slate-900/50 p-3">
+          <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-4 backdrop-blur shadow-lg shadow-black/20">
             <div className="text-sm font-bold mb-1">📣 Ostatnia aktywność ekipy</div>
             <div className="flex flex-col gap-1 max-h-44 overflow-auto">
               {activity.map((e, i) => (
@@ -475,7 +495,7 @@ export default function App() {
         )}
       </header>
 
-      <div className="sticky top-0 z-20 backdrop-blur bg-slate-950/80 border-y border-slate-800">
+      <div className="sticky top-0 z-20 backdrop-blur-xl bg-slate-950/75 border-y border-slate-800/80 shadow-lg shadow-black/20">
         <div className="max-w-6xl mx-auto px-5 py-3 flex flex-wrap gap-2 items-center">
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj…" className={sel + ' flex-1 min-w-[180px]'} />
           <select value={woj} onChange={(e) => setWoj(e.target.value)} className={sel}>
@@ -499,19 +519,19 @@ export default function App() {
             <option value={90}>≤ 1h30</option>
             <option value={120}>≤ 2h</option>
           </select>
-          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
             <input type="checkbox" checked={balia} onChange={(e) => setBalia(e.target.checked)} /> 🛁 balia/sauna
           </label>
-          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
             <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} /> ✅ wolne 3–5.07
           </label>
-          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
             <input type="checkbox" checked={jezOnly} onChange={(e) => setJezOnly(e.target.checked)} /> 🌊 nad jeziorem
           </label>
-          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
             <input type="checkbox" checked={topOnly} onChange={(e) => setTopOnly(e.target.checked)} /> ⭐ tylko TOP
           </label>
-          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
             <input type="checkbox" checked={bioraOnly} onChange={(e) => setBioraOnly(e.target.checked)} /> ✅ potwierdzone przez ekipę
           </label>
           <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
@@ -521,15 +541,15 @@ export default function App() {
             <option value="votes">❤️ najwięcej głosów</option>
             <option value="update">💬 ostatni update</option>
           </select>
-          <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-lg bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Wylosuj</button>
-          {filtersActive && <button onClick={clearFilters} className="text-sm px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition">🧹 Wyczyść</button>}
+          <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-xl bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Wylosuj</button>
+          {filtersActive && <button onClick={clearFilters} className="text-sm px-3 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 transition">🧹 Wyczyść</button>}
           <span className="ml-auto text-sm text-slate-400">{list.length} / {OFFERS.length}</span>
         </div>
       </div>
 
       {rnd && (
         <div className="max-w-6xl mx-auto px-5 pt-4">
-          <div className="rounded-2xl border border-fuchsia-500/40 bg-fuchsia-500/10 p-4 flex flex-wrap items-center gap-3">
+          <div className="rounded-2xl border border-fuchsia-500/40 bg-fuchsia-500/10 p-4 flex flex-wrap items-center gap-3 backdrop-blur shadow-lg shadow-black/20">
             <span className="text-lg">🎲 wylosowano:</span>
             <div className="flex-1 min-w-[180px]">
               <div className="font-bold">{rnd.n}</div>
@@ -565,14 +585,17 @@ export default function App() {
 
       {list.length > limit && (
         <div className="max-w-6xl mx-auto px-5 pb-4 text-center">
-          <button onClick={() => setLimit((l) => l + 48)} className="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 font-semibold hover:bg-slate-700 transition">
+          <button onClick={() => setLimit((l) => l + 48)} className="px-6 py-3 rounded-xl border border-slate-700 bg-slate-800/70 font-semibold hover:bg-slate-800 hover:border-slate-600 transition">
             Pokaż więcej (+{Math.min(48, list.length - limit)}) · {limit}/{list.length}
           </button>
         </div>
       )}
 
-      <footer className="max-w-6xl mx-auto px-5 py-10 text-center text-xs text-slate-500">
-        Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙
+      <footer className="max-w-6xl mx-auto px-5 py-10 flex flex-col items-center gap-3 text-center text-xs text-slate-500">
+        <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
+          ▶ Odtwórz intro ponownie
+        </button>
+        <div>Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙</div>
       </footer>
 
       {toast && (

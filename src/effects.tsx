@@ -88,22 +88,26 @@ export function MusicToggle() {
   );
 }
 
-/* ===== Lecące ikonki w tle ===== */
+/* ===== Delikatne iskry w tle (premium, zamiast emoji) ===== */
 export function FloatingIcons() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const box = ref.current;
     if (!box) return;
-    const em = ['🏕️', '🌊', '🍺', '🌲'];
+    const colors = ['#54d6c4', '#54a0ff', '#c084fc', '#7dd3fc'];
     const nodes: HTMLSpanElement[] = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 14; i++) {
       const s = document.createElement('span');
-      s.textContent = em[i % em.length];
-      s.className = 'pcl';
+      const c = colors[i % colors.length];
+      const size = 3 + Math.random() * 6;
+      s.className = 'spark';
       s.style.left = Math.random() * 100 + '%';
-      s.style.animationDuration = 16 + Math.random() * 18 + 's';
-      s.style.animationDelay = -Math.random() * 24 + 's';
-      s.style.fontSize = 14 + Math.random() * 16 + 'px';
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.background = c;
+      s.style.boxShadow = `0 0 ${6 + size}px ${c}`;
+      s.style.animationDuration = 20 + Math.random() * 20 + 's';
+      s.style.animationDelay = -Math.random() * 30 + 's';
       box.appendChild(s);
       nodes.push(s);
     }
