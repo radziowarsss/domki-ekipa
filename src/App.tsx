@@ -61,11 +61,12 @@ function ago(ts: number): string {
 }
 
 function OfferCard({
-  d, votes, liked, onVote, updates, onAddUpdate, availStatus, onSetAvail,
+  d, votes, liked, onVote, updates, onAddUpdate, availStatus, onSetAvail, onDelUpdate,
 }: {
   d: Offer; votes: number; liked: boolean; onVote: () => void;
   updates: UpdateItem[]; onAddUpdate: (type: string, text: string) => void;
   availStatus: string; onSetAvail: (status: string) => void;
+  onDelUpdate: (ts: number) => void;
 }) {
   const b = oneBadge(d.one);
   const [open, setOpen] = useState(false);
@@ -113,10 +114,13 @@ function OfferCard({
         <div className="rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
           {feed.length === 0 && <div className="text-xs text-slate-500">Brak updatów — bądź pierwszy, zadzwoń i wrzuć info 🤙</div>}
           {feed.map((u, i) => (
-            <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0">
-              <span className="font-semibold text-slate-200">{TYPE_LABEL[u.type] || u.type}</span>
-              {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
-              <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
+            <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0 flex justify-between gap-2">
+              <div>
+                <span className="font-semibold text-slate-200">{TYPE_LABEL[u.type] || u.type}</span>
+                {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
+                <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
+              </div>
+              <button onClick={() => onDelUpdate(u.ts)} title="usuń" className="text-slate-600 hover:text-rose-400 shrink-0">✕</button>
             </div>
           ))}
           <div className="flex flex-col gap-1.5 pt-1">
@@ -250,6 +254,16 @@ export default function App() {
       void loadShared();
     } else {
       const nu = { ...updates, [id]: [...(updates[id] || []), item] };
+      setUpdates(nu); lsSet('domki_updates', nu);
+    }
+  }
+
+  async function doDelUpdate(id: string, ts: number) {
+    if (mode === 'authed') {
+      try { await api.delUpdate(id, ts); } catch { /* ignore */ }
+      void loadShared();
+    } else {
+      const nu = { ...updates, [id]: (updates[id] || []).filter((u) => u.ts !== ts) };
       setUpdates(nu); lsSet('domki_updates', nu);
     }
   }
@@ -479,6 +493,7 @@ export default function App() {
             onAddUpdate={(type, text) => doAddUpdate(d.n, type, text)}
             availStatus={avail[d.n]?.status || ''}
             onSetAvail={(status) => doSetAvail(d.n, status)}
+            onDelUpdate={(ts) => doDelUpdate(d.n, ts)}
           />
         ))}
       </main>

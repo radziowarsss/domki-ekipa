@@ -35,4 +35,6 @@ export const api = {
     req('update', { method: 'POST', body: JSON.stringify({ slug, author, type, text }) }),
   availability: (slug: string, status: string, who: string): Promise<{ ok: boolean }> =>
     req('availability', { method: 'POST', body: JSON.stringify({ slug, status, who }) }),
+  delUpdate: (slug: string, ts: number): Promise<{ ok: boolean }> =>
+    req('del-update', { method: 'POST', body: JSON.stringify({ slug, ts }) }),
 };

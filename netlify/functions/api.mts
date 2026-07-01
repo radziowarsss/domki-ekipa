@@ -131,6 +131,15 @@ export default async (req: Request, _ctx: Context): Promise<Response> => {
       await writeJSON('availability', availability);
       return json({ ok: true });
     }
+
+    if (path === 'del-update') {
+      const updates = await readJSON<Record<string, Update[]>>('updates', {});
+      const slug = String(body.slug ?? '');
+      const ts = Number(body.ts ?? 0);
+      if (updates[slug]) updates[slug] = updates[slug].filter((u) => u.ts !== ts);
+      await writeJSON('updates', updates);
+      return json({ ok: true });
+    }
   }
 
   return json({ error: 'not found' }, { status: 404 });

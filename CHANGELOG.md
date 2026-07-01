@@ -1,20 +1,17 @@
 # CHANGELOG — Domki Ekipa
 
-## Runda 8 — FAN-OUT: 84 → 240 ofert
-- Seed `scripts/extract-seed.mjs` przerobiony na MERGE (existing offers.json + HTML, dedup po znormalizowanej nazwie) — dodane oferty przeżywają każdy build.
-- Workflow fan-out: 14 agentów (12 regionów + OLX + Booking/Slowhop) → nowe oferty domków 6-os. na 1 noc 3–5.07 w promieniu ~2h, z bezpośrednimi linkami.
-- `scripts/merge-fanout.mjs` — normalizuje pola (w/one/pn/tmin/balia/jez/feat, dekoduje &amp; w linkach) i merguje bez duplikatów. Dodano 156 → **razem 240 ofert**.
+## Runda 9 — panel admin + poprawa linków
+- Backend: `/api/del-update` (POST {slug,ts}, auth) — usuwa update z Blobs.
+- Front: przycisk ✕ przy każdym updacie w OfferCard (offline usuwa z localStorage) + klient `api.delUpdate`.
+- `scripts/fix-links.mjs`: 99 pustych / „stron głównych" → Booking deep-link (miejscowość + checkin 2026-07-04, checkout 2026-07-05, 6 os).
 - Build zielony.
 
-## Runda 7 — filtry + feed aktywności
-- Filtry: nad jeziorem / tylko TOP / potwierdzone przez ekipę. Globalny feed aktywności.
+## Runda 8 — FAN-OUT: 84 → 240 ofert
+- Seed merge (existing+HTML). Workflow 14 agentów. `scripts/merge-fanout.mjs` (+156 ofert).
 
-## Runda 6 — oprawa premium
-- Muzyka WebAudio, konfetti (canvas), lecące ikonki, animacje kart.
-
-## Runda 5 — tracker terminu 3–5.07
-- Dostępność per oferta, dashboard, filtr „wolne".
-
+## Runda 7 — filtry (jezioro/TOP/potwierdzone) + feed aktywności
+## Runda 6 — oprawa premium (muzyka/konfetti/ikonki/animacje)
+## Runda 5 — tracker terminu 3–5.07 + dashboard
 ## Runda 4 — feed updatów + weryfikacja API na żywo (smoke OK)
 ## Runda 3 — logowanie + głosy + RSVP
 ## Runda 2 — backend (Blobs + JWT) + api.ts
