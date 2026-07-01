@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 10 UKOŃCZONA** ✅ — a11y + weryfikacja jakości danych (tmin już kompletny dla 240). Build zielony.
+**Runda 11 UKOŃCZONA** ✅ — dedup near-duplikatów + paginacja (wydajność). Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -12,20 +12,20 @@ Token: netlify.com → **User settings → Applications → Personal access toke
 
 ## Zrobione
 - [x] **R1–R7**: szkielet · backend Blobs+JWT · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu 3–5.07 · oprawa premium · filtry+feed aktywności.
-- [x] **R8** fan-out → **240 ofert**. **R9** panel admin (del-update) + 99 linków (Booking deep-link).
-- [x] **R10** a11y: aria-labele na przyciskach (głos ❤️, usuń ✕, muzyka). Skrypt `scripts/fix-tmin.mjs` (szacuje dojazd wg regionu) — sprawdził: **wszystkie 240 mają tmin**, nic do uzupełnienia. Build zielony.
+- [x] **R8** fan-out → 240 ofert. **R9** panel admin + 99 linków. **R10** a11y + dane dojazdów.
+- [x] **R11** **dedup** near-duplikatów (`scripts/dedup.mjs`, zachowawczo: nazwa≥8 znaków + ta sama miejscowość → zostaje najlepsza) — usunięto 7, **~233 oferty**. **Paginacja**: 48 kart + „Pokaż więcej (+48)", reset przy zmianie filtrów (płynność na mobile). Build zielony.
 
 ## Funkcje (stan pełny)
-Logowanie · **240 ofert** (linki działają, dojazdy kompletne) · 10 filtrów · 5 sortowań · głosy ❤️ · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · fallback offline.
+Logowanie · ~233 oferty (linki+dojazdy kompletne) · 10 filtrów · 5 sortowań · paginacja · głosy ❤️ · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · a11y · fallback offline.
 
 ## Następne rundy
-- [ ] **R11**: dedup near-duplikatów (fan-out zostawił warianty tej samej oferty) + paginacja/„pokaż więcej" dla wydajności przy 240 kartach.
+- [ ] **R12**: PWA (manifest + service worker → instalowalna + działa offline) + drobny wizual polish.
 - [ ] Kolejne fan-outy. **Deploy + LIVE URL** (gdy token) + screenshot.
 
 ## Odpalenie lokalne
 ```
 cd C:\Users\radzi\Downloads\domki-ekipa
-npm run dev                 # 240 ofert, wszystko offline (localStorage)
+npm run dev                 # ~233 oferty, wszystko offline (localStorage)
 npx netlify dev --offline   # pełne API + logowanie + Blobs (zweryfikowane)
 ```
 

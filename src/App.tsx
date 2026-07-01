@@ -163,6 +163,7 @@ export default function App() {
   const [topOnly, setTopOnly] = useState(false);
   const [bioraOnly, setBioraOnly] = useState(false);
   const [sort, setSort] = useState('rec');
+  const [limit, setLimit] = useState(48);
 
   useEffect(() => {
     let cancel = false;
@@ -181,6 +182,8 @@ export default function App() {
     return () => { cancel = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => { setLimit(48); }, [q, woj, one, price, far, balia, freeOnly, jezOnly, topOnly, bioraOnly, sort]);
 
   async function loadShared() {
     try {
@@ -482,7 +485,7 @@ export default function App() {
         {list.length === 0 && (
           <div className="col-span-full text-center text-slate-400 py-16">😕 Nic nie pasuje. Poluzuj filtry.</div>
         )}
-        {list.map((d) => (
+        {list.slice(0, limit).map((d) => (
           <OfferCard
             key={d.n}
             d={d}
@@ -497,6 +500,14 @@ export default function App() {
           />
         ))}
       </main>
+
+      {list.length > limit && (
+        <div className="max-w-6xl mx-auto px-5 pb-4 text-center">
+          <button onClick={() => setLimit((l) => l + 48)} className="px-6 py-3 rounded-xl bg-slate-800 border border-slate-700 font-semibold hover:bg-slate-700 transition">
+            Pokaż więcej (+{Math.min(48, list.length - limit)}) · {limit}/{list.length}
+          </button>
+        </div>
+      )}
 
       <footer className="max-w-6xl mx-auto px-5 py-10 text-center text-xs text-slate-500">
         Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙
