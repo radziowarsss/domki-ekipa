@@ -3,8 +3,8 @@ import { getStore } from '@netlify/blobs';
 import { SignJWT, jwtVerify } from 'jose';
 
 // ===== Config (z env, sensowne defaulty dla ekipy) =====
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'domki-ekipa-dev-secret-change-me');
-const PASSWORD = process.env.APP_PASSWORD || 'ekipa2026';
+const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || 'domki-brygada3-2026-sekret-v2-x9k7');
+const PASSWORD = process.env.APP_PASSWORD || 'brygada3';
 const COOKIE = 'domki_auth';
 const DAY = 60 * 60 * 24;
 

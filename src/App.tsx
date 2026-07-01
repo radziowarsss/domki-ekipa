@@ -45,16 +45,13 @@ function oneBadge(o: string) {
 }
 
 const sel = 'bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-teal-400 transition';
-const TEAM = 6;
+const TEAM = 3;
 
-// Ekipa — wybór postaci po haśle (żartobliwe fakty)
+// Brygada — wybór postaci po haśle (tylko chłopaki, żartobliwe fakty)
 const CREW: { id: string; name: string; emoji: string; grad: string; fact: string }[] = [
   { id: 'radzio', name: 'Radzio', emoji: '🧠', grad: 'from-teal-400 to-sky-500', fact: 'Zamiast zadzwonić — zbudował całą stronę. Klasyk.' },
-  { id: 'lewarczyk', name: 'Lewarczyk', emoji: '💪', grad: 'from-amber-400 to-orange-500', fact: 'Podniesie lodówkę, ale nie słuchawkę przed 12:00.' },
+  { id: 'lewarczyk', name: 'Lewy', emoji: '💪', grad: 'from-amber-400 to-orange-500', fact: 'Podniesie lodówkę, ale nie słuchawkę przed 12:00.' },
   { id: 'bescik', name: 'Beścik', emoji: '😎', grad: 'from-fuchsia-400 to-purple-500', fact: 'Beściak. Nazwa zobowiązuje.' },
-  { id: 'amelka', name: 'Amelka', emoji: '🦋', grad: 'from-pink-400 to-rose-500', fact: 'Zaplanowała randkę — wyszła wyprawa ekipy.' },
-  { id: 'malagosia', name: 'Małagosia', emoji: '🌸', grad: 'from-rose-400 to-fuchsia-500', fact: 'Spakuje się na 1 noc jak na dwa tygodnie.' },
-  { id: 'natalka', name: 'Natalka', emoji: '⭐', grad: 'from-sky-400 to-indigo-500', fact: 'Wie, gdzie najlepsza plaża, zanim wysiądziecie z auta.' },
 ];
 
 type Mode = 'loading' | 'login' | 'authed' | 'offline';
@@ -495,7 +492,7 @@ export default function App() {
           <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-teal-300/80">Kronika Ekipy · 2026</div>
           <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Kto wbija? 🤙</h1>
           <p className="mt-2 text-sm text-slate-400">Klepnij swoją ikonę — ekipa zobaczy Twoje głosy, RSVP i raporty.</p>
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="mt-6 grid grid-cols-3 gap-3">
             {CREW.map((c) => (
               <button key={c.id} onClick={() => pick(c.name)} className="group rounded-2xl border border-slate-700 bg-slate-800/60 p-3 hover:border-teal-400 hover:bg-slate-800 transition text-center">
                 <div className={'mx-auto grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br ' + c.grad + ' text-2xl shadow-lg group-hover:scale-110 transition'}>{c.emoji}</div>
@@ -526,7 +523,7 @@ export default function App() {
           DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Namierzamy chatę dla <b>naszej szóstki</b> na legendarny weekend — sobota 4 → niedziela 5 lipca, do ~2h od Torunia i Inowrocławia. Głosuj, dzwoń, klep termin. 🍺
+          Namierzamy chatę dla <b>naszej trójki</b> na legendarny weekend — sobota 4 → niedziela 5 lipca, do ~2h od Torunia i Inowrocławia. Głosuj, dzwoń, klep termin. 🍺
         </p>
 
         <div className="mt-4 grid grid-cols-3 gap-2">
