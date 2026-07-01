@@ -1,10 +1,10 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 1 UKOŃCZONA** ✅ — setup, szkielet, seed, zielony build.
+**Runda 2 UKOŃCZONA** ✅ — backend API + auth + klient (frontend nadal zielony).
 
 ## ⚠️ WYMAGANE OD CIEBIE (raz), żeby loop wdrożył publicznie
 
-**AUTO-DEPLOY na Netlify jest ZABLOKOWANY** (brak tokenu). Apka buduje się i chodzi lokalnie, ale nie trafi publicznie, dopóki nie wklejesz RAZ w PowerShell (i otworzysz **nowe** okno):
+**AUTO-DEPLOY na Netlify ZABLOKOWANY** (brak tokenu). Apka buduje się i chodzi lokalnie. Żeby trafiła publicznie, wklej RAZ w PowerShell i otwórz **nowe** okno:
 
 ```
 setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
@@ -12,31 +12,29 @@ setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
 
 Token: netlify.com → **User settings → Applications → Personal access tokens → New token**.
 
-*(Node.js loop doinstalował sam — v24.18.0. Git jest.)*
+## Zrobione
+- [x] **Runda 1**: szkielet Vite+React+TS+Tailwind, seed 84 oferty, build zielony, git.
+- [x] **Runda 2**: backend `netlify/functions/api.mts` (router /api/*), store na **Netlify Blobs**, auth **hasłem `ekipa2026`** + podpisany JWT-cookie (jose). Endpointy: `/api/auth`, `/api/state`, `/api/update`, `/api/vote`, `/api/rsvp`, `/api/availability`. Klient `src/api.ts`. `.env.example` (APP_PASSWORD, JWT_SECRET). Build nadal zielony.
 
-## Zrobione (runda 1)
-- [x] Precheck środowiska (Node/npm doinstalowane, git OK)
-- [x] Szkielet: **Vite + React + TypeScript + TailwindCSS**
-- [x] Seed: **84 oferty** wyciągnięte z domki-weekend.html → `src/data/offers.json` (czysty JSON)
-- [x] Tablica ofert: filtry (szukaj / województwo / 1-noc / cena / dojazd / balia) + sort + karty premium + aurora tło
-- [x] **Build zielony**: `tsc --noEmit` + `vite build` → `dist/` (JS 178 kB / gzip 55 kB)
-- [x] Git zainicjalizowany + pierwszy commit
+## Architektura (świadomy wybór)
+- Oferty (statyczne z researchu) = bundlowane w froncie (`src/data/offers.json`), regenerowane przez seed/fan-out.
+- Warstwa współdzielona (updaty / głosy / RSVP / dostępność 3–5.07) = **Netlify Blobs** przez API. Prosto, „near-enterprise dla znajomych", łatwo później podmienić na Postgres.
+- Bramka: hasło → JWT-cookie. Frontend degraduje się: bez działającego API (czysty `vite dev`) pokazuje ofertę read-only; z API (netlify dev / deploy) włącza współdzielenie.
 
-## Następne rundy (backlog)
-- [ ] Backend: Netlify Functions + baza (Neon/Postgres, fallback Blobs)
-- [ ] Auth: hasło wejścia `ekipa2026` (cookie/JWT)
-- [ ] Współdzielone: updaty per oferta, RSVP (X/6), głosy ❤️, tracker terminu 3–5.07
-- [ ] Wyszukiwanie fan-out (cel 150+ ofert) + bezpośrednie linki do ogłoszeń
-- [ ] Oprawa premium: muzyka, konfetti, lecące ikonki, animacje
-- [ ] Deploy na Netlify + **LIVE URL** (po ustawieniu tokenu)
-- [ ] Weryfikacja w przeglądarce (screeny)
+## Następne rundy
+- [ ] **Runda 3**: instalacja netlify-cli, `netlify dev`, SMOKE-TEST API (auth+vote+rsvp), wpięcie frontu: bramka hasła + głosy ❤️ + RSVP (X/6) na żywo. Weryfikacja w przeglądarce (screeny).
+- [ ] Updaty per oferta (feed) + tracker terminu 3–5.07 + filtr „wolne".
+- [ ] Fan-out po 150+ ofert + bezpośrednie linki.
+- [ ] Oprawa premium: muzyka, konfetti, lecące ikonki, animacje.
+- [ ] Deploy + LIVE URL (po tokenie).
 
-## Odpalenie lokalne (działa już teraz)
+## Odpalenie lokalne (read-only board działa już teraz)
 ```
 cd C:\Users\radzi\Downloads\domki-ekipa
 npm install
 npm run dev
 ```
+Pełne API lokalnie (od rundy 3): `npx netlify dev`.
 
 ## LIVE URL
-_(brak — pojawi się po ustawieniu NETLIFY_AUTH_TOKEN i pierwszym deployu)_
+_(brak — po ustawieniu NETLIFY_AUTH_TOKEN i deployu)_
