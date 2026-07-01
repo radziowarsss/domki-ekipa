@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+body { margin: 0; background: #0b1220; color: #e8eef7; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif; }
+
+@keyframes aurora {
+  0% { transform: translate(-10%, -10%) rotate(0deg); }
+  50% { transform: translate(10%, 5%) rotate(180deg); }
+  100% { transform: translate(-10%, -10%) rotate(360deg); }
+}
+.aurora {
+  position: fixed; inset: -20%; z-index: -1;
+  background: conic-gradient(from 0deg, #0e1726, #123a4d, #1b2b52, #0f2e3a, #0e1726);
+  filter: blur(90px); opacity: .5; animation: aurora 28s linear infinite;
+}
