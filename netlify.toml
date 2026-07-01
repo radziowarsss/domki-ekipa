@@ -5,6 +5,12 @@
 [functions]
   directory = "netlify/functions"
 
+# Czysty, publiczny (bez logowania) link do porównania — przed SPA catch-all
+[[redirects]]
+  from = "/porownanie"
+  to = "/porownanie.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
