@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 6 UKOŃCZONA** ✅ — oprawa premium (muzyka + konfetti + lecące ikonki + animacje). Build zielony.
+**Runda 7 UKOŃCZONA** ✅ — więcej filtrów + globalny feed aktywności. Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -11,20 +11,15 @@ setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
 Token: netlify.com → **User settings → Applications → Personal access tokens → New token**.
 
 ## Zrobione
-- [x] **R1** szkielet Vite+React+TS+Tailwind, seed 84 oferty.
-- [x] **R2** backend (/api/*) na Netlify Blobs + auth JWT (hasło ekipa2026).
-- [x] **R3** logowanie + głosy ❤️ + RSVP X/6.
-- [x] **R4** feed updatów per oferta. **API zweryfikowane na żywo** (netlify dev smoke OK).
-- [x] **R5** tracker terminu 3–5.07 + dashboard + filtr.
-- [x] **R6** **oprawa premium**: 🎵 muzyka (chill ambient pad WebAudio, toggle w rogu, off domyślnie); 🎉 konfetti (canvas) na głos/RSVP/„wolne"; lecące ikonki w tle (🏕️🌊🔥🍺); animacje wejścia kart + aurora. Samowystarczalne (zero zewn. zależności). Build zielony (30 modułów).
+- [x] **R1** szkielet · **R2** backend+auth · **R3** logowanie+głosy+RSVP · **R4** feed updatów (API smoke OK) · **R5** tracker terminu 3–5.07 · **R6** oprawa premium (muzyka/konfetti/animacje).
+- [x] **R7** **więcej filtrów** (🌊 nad jeziorem, ⭐ tylko TOP, ✅ potwierdzone przez ekipę = ma update 'biorą') + **globalny feed aktywności** (ostatnie 15 zdarzeń: updaty + oznaczenia terminu, „kto co i kiedy"). Build zielony.
 
-## Funkcje (stan)
-Logowanie hasłem · 84 oferty · filtry (szukaj/woj/1-noc/cena/dojazd/balia/wolne-3–5.07) · sort (polecane/cena/dojazd/głosy/update) · głosy ❤️ · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 + dashboard · **muzyka + konfetti + animacje** · fallback offline (localStorage).
+## Funkcje (stan pełny)
+Logowanie hasłem · 84 oferty · filtry (szukaj / województwo / 1-noc / cena / dojazd / balia / wolne-3–5.07 / **nad jeziorem** / **tylko TOP** / **potwierdzone przez ekipę**) · sort (polecane/cena/dojazd/głosy/update) · głosy ❤️ · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 + dashboard · **feed aktywności ekipy** · muzyka + konfetti + animacje · fallback offline (localStorage).
 
 ## Następne rundy
-- [ ] **R7**: więcej filtrów (jezioro, tylko TOP, „potwierdzone przez ekipę") + globalny feed aktywności.
-- [ ] Panel admin. Bezpośrednie linki (Booking deep-link 2026-07-03→05).
-- [ ] **Fan-out ~16 agentów → 150+ ofert** (regeneracja offers.json).
+- [ ] **R8**: **fan-out ~16 agentów → nowe oferty (cel 150+)** z bezpośrednimi linkami, merge do offers.json.
+- [ ] Panel admin (usuwanie updatów). Bezpośrednie linki (Booking deep-link 2026-07-03→05).
 - [ ] **Deploy + LIVE URL** (gdy token).
 
 ## Odpalenie lokalne

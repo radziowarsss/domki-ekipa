@@ -155,6 +155,9 @@ export default function App() {
   const [far, setFar] = useState(0);
   const [balia, setBalia] = useState(false);
   const [freeOnly, setFreeOnly] = useState(false);
+  const [jezOnly, setJezOnly] = useState(false);
+  const [topOnly, setTopOnly] = useState(false);
+  const [bioraOnly, setBioraOnly] = useState(false);
   const [sort, setSort] = useState('rec');
 
   useEffect(() => {
@@ -287,6 +290,9 @@ export default function App() {
       if (one === 'takpotw' && d.one === 'luka') return false;
       if (balia && !d.balia) return false;
       if (freeOnly && avail[d.n]?.status !== 'wolne') return false;
+      if (jezOnly && !d.jez) return false;
+      if (topOnly && !d.feat) return false;
+      if (bioraOnly && !(updates[d.n] || []).some((u) => u.type === 'biora')) return false;
       if (price && d.pn > 0 && d.pn > price) return false;
       if (far && d.tmin > far) return false;
       if (q) {
@@ -304,10 +310,21 @@ export default function App() {
       return (a.pn || 99999) - (b.pn || 99999);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [q, woj, one, price, far, balia, freeOnly, sort, votes, updates, avail]);
+  }, [q, woj, one, price, far, balia, freeOnly, jezOnly, topOnly, bioraOnly, sort, votes, updates, avail]);
 
   const freeN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'wolne').length, [avail]);
   const busyN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'zajete').length, [avail]);
+
+  const activity = useMemo(() => {
+    const evs: { ts: number; text: string }[] = [];
+    for (const [slug, arr] of Object.entries(updates)) {
+      for (const u of arr) evs.push({ ts: u.ts, text: `${u.author}: ${TYPE_LABEL[u.type] || u.type} — ${slug}${u.text ? ' (' + u.text + ')' : ''}` });
+    }
+    for (const [slug, a] of Object.entries(avail)) {
+      evs.push({ ts: a.ts, text: `${a.who}: termin 3–5.07 ${AVAIL_LABEL[a.status] || a.status} — ${slug}` });
+    }
+    return evs.sort((x, y) => y.ts - x.ts).slice(0, 15);
+  }, [updates, avail]);
 
   if (mode === 'loading') {
     return <div className="min-h-screen grid place-items-center text-slate-400">⏳ Ładowanie…</div>;
@@ -382,6 +399,19 @@ export default function App() {
           {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — pełne współdzielenie po deployu) </span>}
           {name && <span>• cześć, <b className="text-slate-200">{name}</b>!</span>}
         </div>
+
+        {activity.length > 0 && (
+          <div className="mt-4 rounded-2xl border border-slate-700 bg-slate-900/50 p-3">
+            <div className="text-sm font-bold mb-1">📣 Ostatnia aktywność ekipy</div>
+            <div className="flex flex-col gap-1 max-h-44 overflow-auto">
+              {activity.map((e, i) => (
+                <div key={i} className="text-xs text-slate-300 border-b border-slate-800 pb-1 last:border-0">
+                  {e.text} <span className="text-slate-500">· {ago(e.ts)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       <div className="sticky top-0 z-20 backdrop-blur bg-slate-950/80 border-y border-slate-800">
@@ -413,6 +443,15 @@ export default function App() {
           </label>
           <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
             <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} /> ✅ wolne 3–5.07
+          </label>
+          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={jezOnly} onChange={(e) => setJezOnly(e.target.checked)} /> 🌊 nad jeziorem
+          </label>
+          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={topOnly} onChange={(e) => setTopOnly(e.target.checked)} /> ⭐ tylko TOP
+          </label>
+          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={bioraOnly} onChange={(e) => setBioraOnly(e.target.checked)} /> ✅ potwierdzone przez ekipę
           </label>
           <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
             <option value="rec">⭐ polecane</option>
