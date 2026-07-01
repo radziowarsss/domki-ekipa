@@ -475,6 +475,17 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
         </div>
       </div>
 
+      {!musicOn && (
+        <button
+          data-music-toggle
+          onClick={toggleMusic}
+          aria-label="Włącz muzykę"
+          className="fixed left-1/2 -translate-x-1/2 bottom-24 z-40 rounded-full px-5 py-3 text-sm font-extrabold text-teal-950 bg-gradient-to-r from-teal-300 to-sky-300 shadow-xl shadow-teal-500/40 animate-pulse"
+        >
+          🔊 Dotknij — puść muzykę do legendy
+        </button>
+      )}
+
       <div className="intro-nav">
         <button className="intro-navbtn" onClick={() => step(-1)} disabled={scene === 0}>
           ‹ Wstecz

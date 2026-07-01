@@ -584,7 +584,14 @@ export default function App() {
 
       <main className="max-w-6xl mx-auto px-5 py-6 grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {list.length === 0 && (
-          <div className="col-span-full text-center text-slate-400 py-16">😕 Nic nie pasuje. Poluzuj filtry.</div>
+          <div className="col-span-full text-center text-slate-400 py-16 flex flex-col items-center gap-3">
+            <div className="text-5xl">😕</div>
+            <div className="text-slate-200 font-semibold text-lg">Nic nie pasuje do filtrów</div>
+            <div className="text-sm">Poluzuj kryteria albo wyczyść i zacznij od zera.</div>
+            {filtersActive && (
+              <button onClick={clearFilters} className="mt-1 px-5 py-2.5 rounded-xl bg-teal-400 text-teal-950 font-bold hover:brightness-105 transition">🧹 Wyczyść filtry</button>
+            )}
+          </div>
         )}
         {list.slice(0, limit).map((d) => (
           <OfferCard
