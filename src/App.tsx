@@ -70,6 +70,10 @@ function OfferCard({
   onDelUpdate: (ts: number) => void;
 }) {
   const b = oneBadge(d.one);
+  const cover = d.jez ? 'from-sky-500/25 to-teal-600/25' : d.balia ? 'from-fuchsia-500/20 to-purple-600/25' : 'from-emerald-500/20 to-teal-600/20';
+  const coverEmoji = d.jez ? '🌊' : d.balia ? '🛁' : '🏕️';
+  const priceMain = d.pn > 0 ? d.pn + ' zł' : String(d.price);
+  const priceExtra = d.pn > 0 && /[a-ząćęłńóśźż]/i.test(String(d.price).replace(/z[łl]/gi, '')) ? String(d.price) : '';
   const [open, setOpen] = useState(false);
   const [utype, setUtype] = useState('biora');
   const [utext, setUtext] = useState('');
@@ -77,69 +81,84 @@ function OfferCard({
   const feed = [...updates].sort((a, x) => x.ts - a.ts);
 
   return (
-    <article className={'card-in group rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800/80 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30 hover:border-amber-500/70' : 'border-slate-700/80 hover:border-slate-600')}>
-      <div className="font-bold text-lg leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
-      <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
-      <div className="flex flex-wrap gap-1.5">
-        {d.feat ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-400/15 text-amber-200 border-amber-400/40">⭐ TOP</span> : null}
-        <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
-        {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
-        {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
-        {availStatus ? <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + (AVAIL_CLS[availStatus] || '')}>📅 3–5.07: {AVAIL_LABEL[availStatus] || availStatus}</span> : null}
-      </div>
-      <div className="text-sm text-slate-300 space-y-0.5">
-        <div>🏠 {d.loc}</div>
-        <div>👥 {d.cap}</div>
-        <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
-      </div>
-      <div className="text-2xl font-black text-white">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
-      {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
-
-      <div className="flex items-center gap-1.5 text-[11px]">
-        <span className="text-slate-500">termin 3–5.07:</span>
-        {AVAIL.map(([k, l]) => (
-          <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-lg border transition ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
-        ))}
-      </div>
-
-      <div className="flex gap-2 flex-wrap pt-1">
-        {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-teal-400 text-teal-950 hover:brightness-105 transition">📞 {d.tel}</a> : null}
-        {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:border-slate-600 transition">{copied ? '✓' : '📋'}</button> : null}
-        {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗 oferta</a> : null}
-        <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-xl border transition ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
-      </div>
-
-      <button onClick={() => setOpen((o) => !o)} className="mt-1 text-xs text-slate-400 hover:text-slate-200 text-left">
-        💬 updaty ekipy ({feed.length}) {open ? '▲' : '▼'}
-      </button>
-
-      {open && (
-        <div className="rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
-          {feed.length === 0 && <div className="text-xs text-slate-500">Brak updatów — bądź pierwszy, zadzwoń i wrzuć info 🤙</div>}
-          {feed.map((u, i) => (
-            <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0 flex justify-between gap-2">
-              <div>
-                <span className="font-semibold text-slate-200">{TYPE_LABEL[u.type] || u.type}</span>
-                {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
-                <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
-              </div>
-              <button onClick={() => onDelUpdate(u.ts)} title="usuń" aria-label="Usuń update" className="text-slate-600 hover:text-rose-400 shrink-0">✕</button>
-            </div>
-          ))}
-          <div className="flex flex-col gap-1.5 pt-1">
-            <select value={utype} onChange={(e) => setUtype(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
-              {UPDATE_TYPES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-            </select>
-            <div className="flex gap-1.5">
-              <input value={utext} onChange={(e) => setUtext(e.target.value)} placeholder="szczegóły (opcjonalnie)…" className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs outline-none" />
-              <button
-                onClick={() => { onAddUpdate(utype, utext.trim()); setUtext(''); setOpen(true); }}
-                className="text-xs font-semibold px-3 rounded-lg bg-teal-400 text-teal-950"
-              >Dodaj</button>
-            </div>
-          </div>
+    <article className={'card-in group rounded-2xl border overflow-hidden flex flex-col bg-gradient-to-b from-slate-800/80 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30 hover:border-amber-500/70' : 'border-slate-700/80 hover:border-slate-600')}>
+      <div className={'relative h-24 bg-gradient-to-br ' + cover + ' flex items-center justify-center'}>
+        <span className="text-5xl opacity-90 drop-shadow-lg transition-transform duration-300 group-hover:scale-110">{coverEmoji}</span>
+        <div className="absolute top-2 right-2 rounded-full bg-slate-950/80 backdrop-blur px-3 py-1 text-sm font-black text-white border border-white/10 shadow-lg">
+          {priceMain}<span className="text-[10px] text-slate-300 font-medium"> /noc</span>
         </div>
-      )}
+        {d.feat ? <div className="absolute top-2 left-2 rounded-full bg-amber-400 text-amber-950 px-2.5 py-1 text-[11px] font-extrabold shadow">⭐ TOP</div> : null}
+        {availStatus ? <div className={'absolute bottom-2 left-2 rounded-full px-2.5 py-0.5 text-[11px] font-semibold border ' + (AVAIL_CLS[availStatus] || '')}>📅 {AVAIL_LABEL[availStatus] || availStatus}</div> : null}
+      </div>
+
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <div>
+          <div className="font-bold text-lg leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
+          <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5">
+          <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
+          {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
+          {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
+        </div>
+
+        <div className="text-sm text-slate-300 space-y-0.5">
+          <div>🏠 {d.loc}</div>
+          <div>👥 {d.cap}</div>
+          <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
+        </div>
+        {priceExtra ? <div className="text-xs text-amber-300/80">💸 {priceExtra}</div> : null}
+        {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
+
+        <div className="mt-auto pt-1">
+          <div className="flex items-center gap-1.5 text-[11px] mb-2">
+            <span className="text-slate-500">termin 3–5.07:</span>
+            {AVAIL.map(([k, l]) => (
+              <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-lg border transition ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
+            ))}
+          </div>
+
+          <div className="flex gap-2 flex-wrap">
+            {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-teal-400 text-teal-950 hover:brightness-105 transition">📞 {d.tel}</a> : null}
+            {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:border-slate-600 transition">{copied ? '✓' : '📋'}</button> : null}
+            {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗 oferta</a> : null}
+            <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-xl border transition ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
+          </div>
+
+          <button onClick={() => setOpen((o) => !o)} className="mt-2 text-xs text-slate-400 hover:text-slate-200 text-left">
+            💬 updaty ekipy ({feed.length}) {open ? '▲' : '▼'}
+          </button>
+
+          {open && (
+            <div className="mt-2 rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
+              {feed.length === 0 && <div className="text-xs text-slate-500">Brak updatów — bądź pierwszy, zadzwoń i wrzuć info 🤙</div>}
+              {feed.map((u, i) => (
+                <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0 flex justify-between gap-2">
+                  <div>
+                    <span className="font-semibold text-slate-200">{TYPE_LABEL[u.type] || u.type}</span>
+                    {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
+                    <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
+                  </div>
+                  <button onClick={() => onDelUpdate(u.ts)} title="usuń" aria-label="Usuń update" className="text-slate-600 hover:text-rose-400 shrink-0">✕</button>
+                </div>
+              ))}
+              <div className="flex flex-col gap-1.5 pt-1">
+                <select value={utype} onChange={(e) => setUtype(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+                  {UPDATE_TYPES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                </select>
+                <div className="flex gap-1.5">
+                  <input value={utext} onChange={(e) => setUtext(e.target.value)} placeholder="szczegóły (opcjonalnie)…" className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs outline-none" />
+                  <button
+                    onClick={() => { onAddUpdate(utype, utext.trim()); setUtext(''); setOpen(true); }}
+                    className="text-xs font-semibold px-3 rounded-lg bg-teal-400 text-teal-950"
+                  >Dodaj</button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </article>
   );
 }
@@ -441,10 +460,20 @@ export default function App() {
           DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️, dzwoń, oznaczaj termin. 🤙
+          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. 🤙
         </p>
 
-        <div className="mt-5 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-teal-500/10 via-sky-500/5 to-fuchsia-500/10 p-5 flex flex-wrap items-center gap-4 shadow-lg shadow-black/20">
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {([['❤️', 'Głosuj', 'na typy ekipy'], ['📞', 'Dzwoń', 'i wrzuć update'], ['📅', 'Termin', 'oznacz 3–5.07']] as [string, string, string][]).map(([e, t, s]) => (
+            <div key={t} className="rounded-xl border border-slate-800 bg-slate-900/50 p-2.5 text-center">
+              <div className="text-xl">{e}</div>
+              <div className="text-xs font-bold text-slate-200 mt-0.5">{t}</div>
+              <div className="text-[10px] text-slate-400 leading-tight">{s}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-teal-500/10 via-sky-500/5 to-fuchsia-500/10 p-5 flex flex-wrap items-center gap-4 shadow-lg shadow-black/20">
           <div>
             <div className="text-lg font-extrabold">Jedziesz? 🔥</div>
             <div className="text-xs text-slate-400">Kliknij i zaklep miejsce — im więcej nas, tym taniej!</div>
