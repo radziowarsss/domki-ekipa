@@ -13,7 +13,9 @@ function store() {
   return getStore('domki');
 }
 async function readJSON<T>(key: string, fallback: T): Promise<T> {
-  const v = await store().get(key, { type: 'json' });
+  // consistency: 'strong' — czytamy zawsze najświeższy zapis (read-after-write),
+  // inaczej głos/raport ekipy potrafi nie pojawić się od razu (Blobs domyślnie eventual).
+  const v = await store().get(key, { type: 'json', consistency: 'strong' });
   return (v ?? fallback) as T;
 }
 async function writeJSON(key: string, data: unknown): Promise<void> {
