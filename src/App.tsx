@@ -518,12 +518,12 @@ export default function App() {
       <FloatingIcons />
       <MusicToggle />
 
-      <header className="px-5 pt-10 pb-6 max-w-6xl mx-auto">
+      <header className="px-4 pt-6 pb-4 sm:px-5 sm:pt-10 sm:pb-6 max-w-6xl mx-auto">
         <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] px-3.5 py-1.5 rounded-full border border-slate-700 bg-slate-900/60 text-slate-300 backdrop-blur">
           <span className="h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_10px_#54d6c4]"></span>
           Wyprawa Ekipy · Lato 2026
         </span>
-        <h1 className="text-5xl sm:text-6xl font-black tracking-tight mt-4 bg-gradient-to-r from-teal-200 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-6xl font-black tracking-tight mt-3 sm:mt-4 bg-gradient-to-r from-teal-200 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
           DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
@@ -602,21 +602,23 @@ export default function App() {
       </header>
 
       <div className="sticky top-0 z-20 backdrop-blur-xl bg-slate-950/75 border-y border-slate-800/80 shadow-lg shadow-black/20">
-        <div className="max-w-6xl mx-auto px-5 py-3">
-          <div className="flex flex-wrap gap-2 items-center">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj chaty albo miejscówki…" className={sel + ' flex-1 min-w-[200px]'} />
-            <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
-              <option value="rec">⭐ polecane</option>
-              <option value="price">💸 najtaniej</option>
-              <option value="far">🚗 najbliżej z Inowrocławia</option>
-              <option value="votes">❤️ najwięcej głosów</option>
-              <option value="update">💬 ostatni update</option>
-            </select>
-            <button onClick={() => setShowFilters((v) => !v)} className={'text-sm font-semibold px-3.5 py-2 rounded-xl border transition ' + (showFilters || filtersActive ? 'bg-teal-500/15 border-teal-500/50 text-teal-200' : 'bg-slate-800/70 border-slate-700 text-slate-200 hover:border-slate-600')}>
-              ⚙️ Filtry{filtersActive && <span className="ml-1.5 inline-block h-2 w-2 rounded-full bg-teal-400 align-middle"></span>} <span className="text-slate-500">{showFilters ? '▾' : '▸'}</span>
-            </button>
-            <button onClick={doRandom} className="text-sm font-semibold px-3.5 py-2 rounded-xl bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Losuj</button>
-            <span className="ml-auto text-sm text-slate-400 font-semibold">{list.length} <span className="text-slate-600">/ {OFFERS.length}</span></span>
+        <div className="max-w-6xl mx-auto px-4 py-2 sm:px-5 sm:py-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj chaty albo miejscówki…" className={sel + ' w-full sm:flex-1 sm:min-w-[180px]'} />
+            <div className="flex gap-2 items-center flex-wrap">
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel + ' flex-1 min-w-[128px] sm:flex-none'}>
+                <option value="rec">⭐ polecane</option>
+                <option value="price">💸 najtaniej</option>
+                <option value="far">🚗 najbliżej z Inowrocławia</option>
+                <option value="votes">❤️ najwięcej głosów</option>
+                <option value="update">💬 ostatni update</option>
+              </select>
+              <button onClick={() => setShowFilters((v) => !v)} className={'shrink-0 text-sm font-semibold px-3 py-2 rounded-xl border transition ' + (showFilters || filtersActive ? 'bg-teal-500/15 border-teal-500/50 text-teal-200' : 'bg-slate-800/70 border-slate-700 text-slate-200 hover:border-slate-600')}>
+                ⚙️ Filtry{filtersActive && <span className="ml-1 inline-block h-2 w-2 rounded-full bg-teal-400 align-middle"></span>}
+              </button>
+              <button onClick={doRandom} className="shrink-0 text-sm font-semibold px-3 py-2 rounded-xl bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition" aria-label="Wylosuj">🎲<span className="hidden sm:inline"> Losuj</span></button>
+              <span className="ml-auto shrink-0 text-sm text-slate-400 font-semibold">{list.length}<span className="text-slate-600">/{OFFERS.length}</span></span>
+            </div>
           </div>
           {showFilters && (
             <div className="mt-2.5 pt-3 border-t border-slate-800 flex flex-wrap gap-2 items-center card-in">
@@ -679,7 +681,7 @@ export default function App() {
         </div>
       )}
 
-      <main className="max-w-6xl mx-auto px-5 py-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <main className="max-w-6xl mx-auto px-4 py-4 sm:px-5 sm:py-6 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {list.length === 0 && (
           <div className="col-span-full text-center text-slate-400 py-16 flex flex-col items-center gap-3">
             <div className="text-5xl">😕</div>
