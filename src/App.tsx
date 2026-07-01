@@ -165,6 +165,7 @@ export default function App() {
   const [sort, setSort] = useState('rec');
   const [limit, setLimit] = useState(48);
   const [toast, setToast] = useState('');
+  const [rnd, setRnd] = useState<Offer | null>(null);
 
   useEffect(() => {
     let cancel = false;
@@ -343,6 +344,18 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, woj, one, price, far, balia, freeOnly, jezOnly, topOnly, bioraOnly, sort, votes, updates, avail]);
 
+  function clearFilters() {
+    setQ(''); setWoj(''); setOne(''); setPrice(0); setFar(0);
+    setBalia(false); setFreeOnly(false); setJezOnly(false); setTopOnly(false); setBioraOnly(false);
+  }
+  function doRandom() {
+    if (list.length === 0) return;
+    setRnd(list[Math.floor(Math.random() * list.length)]);
+    burst(30);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  const filtersActive = !!(q || woj || one || price || far || balia || freeOnly || jezOnly || topOnly || bioraOnly);
+
   const freeN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'wolne').length, [avail]);
   const busyN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'zajete').length, [avail]);
   const topVoted = useMemo(() => OFFERS.filter((o) => (votes[o.n] || 0) > 0).map((o) => ({ n: o.n, v: votes[o.n] || 0 })).sort((a, b) => b.v - a.v).slice(0, 3), [votes]);
@@ -506,9 +519,27 @@ export default function App() {
             <option value="votes">❤️ najwięcej głosów</option>
             <option value="update">💬 ostatni update</option>
           </select>
+          <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-lg bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Wylosuj</button>
+          {filtersActive && <button onClick={clearFilters} className="text-sm px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition">🧹 Wyczyść</button>}
           <span className="ml-auto text-sm text-slate-400">{list.length} / {OFFERS.length}</span>
         </div>
       </div>
+
+      {rnd && (
+        <div className="max-w-6xl mx-auto px-5 pt-4">
+          <div className="rounded-2xl border border-fuchsia-500/40 bg-fuchsia-500/10 p-4 flex flex-wrap items-center gap-3">
+            <span className="text-lg">🎲 wylosowano:</span>
+            <div className="flex-1 min-w-[180px]">
+              <div className="font-bold">{rnd.n}</div>
+              <div className="text-xs text-slate-300">📍 {rnd.loc} · {rnd.price}/noc · 🚗 T {rnd.tT} / I {rnd.tI}</div>
+            </div>
+            {rnd.tel && <a href={'tel:' + rnd.tel.replace(/\s/g, '')} className="text-sm font-semibold px-3 py-2 rounded-lg bg-teal-400 text-teal-950">📞 {rnd.tel}</a>}
+            {rnd.link && <a href={rnd.link} target="_blank" rel="noopener" className="text-sm font-semibold px-3 py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a>}
+            <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/40 text-fuchsia-100">🎲 Jeszcze raz</button>
+            <button onClick={() => setRnd(null)} aria-label="Zamknij" className="text-slate-400 hover:text-white px-2">✕</button>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-6xl mx-auto px-5 py-6 grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {list.length === 0 && (

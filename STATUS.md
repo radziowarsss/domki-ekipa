@@ -1,34 +1,24 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 14 UKOŃCZONA** ✅ — drugi fan-out: **235 → 366 ofert**. Build zielony.
+**Runda 15 UKOŃCZONA** ✅ — „🎲 Wylosuj domek" + „🧹 Wyczyść filtry". Build zielony. **Apka zweryfikowana wizualnie na żywo (screenshot, 0 błędów konsoli, 48 kart z 366).**
 
-## ⚠️ Limit sesji (info)
-Podczas 2. fan-outu trafiliśmy na **limit sesji (reset ~7:30 Berlin)** — 2 z 14 agentów padło. Rundy z agentami (fan-out) będą działać dopiero po resecie; do tego czasu loop robi lekkie rundy (bez subagentów). Główny build/commit działa normalnie.
+## 🚀 DEPLOY — brakuje TYLKO Twojego tokenu (site „domki-dla-ziomali" już założony)
+1. https://app.netlify.com/user/applications → **Personal access tokens** → **New access token** → skopiuj.
+2. PowerShell: `setx NETLIFY_AUTH_TOKEN "WKLEJ_TOKEN"` → Enter → **zamknij okno**.
+3. Napisz „gotowe" — loop/ja wdrożę (`netlify deploy --prod`, frontend+funkcje+Blobs) i wpisze tu LIVE URL.
+*(Wariant bez tokenu: app.netlify.com/drop → przeciągnij folder `dist` = link od ręki, ale bez współdzielenia.)*
 
-## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
-```
-setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
-```
-Token: netlify.com → User settings → Applications → Personal access tokens. Loop sam wdroży.
-
-## Zrobione (14 rund)
-- R1–R7: szkielet · backend Blobs+JWT · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu · oprawa premium · filtry+feed aktywności.
-- R8 fan-out → 240 · R9 admin+linki · R10 a11y · R11 dedup+paginacja · R12 PWA · R13 share+ranking.
-- [x] **R14** DRUGI FAN-OUT (14 agentów, głębiej: agroturystyki/balia/Airbnb/Slowhop) → **366 ofert** (merge-fanout +138, dedup −9, fix-links 34). Build zielony (bundle 349 KB).
+## Zrobione (15 rund)
+- R1–R7 rdzeń · R8 fan-out 240 · R9 admin+linki · R10 a11y · R11 dedup+paginacja · R12 PWA · R13 share+ranking · R14 **drugi fan-out → 366 ofert** · R15 wylosuj + wyczyść filtry.
 
 ## Funkcje (stan pełny)
-Logowanie · **366 ofert** · 10 filtrów · 5 sortowań · paginacja · głosy ❤️ + ranking · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · udostępnianie · muzyka+konfetti+animacje · a11y · PWA (instalowalna+offline) · fallback offline.
+Logowanie · **366 ofert** · 10 filtrów + wyczyść · 5 sortowań · paginacja · 🎲 wylosuj · głosy ❤️ + ranking · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · udostępnianie · muzyka+konfetti+animacje · a11y · PWA · fallback offline.
 
-## Następne rundy
-- [ ] **R15+** (lekkie, bez agentów do resetu): reset filtrów, „wylosuj domek", więcej sortowań, drobny polish.
-- [ ] Po resecie: kolejny fan-out. **Deploy + LIVE URL** (gdy token) + screenshot.
-
-## Odpalenie lokalne
+## Odpalenie lokalne / podgląd
 ```
-cd C:\Users\radzi\Downloads\domki-ekipa
-npm run dev                 # 366 ofert offline
-npx netlify dev --offline   # pełne API + logowanie + Blobs
+cd C:\Users\radzi\Downloads\domki-ekipa && npm run dev
 ```
+(Preview w tej sesji: config „domki" w bot/.claude/launch.json.)
 
 ## LIVE URL
-_(brak — po ustawieniu NETLIFY_AUTH_TOKEN loop wdroży automatycznie)_
+_(brak — po `setx NETLIFY_AUTH_TOKEN` loop wdroży na domki-dla-ziomali)_
