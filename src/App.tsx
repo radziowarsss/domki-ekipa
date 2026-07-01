@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Offer } from './types';
+import type { UpdateItem } from './api';
 import rawOffers from './data/offers.json';
 import { api } from './api';
 
@@ -14,6 +15,16 @@ const WOJ: [string, string][] = [
   ['warm-maz', 'warmińsko-mazurskie'],
   ['łódzkie', 'łódzkie'],
 ];
+
+const UPDATE_TYPES: [string, string][] = [
+  ['biora', '✅ dzwoniłem — biorą na 1 noc'],
+  ['nie', '❌ nie biorą / zajęte'],
+  ['oddzwonia', '📵 oddzwonią / nie odbierają'],
+  ['cena', '💸 potwierdzona cena'],
+  ['dostepnosc', '📅 dostępność 3–5.07'],
+  ['notatka', '📝 notatka'],
+];
+const TYPE_LABEL: Record<string, string> = Object.fromEntries(UPDATE_TYPES);
 
 function oneBadge(o: string) {
   if (o === 'tak') return { t: '✅ 1 noc OK', c: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40' };
@@ -31,6 +42,82 @@ function lsGet<T>(k: string, f: T): T {
 }
 function lsSet(k: string, v: unknown) { localStorage.setItem(k, JSON.stringify(v)); }
 
+function ago(ts: number): string {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'teraz';
+  if (s < 3600) return Math.floor(s / 60) + ' min temu';
+  if (s < 86400) return Math.floor(s / 3600) + ' h temu';
+  return Math.floor(s / 86400) + ' dni temu';
+}
+
+function OfferCard({
+  d, votes, liked, onVote, updates, onAddUpdate,
+}: {
+  d: Offer; votes: number; liked: boolean; onVote: () => void;
+  updates: UpdateItem[]; onAddUpdate: (type: string, text: string) => void;
+}) {
+  const b = oneBadge(d.one);
+  const [open, setOpen] = useState(false);
+  const [utype, setUtype] = useState('biora');
+  const [utext, setUtext] = useState('');
+  const feed = [...updates].sort((a, x) => x.ts - a.ts);
+
+  return (
+    <article className={'rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800 to-slate-900 hover:-translate-y-1 transition ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30' : 'border-slate-700')}>
+      <div className="font-bold text-lg leading-tight">{d.n}</div>
+      <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
+      <div className="flex flex-wrap gap-1.5">
+        {d.feat ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-400/15 text-amber-200 border-amber-400/40">⭐ TOP</span> : null}
+        <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
+        {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
+        {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
+      </div>
+      <div className="text-sm text-slate-300 space-y-0.5">
+        <div>🏠 {d.loc}</div>
+        <div>👥 {d.cap}</div>
+        <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
+      </div>
+      <div className="text-xl font-extrabold">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
+      {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
+
+      <div className="flex gap-2 flex-wrap pt-1">
+        {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
+        {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a> : null}
+        <button onClick={onVote} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
+      </div>
+
+      <button onClick={() => setOpen((o) => !o)} className="mt-1 text-xs text-slate-400 hover:text-slate-200 text-left">
+        💬 updaty ekipy ({feed.length}) {open ? '▲' : '▼'}
+      </button>
+
+      {open && (
+        <div className="rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
+          {feed.length === 0 && <div className="text-xs text-slate-500">Brak updatów — bądź pierwszy, zadzwoń i wrzuć info 🤙</div>}
+          {feed.map((u, i) => (
+            <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0">
+              <span className="font-semibold text-slate-200">{TYPE_LABEL[u.type] || u.type}</span>
+              {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
+              <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
+            </div>
+          ))}
+          <div className="flex flex-col gap-1.5 pt-1">
+            <select value={utype} onChange={(e) => setUtype(e.target.value)} className="bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs">
+              {UPDATE_TYPES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+            </select>
+            <div className="flex gap-1.5">
+              <input value={utext} onChange={(e) => setUtext(e.target.value)} placeholder="szczegóły (opcjonalnie)…" className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1.5 text-xs outline-none" />
+              <button
+                onClick={() => { onAddUpdate(utype, utext.trim()); setUtext(''); setOpen(true); }}
+                className="text-xs font-semibold px-3 rounded-lg bg-teal-400 text-teal-950"
+              >Dodaj</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </article>
+  );
+}
+
 export default function App() {
   const [mode, setMode] = useState<Mode>('loading');
   const [pw, setPw] = useState('');
@@ -39,6 +126,7 @@ export default function App() {
   const [votes, setVotes] = useState<Record<string, number>>({});
   const [mine, setMine] = useState<Record<string, boolean>>({});
   const [rsvps, setRsvps] = useState<string[]>([]);
+  const [updates, setUpdates] = useState<Record<string, UpdateItem[]>>({});
 
   const [q, setQ] = useState('');
   const [woj, setWoj] = useState('');
@@ -75,21 +163,22 @@ export default function App() {
         v[k] = arr.length;
         if (name && arr.includes(name)) m[k] = true;
       }
-      setVotes(v);
-      setMine(m);
+      setVotes(v); setMine(m);
       setRsvps(st.rsvps.map((r) => r.name));
+      setUpdates(st.updates || {});
     } catch { /* ignore */ }
   }
   function loadOffline() {
     setVotes(lsGet('domki_votes', {}));
     setMine(lsGet('domki_mine', {}));
     setRsvps(lsGet('domki_rsvps', []));
+    setUpdates(lsGet('domki_updates', {}));
   }
 
   function ensureName(): string {
     let n = name;
     if (!n) {
-      n = (window.prompt('Jak masz na imię? (do głosów i RSVP)') || '').trim();
+      n = (window.prompt('Jak masz na imię? (do głosów, RSVP i updatów)') || '').trim();
       if (n) { setName(n); localStorage.setItem('domki_name', n); }
     }
     return n;
@@ -124,6 +213,19 @@ export default function App() {
     }
   }
 
+  async function doAddUpdate(id: string, type: string, text: string) {
+    const n = ensureName();
+    if (!n) return;
+    const item: UpdateItem = { slug: id, author: n, type, text, ts: Date.now() };
+    if (mode === 'authed') {
+      try { await api.addUpdate(id, n, type, text); } catch { /* ignore */ }
+      void loadShared();
+    } else {
+      const nu = { ...updates, [id]: [...(updates[id] || []), item] };
+      setUpdates(nu); lsSet('domki_updates', nu);
+    }
+  }
+
   async function doLogin() {
     setLoginErr('');
     try {
@@ -131,6 +233,12 @@ export default function App() {
       if (r.ok) { setMode('authed'); void loadShared(); }
       else setLoginErr('Złe hasło 🙃');
     } catch { setLoginErr('Błąd połączenia z serwerem'); }
+  }
+
+  function lastUpdateTs(id: string): number {
+    const arr = updates[id];
+    if (!arr || arr.length === 0) return 0;
+    return arr.reduce((mx, u) => Math.max(mx, u.ts), 0);
   }
 
   const list = useMemo(() => {
@@ -151,10 +259,12 @@ export default function App() {
       if (sort === 'price') return (a.pn || 99999) - (b.pn || 99999);
       if (sort === 'far') return a.tmin - b.tmin;
       if (sort === 'votes') return (votes[b.n] || 0) - (votes[a.n] || 0);
+      if (sort === 'update') return lastUpdateTs(b.n) - lastUpdateTs(a.n);
       if (a.feat !== b.feat) return b.feat - a.feat;
       return (a.pn || 99999) - (b.pn || 99999);
     });
-  }, [q, woj, one, price, far, balia, sort, votes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q, woj, one, price, far, balia, sort, votes, updates]);
 
   if (mode === 'loading') {
     return <div className="min-h-screen grid place-items-center text-slate-400">⏳ Ładowanie…</div>;
@@ -197,7 +307,7 @@ export default function App() {
           🏕️ DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️ na faworytów i dzwoń. 🤙
+          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️, dzwoń i wrzucaj updaty. 🤙
         </p>
 
         <div className="mt-4 rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/10 to-fuchsia-500/10 p-4 flex flex-wrap items-center gap-4">
@@ -219,7 +329,7 @@ export default function App() {
 
         <div className="mt-3 text-sm text-slate-400">
           Ofert w bazie: <b className="text-slate-200">{OFFERS.length}</b>
-          {mode === 'offline' && <span className="ml-2 text-amber-400">• tryb offline (głosy/RSVP lokalnie — pełne współdzielenie po deployu)</span>}
+          {mode === 'offline' && <span className="ml-2 text-amber-400">• tryb offline (głosy/RSVP/updaty lokalnie — pełne współdzielenie po deployu)</span>}
           {name && <span className="ml-2">• cześć, <b className="text-slate-200">{name}</b>!</span>}
         </div>
       </header>
@@ -256,6 +366,7 @@ export default function App() {
             <option value="price">💸 najtaniej</option>
             <option value="far">🚗 najbliżej</option>
             <option value="votes">❤️ najwięcej głosów</option>
+            <option value="update">💬 ostatni update</option>
           </select>
           <span className="ml-auto text-sm text-slate-400">{list.length} / {OFFERS.length}</span>
         </div>
@@ -265,39 +376,21 @@ export default function App() {
         {list.length === 0 && (
           <div className="col-span-full text-center text-slate-400 py-16">😕 Nic nie pasuje. Poluzuj filtry.</div>
         )}
-        {list.map((d) => {
-          const b = oneBadge(d.one);
-          const vc = votes[d.n] || 0;
-          const liked = !!mine[d.n];
-          return (
-            <article key={d.n} className={'rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800 to-slate-900 hover:-translate-y-1 transition ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30' : 'border-slate-700')}>
-              <div className="font-bold text-lg leading-tight">{d.n}</div>
-              <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
-              <div className="flex flex-wrap gap-1.5">
-                {d.feat ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-amber-400/15 text-amber-200 border-amber-400/40">⭐ TOP</span> : null}
-                <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
-                {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
-                {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
-              </div>
-              <div className="text-sm text-slate-300 space-y-0.5">
-                <div>🏠 {d.loc}</div>
-                <div>👥 {d.cap}</div>
-                <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
-              </div>
-              <div className="text-xl font-extrabold">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
-              {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
-              <div className="mt-auto flex gap-2 flex-wrap pt-1">
-                {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
-                {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a> : null}
-                <button onClick={() => doVote(d.n)} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {vc}</button>
-              </div>
-            </article>
-          );
-        })}
+        {list.map((d) => (
+          <OfferCard
+            key={d.n}
+            d={d}
+            votes={votes[d.n] || 0}
+            liked={!!mine[d.n]}
+            onVote={() => doVote(d.n)}
+            updates={updates[d.n] || []}
+            onAddUpdate={(type, text) => doAddUpdate(d.n, type, text)}
+          />
+        ))}
       </main>
 
       <footer className="max-w-6xl mx-auto px-5 py-10 text-center text-xs text-slate-500">
-        Domki Ekipa • runda 3 (logowanie + głosy + RSVP) • baza i funkcje rosną z każdą rundą 🤙
+        Domki Ekipa • runda 4 (updaty ekipy) • baza i funkcje rosną z każdą rundą 🤙
       </footer>
     </div>
   );

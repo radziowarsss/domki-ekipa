@@ -1,20 +1,17 @@
 # CHANGELOG — Domki Ekipa
 
+## Runda 4 — feed updatów + weryfikacja API na żywo
+- Komponent `OfferCard` z rozwijanym feedem updatów per oferta: formularz (typ: dzwoniłem-biorą / nie / oddzwonią / cena / dostępność 3–5.07 / notatka + tekst) → POST /api/update.
+- Feed widoczny (autor + „ile temu"), sort „💬 ostatni update" (ostatni update podbija ofertę), fallback offline (localStorage).
+- Zainstalowano netlify-cli (26.1.0).
+- **SMOKE-TEST API na żywo (`netlify dev --offline`) PRZESZEDŁ**: /api/auth 200+cookie, /api/vote 200 (głos zapisany), /api/state 200 (Netlify Blobs persystuje i oddaje dane). Backend zweryfikowany end-to-end.
+- Build zielony.
+
 ## Runda 3 — logowanie + głosy + RSVP (front)
-- Ekran logowania (hasło → POST /api/auth).
-- Głosy ❤️ współdzielone (POST /api/vote, licznik z /api/state) + sort „najwięcej głosów".
-- RSVP „X/6 zaklepane" + pasek postępu + przycisk „Jadę!" (POST /api/rsvp) + lista imion.
-- Fallback OFFLINE (localStorage) gdy API niedostępne — apka renderuje się zawsze; banner informuje o trybie.
-- Zapamiętane imię (localStorage) do głosów/RSVP.
-- Build zielony (29 modułów).
+- Ekran logowania (hasło → /api/auth), głosy ❤️ (/api/vote) + sort po głosach, RSVP X/6 + „Jadę!" (/api/rsvp), fallback offline.
 
 ## Runda 2 — backend + auth
-- Zależności: `@netlify/blobs`, `@netlify/functions`, `jose`.
-- `netlify/functions/api.mts` — router `/api/*`: auth, state, update, vote, rsvp, availability.
-- Store na Netlify Blobs. Auth hasłem (`APP_PASSWORD`=ekipa2026) → JWT w HttpOnly cookie.
-- Klient `src/api.ts`. `.env.example`.
+- `netlify/functions/api.mts` (/api/auth,state,update,vote,rsvp,availability) na Netlify Blobs + JWT (jose). Klient `src/api.ts`. `.env.example`.
 
 ## Runda 1 — setup & szkielet
-- Node.js doinstalowany (v24.18.0). Szkielet Vite + React + TS + Tailwind.
-- `scripts/extract-seed.mjs` → `src/data/offers.json` (84 oferty).
-- Tablica ofert z filtrami/sortowaniem/kartami + aurora. Build zielony; git init.
+- Node v24.18.0. Vite+React+TS+Tailwind. `scripts/extract-seed.mjs` → 84 oferty. Board z filtrami. git init.
