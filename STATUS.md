@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 5 UKOŃCZONA** ✅ — tracker terminu 3–5.07 (dostępność per oferta) + dashboard + filtr. Build zielony.
+**Runda 6 UKOŃCZONA** ✅ — oprawa premium (muzyka + konfetti + lecące ikonki + animacje). Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -13,23 +13,24 @@ Token: netlify.com → **User settings → Applications → Personal access toke
 ## Zrobione
 - [x] **R1** szkielet Vite+React+TS+Tailwind, seed 84 oferty.
 - [x] **R2** backend (/api/*) na Netlify Blobs + auth JWT (hasło ekipa2026).
-- [x] **R3** logowanie + głosy ❤️ + RSVP X/6 + „Jadę!".
+- [x] **R3** logowanie + głosy ❤️ + RSVP X/6.
 - [x] **R4** feed updatów per oferta. **API zweryfikowane na żywo** (netlify dev smoke OK).
-- [x] **R5** **tracker terminu 3–5.07**: na karcie segmenty wolne/zajęte/do potw. → /api/availability + badge koloru; dashboard w hero „✅ X wolnych / ❌ Y zajętych"; filtr „✅ wolne 3–5.07". Fallback offline. Build zielony.
+- [x] **R5** tracker terminu 3–5.07 + dashboard + filtr.
+- [x] **R6** **oprawa premium**: 🎵 muzyka (chill ambient pad WebAudio, toggle w rogu, off domyślnie); 🎉 konfetti (canvas) na głos/RSVP/„wolne"; lecące ikonki w tle (🏕️🌊🔥🍺); animacje wejścia kart + aurora. Samowystarczalne (zero zewn. zależności). Build zielony (30 modułów).
 
 ## Funkcje (stan)
-Logowanie hasłem · tablica 84 ofert · filtry (szukaj/woj/1-noc/cena/dojazd/balia/**wolne 3–5.07**) · sort (polecane/cena/dojazd/głosy/update) · głosy ❤️ współdzielone · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 · dashboard · **fallback offline (localStorage) — zawsze się renderuje**.
+Logowanie hasłem · 84 oferty · filtry (szukaj/woj/1-noc/cena/dojazd/balia/wolne-3–5.07) · sort (polecane/cena/dojazd/głosy/update) · głosy ❤️ · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 + dashboard · **muzyka + konfetti + animacje** · fallback offline (localStorage).
 
 ## Następne rundy
-- [ ] **R6**: oprawa premium (muzyka chill-pad toggle, konfetti na akcjach, lecące ikonki, animacje wejścia kart, glassmorphism).
-- [ ] Więcej filtrów (jezioro, tylko TOP, „potwierdzone przez ekipę"). Globalny feed aktywności. Panel admin.
-- [ ] Bezpośrednie linki (Booking deep-link 2026-07-03→05). Fan-out po 150+ ofert.
+- [ ] **R7**: więcej filtrów (jezioro, tylko TOP, „potwierdzone przez ekipę") + globalny feed aktywności.
+- [ ] Panel admin. Bezpośrednie linki (Booking deep-link 2026-07-03→05).
+- [ ] **Fan-out ~16 agentów → 150+ ofert** (regeneracja offers.json).
 - [ ] **Deploy + LIVE URL** (gdy token).
 
 ## Odpalenie lokalne
 ```
 cd C:\Users\radzi\Downloads\domki-ekipa
-npm run dev                 # board + wszystko offline (localStorage)
+npm run dev                 # wszystko offline (localStorage)
 npx netlify dev --offline   # pełne API + logowanie + Blobs (zweryfikowane)
 ```
 

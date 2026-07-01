@@ -3,6 +3,7 @@ import type { Offer } from './types';
 import type { UpdateItem, Avail } from './api';
 import rawOffers from './data/offers.json';
 import { api } from './api';
+import { FloatingIcons, MusicToggle, burst } from './effects';
 
 const OFFERS = rawOffers as unknown as Offer[];
 
@@ -73,7 +74,7 @@ function OfferCard({
   const feed = [...updates].sort((a, x) => x.ts - a.ts);
 
   return (
-    <article className={'rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800 to-slate-900 hover:-translate-y-1 transition ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30' : 'border-slate-700')}>
+    <article className={'card-in rounded-2xl border p-4 flex flex-col gap-2 bg-gradient-to-b from-slate-800 to-slate-900 hover:-translate-y-1 transition ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30' : 'border-slate-700')}>
       <div className="font-bold text-lg leading-tight">{d.n}</div>
       <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
       <div className="flex flex-wrap gap-1.5">
@@ -209,6 +210,7 @@ export default function App() {
   async function doVote(id: string) {
     const n = ensureName();
     if (!n) return;
+    if (!mine[id]) burst();
     if (mode === 'authed') {
       try {
         const r = await api.vote(id, n);
@@ -227,6 +229,7 @@ export default function App() {
   async function doRsvp() {
     const n = ensureName();
     if (!n) return;
+    burst(80);
     if (mode === 'authed') {
       try { const r = await api.rsvp(n); setRsvps(r.rsvps.map((x) => x.name)); } catch { /* ignore */ }
     } else if (!rsvps.includes(n)) {
@@ -251,6 +254,7 @@ export default function App() {
   async function doSetAvail(id: string, status: string) {
     const n = ensureName();
     if (!n) return;
+    if (status === 'wolne') burst();
     const item: Avail = { status, who: n, ts: Date.now() };
     if (mode === 'authed') {
       try { await api.availability(id, status, n); } catch { /* ignore */ }
@@ -337,6 +341,8 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <div className="aurora" />
+      <FloatingIcons />
+      <MusicToggle />
 
       <header className="px-5 pt-10 pb-6 max-w-6xl mx-auto">
         <span className="inline-block text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-gradient-to-r from-orange-400 to-rose-500 text-black">
