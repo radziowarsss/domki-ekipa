@@ -140,6 +140,16 @@ export default async (req: Request, _ctx: Context): Promise<Response> => {
       await writeJSON('updates', updates);
       return json({ ok: true });
     }
+
+    if (path === 'reset') {
+      await Promise.all([
+        writeJSON('updates', {}),
+        writeJSON('votes', {}),
+        writeJSON('rsvps', []),
+        writeJSON('availability', {}),
+      ]);
+      return json({ ok: true });
+    }
   }
 
   return json({ error: 'not found' }, { status: 404 });

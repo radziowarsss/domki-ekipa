@@ -62,6 +62,18 @@ function ago(ts: number): string {
   return Math.floor(s / 86400) + ' dni temu';
 }
 
+// czas dojazdu (tekst "~1h30" / "~25 min") -> minuty
+function toMin(s: string): number {
+  const hm = String(s).match(/(\d+)\s*h(?:\s*(\d+))?/);
+  if (hm) return (+hm[1]) * 60 + (hm[2] ? +hm[2] : 0);
+  const mm = String(s).match(/(\d+)\s*min/);
+  if (mm) return +mm[1];
+  const n = String(s).match(/(\d+)/);
+  return n ? +n[1] : 999;
+}
+// minuty z INOWROCŁAWIA (pole tI)
+const iMin = (d: Offer): number => toMin(d.tI);
+
 function OfferCard({
   d, votes, liked, onVote, updates, onAddUpdate, availStatus, onSetAvail, onDelUpdate,
 }: {
@@ -346,6 +358,15 @@ export default function App() {
     } catch { /* anulowano */ }
   }
 
+  async function doReset() {
+    if (!window.confirm('Wyczyścić CAŁĄ aktywność ekipy — głosy, RSVP, raporty i statusy terminów — i zacząć od zera?')) return;
+    if (mode === 'authed') { try { await api.reset(); } catch { /* ignore */ } }
+    ['domki_votes', 'domki_mine', 'domki_rsvps', 'domki_updates', 'domki_avail'].forEach((k) => localStorage.removeItem(k));
+    setVotes({}); setMine({}); setRsvps([]); setUpdates({}); setAvail({});
+    setToast('🧹 Wyczyszczono — ekipa startuje od nowa!');
+    setTimeout(() => setToast(''), 2200);
+  }
+
   function finishIntro() {
     try { localStorage.setItem('domki_intro_seen', '1'); } catch { /* ignore */ }
     setShowIntro(false);
@@ -375,7 +396,7 @@ export default function App() {
       if (topOnly && !d.feat) return false;
       if (bioraOnly && !(updates[d.n] || []).some((u) => u.type === 'biora')) return false;
       if (price && d.pn > 0 && d.pn > price) return false;
-      if (far && d.tmin > far) return false;
+      if (far && iMin(d) > far) return false;
       if (q) {
         const hay = (d.n + ' ' + d.loc + ' ' + d.r).toLowerCase();
         if (!hay.includes(q.toLowerCase())) return false;
@@ -384,7 +405,7 @@ export default function App() {
     });
     return [...l].sort((a, b) => {
       if (sort === 'price') return (a.pn || 99999) - (b.pn || 99999);
-      if (sort === 'far') return a.tmin - b.tmin;
+      if (sort === 'far') return iMin(a) - iMin(b);
       if (sort === 'votes') return (votes[b.n] || 0) - (votes[a.n] || 0);
       if (sort === 'update') return lastUpdateTs(b.n) - lastUpdateTs(a.n);
       if (a.feat !== b.feat) return b.feat - a.feat;
@@ -552,7 +573,7 @@ export default function App() {
             <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
               <option value="rec">⭐ polecane</option>
               <option value="price">💸 najtaniej</option>
-              <option value="far">🚗 najbliżej</option>
+              <option value="far">🚗 najbliżej z Inowrocławia</option>
               <option value="votes">❤️ najwięcej głosów</option>
               <option value="update">💬 ostatni update</option>
             </select>
@@ -580,10 +601,11 @@ export default function App() {
                 <option value={900}>≤ 900 zł</option>
               </select>
               <select value={far} onChange={(e) => setFar(+e.target.value)} className={sel}>
-                <option value={0}>🚗 dojazd: dowolny</option>
-                <option value={60}>≤ 1h</option>
-                <option value={90}>≤ 1h30</option>
-                <option value={120}>≤ 2h</option>
+                <option value={0}>🚗 z Inowrocławia: bez limitu</option>
+                <option value={45}>≤ 45 min z Inowrocławia</option>
+                <option value={60}>≤ 1h z Inowrocławia</option>
+                <option value={90}>≤ 1h30 z Inowrocławia</option>
+                <option value={120}>≤ 2h z Inowrocławia</option>
               </select>
               <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
                 <input type="checkbox" checked={balia} onChange={(e) => setBalia(e.target.checked)} /> 🛁 balia/sauna
@@ -658,9 +680,14 @@ export default function App() {
       )}
 
       <footer className="max-w-6xl mx-auto px-5 py-10 flex flex-col items-center gap-3 text-center text-xs text-slate-500">
-        <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
-          ▶ Odtwórz intro ponownie
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
+            ▶ Odtwórz intro ponownie
+          </button>
+          <button onClick={doReset} className="rounded-full border border-rose-500/40 bg-rose-500/10 px-4 py-2 font-semibold text-rose-300 hover:text-rose-100 hover:border-rose-500/70 transition">
+            🧹 Reset aktywności ekipy
+          </button>
+        </div>
         <div>Domki Ekipa 🏕️ • {OFFERS.length} chat · termin 3–5.07 · głosy, raporty i muzyka na żywo • zrobione dla ekipy, przez ekipę 🤙</div>
       </footer>
 
