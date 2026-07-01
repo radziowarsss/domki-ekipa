@@ -330,6 +330,9 @@ export default function App() {
     return arr.reduce((mx, u) => Math.max(mx, u.ts), 0);
   }
 
+  const [showFilters, setShowFilters] = useState(false);
+  const [showActivity, setShowActivity] = useState(false);
+
   const list = useMemo(() => {
     const l = OFFERS.filter((d) => {
       if (woj && d.w !== woj) return false;
@@ -482,68 +485,82 @@ export default function App() {
         </div>
 
         {activity.length > 0 && (
-          <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-4 backdrop-blur shadow-lg shadow-black/20">
-            <div className="text-sm font-bold mb-1">📣 Ostatnia aktywność ekipy</div>
-            <div className="flex flex-col gap-1 max-h-44 overflow-auto">
-              {activity.map((e, i) => (
-                <div key={i} className="text-xs text-slate-300 border-b border-slate-800 pb-1 last:border-0">
-                  {e.text} <span className="text-slate-500">· {ago(e.ts)}</span>
-                </div>
-              ))}
-            </div>
+          <div className="mt-4 rounded-2xl border border-slate-800 bg-slate-900/50 backdrop-blur shadow-lg shadow-black/20 overflow-hidden">
+            <button onClick={() => setShowActivity((v) => !v)} className="w-full flex items-center justify-between px-4 py-3 text-sm font-bold hover:bg-slate-800/40 transition">
+              <span>📣 Aktywność ekipy <span className="font-normal text-slate-500">({activity.length})</span></span>
+              <span className="text-slate-400">{showActivity ? '▾' : '▸'}</span>
+            </button>
+            {showActivity && (
+              <div className="flex flex-col gap-1 max-h-44 overflow-auto px-4 pb-4">
+                {activity.map((e, i) => (
+                  <div key={i} className="text-xs text-slate-300 border-b border-slate-800 pb-1 last:border-0">
+                    {e.text} <span className="text-slate-500">· {ago(e.ts)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </header>
 
       <div className="sticky top-0 z-20 backdrop-blur-xl bg-slate-950/75 border-y border-slate-800/80 shadow-lg shadow-black/20">
-        <div className="max-w-6xl mx-auto px-5 py-3 flex flex-wrap gap-2 items-center">
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj…" className={sel + ' flex-1 min-w-[180px]'} />
-          <select value={woj} onChange={(e) => setWoj(e.target.value)} className={sel}>
-            {WOJ.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
-          </select>
-          <select value={one} onChange={(e) => setOne(e.target.value)} className={sel}>
-            <option value="">🛏️ 1 noc: wszystko</option>
-            <option value="tak">tylko pewne ✅</option>
-            <option value="takpotw">pewne + dopytaj</option>
-          </select>
-          <select value={price} onChange={(e) => setPrice(+e.target.value)} className={sel}>
-            <option value={0}>💸 cena: dowolna</option>
-            <option value={300}>≤ 300 zł</option>
-            <option value={500}>≤ 500 zł</option>
-            <option value={700}>≤ 700 zł</option>
-            <option value={900}>≤ 900 zł</option>
-          </select>
-          <select value={far} onChange={(e) => setFar(+e.target.value)} className={sel}>
-            <option value={0}>🚗 dojazd: dowolny</option>
-            <option value={60}>≤ 1h</option>
-            <option value={90}>≤ 1h30</option>
-            <option value={120}>≤ 2h</option>
-          </select>
-          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
-            <input type="checkbox" checked={balia} onChange={(e) => setBalia(e.target.checked)} /> 🛁 balia/sauna
-          </label>
-          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
-            <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} /> ✅ wolne 3–5.07
-          </label>
-          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
-            <input type="checkbox" checked={jezOnly} onChange={(e) => setJezOnly(e.target.checked)} /> 🌊 nad jeziorem
-          </label>
-          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
-            <input type="checkbox" checked={topOnly} onChange={(e) => setTopOnly(e.target.checked)} /> ⭐ tylko TOP
-          </label>
-          <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
-            <input type="checkbox" checked={bioraOnly} onChange={(e) => setBioraOnly(e.target.checked)} /> ✅ potwierdzone przez ekipę
-          </label>
-          <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
-            <option value="rec">⭐ polecane</option>
-            <option value="price">💸 najtaniej</option>
-            <option value="far">🚗 najbliżej</option>
-            <option value="votes">❤️ najwięcej głosów</option>
-            <option value="update">💬 ostatni update</option>
-          </select>
-          <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-xl bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Wylosuj</button>
-          {filtersActive && <button onClick={clearFilters} className="text-sm px-3 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 transition">🧹 Wyczyść</button>}
-          <span className="ml-auto text-sm text-slate-400">{list.length} / {OFFERS.length}</span>
+        <div className="max-w-6xl mx-auto px-5 py-3">
+          <div className="flex flex-wrap gap-2 items-center">
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj domku albo miejsca…" className={sel + ' flex-1 min-w-[200px]'} />
+            <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
+              <option value="rec">⭐ polecane</option>
+              <option value="price">💸 najtaniej</option>
+              <option value="far">🚗 najbliżej</option>
+              <option value="votes">❤️ najwięcej głosów</option>
+              <option value="update">💬 ostatni update</option>
+            </select>
+            <button onClick={() => setShowFilters((v) => !v)} className={'text-sm font-semibold px-3.5 py-2 rounded-xl border transition ' + (showFilters || filtersActive ? 'bg-teal-500/15 border-teal-500/50 text-teal-200' : 'bg-slate-800/70 border-slate-700 text-slate-200 hover:border-slate-600')}>
+              ⚙️ Filtry{filtersActive && <span className="ml-1.5 inline-block h-2 w-2 rounded-full bg-teal-400 align-middle"></span>} <span className="text-slate-500">{showFilters ? '▾' : '▸'}</span>
+            </button>
+            <button onClick={doRandom} className="text-sm font-semibold px-3.5 py-2 rounded-xl bg-fuchsia-500/15 border border-fuchsia-500/40 text-fuchsia-200 hover:bg-fuchsia-500/25 transition">🎲 Losuj</button>
+            <span className="ml-auto text-sm text-slate-400 font-semibold">{list.length} <span className="text-slate-600">/ {OFFERS.length}</span></span>
+          </div>
+          {showFilters && (
+            <div className="mt-2.5 pt-3 border-t border-slate-800 flex flex-wrap gap-2 items-center card-in">
+              <select value={woj} onChange={(e) => setWoj(e.target.value)} className={sel}>
+                {WOJ.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+              </select>
+              <select value={one} onChange={(e) => setOne(e.target.value)} className={sel}>
+                <option value="">🛏️ 1 noc: wszystko</option>
+                <option value="tak">tylko pewne ✅</option>
+                <option value="takpotw">pewne + dopytaj</option>
+              </select>
+              <select value={price} onChange={(e) => setPrice(+e.target.value)} className={sel}>
+                <option value={0}>💸 cena: dowolna</option>
+                <option value={300}>≤ 300 zł</option>
+                <option value={500}>≤ 500 zł</option>
+                <option value={700}>≤ 700 zł</option>
+                <option value={900}>≤ 900 zł</option>
+              </select>
+              <select value={far} onChange={(e) => setFar(+e.target.value)} className={sel}>
+                <option value={0}>🚗 dojazd: dowolny</option>
+                <option value={60}>≤ 1h</option>
+                <option value={90}>≤ 1h30</option>
+                <option value={120}>≤ 2h</option>
+              </select>
+              <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
+                <input type="checkbox" checked={balia} onChange={(e) => setBalia(e.target.checked)} /> 🛁 balia/sauna
+              </label>
+              <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
+                <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} /> ✅ wolne 3–5.07
+              </label>
+              <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
+                <input type="checkbox" checked={jezOnly} onChange={(e) => setJezOnly(e.target.checked)} /> 🌊 nad jeziorem
+              </label>
+              <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
+                <input type="checkbox" checked={topOnly} onChange={(e) => setTopOnly(e.target.checked)} /> ⭐ tylko TOP
+              </label>
+              <label className="flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/70 px-3 py-2 text-sm cursor-pointer hover:border-slate-600 transition">
+                <input type="checkbox" checked={bioraOnly} onChange={(e) => setBioraOnly(e.target.checked)} /> ✅ potwierdzone przez ekipę
+              </label>
+              {filtersActive && <button onClick={clearFilters} className="text-sm px-3 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:text-white hover:border-slate-600 transition">🧹 Wyczyść</button>}
+            </div>
+          )}
         </div>
       </div>
 
