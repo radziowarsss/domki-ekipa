@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 7 UKOŃCZONA** ✅ — więcej filtrów + globalny feed aktywności. Build zielony.
+**Runda 8 UKOŃCZONA** ✅ — **fan-out: 84 → 240 ofert** (14 agentów, cel 150+ przebity). Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -11,21 +11,21 @@ setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
 Token: netlify.com → **User settings → Applications → Personal access tokens → New token**.
 
 ## Zrobione
-- [x] **R1** szkielet · **R2** backend+auth · **R3** logowanie+głosy+RSVP · **R4** feed updatów (API smoke OK) · **R5** tracker terminu 3–5.07 · **R6** oprawa premium (muzyka/konfetti/animacje).
-- [x] **R7** **więcej filtrów** (🌊 nad jeziorem, ⭐ tylko TOP, ✅ potwierdzone przez ekipę = ma update 'biorą') + **globalny feed aktywności** (ostatnie 15 zdarzeń: updaty + oznaczenia terminu, „kto co i kiedy"). Build zielony.
+- [x] **R1–R7**: szkielet · backend+auth (Blobs+JWT) · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu 3–5.07 · oprawa premium (muzyka/konfetti/ikonki) · filtry+feed aktywności.
+- [x] **R8** **FAN-OUT**: 14 agentów przeczesało 12 regionów + OLX/Booking/Slowhop → **156 nowych ofert** (razem **240**). Seed przerobiony na MERGE (existing + HTML, dedup po nazwie) — nowe oferty przeżywają build. `scripts/merge-fanout.mjs` normalizuje pola i merguje. Build zielony (bundle 270 KB).
 
 ## Funkcje (stan pełny)
-Logowanie hasłem · 84 oferty · filtry (szukaj / województwo / 1-noc / cena / dojazd / balia / wolne-3–5.07 / **nad jeziorem** / **tylko TOP** / **potwierdzone przez ekipę**) · sort (polecane/cena/dojazd/głosy/update) · głosy ❤️ · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 + dashboard · **feed aktywności ekipy** · muzyka + konfetti + animacje · fallback offline (localStorage).
+Logowanie hasłem · **240 ofert** · 10 filtrów · 5 sortowań · głosy ❤️ · RSVP X/6 · feed updatów per oferta · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · fallback offline.
 
 ## Następne rundy
-- [ ] **R8**: **fan-out ~16 agentów → nowe oferty (cel 150+)** z bezpośrednimi linkami, merge do offers.json.
-- [ ] Panel admin (usuwanie updatów). Bezpośrednie linki (Booking deep-link 2026-07-03→05).
-- [ ] **Deploy + LIVE URL** (gdy token).
+- [ ] **R9**: panel admin (usuwanie updatów/spamu, DELETE w api.mts) + poprawa bezpośrednich linków (Booking deep-link 2026-07-03→05).
+- [ ] Kolejne fan-outy / dopieszczenie danych (uzupełnić tmin/pn gdzie 0). Mobile/a11y polish.
+- [ ] **Deploy + LIVE URL** (gdy token) + screenshot.
 
 ## Odpalenie lokalne
 ```
 cd C:\Users\radzi\Downloads\domki-ekipa
-npm run dev                 # wszystko offline (localStorage)
+npm run dev                 # 240 ofert, wszystko offline (localStorage)
 npx netlify dev --offline   # pełne API + logowanie + Blobs (zweryfikowane)
 ```
 

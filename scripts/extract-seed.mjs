@@ -1,31 +1,39 @@
-// Wyciąga tablicę DATA z domki-weekend.html i zapisuje jako src/data/offers.json
+// MERGE seed: łączy istniejące src/data/offers.json z ofertami z domki-weekend.html
+// (dedup po znormalizowanej nazwie). NIE nadpisuje — dzięki temu oferty dodane
+// przez fan-out (rundy wyszukiwania) przeżywają każdy build.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 
 const SRC = 'C:/Users/radzi/Downloads/domki-weekend.html';
 const OUT = 'src/data/offers.json';
 
-try {
-  if (!existsSync(SRC)) {
-    console.warn('[seed] Brak pliku źródłowego:', SRC, '— zostawiam istniejący offers.json');
-    process.exit(0);
-  }
-  const html = readFileSync(SRC, 'utf8');
-  const start = html.indexOf('const DATA=');
-  if (start === -1) throw new Error('Nie znaleziono "const DATA=" w HTML');
-  const arrStart = html.indexOf('[', start);
-  const arrEnd = html.indexOf('];', arrStart);
-  const arrText = html.slice(arrStart, arrEnd + 1); // do zamykającego ]
-  // Trusted local content — ewaluujemy literał tablicy JS do obiektów:
-  const data = Function('return (' + arrText + ')')();
-  if (!Array.isArray(data) || data.length === 0) throw new Error('Pusta tablica DATA');
-  mkdirSync('src/data', { recursive: true });
-  writeFileSync(OUT, JSON.stringify(data, null, 2), 'utf8');
-  console.log('[seed] OK:', data.length, 'ofert ->', OUT);
-} catch (e) {
-  console.error('[seed] Błąd:', e.message, '— zostawiam istniejący offers.json');
-  // Nie wywalamy builda; jeśli offers.json istnieje, użyjemy go.
-  if (!existsSync(OUT)) {
-    mkdirSync('src/data', { recursive: true });
-    writeFileSync(OUT, '[]', 'utf8');
-  }
+function loadExisting() {
+  try { if (existsSync(OUT)) return JSON.parse(readFileSync(OUT, 'utf8')); } catch { /* ignore */ }
+  return [];
 }
+function fromHtml() {
+  try {
+    if (!existsSync(SRC)) return [];
+    const html = readFileSync(SRC, 'utf8');
+    const start = html.indexOf('const DATA=');
+    if (start === -1) return [];
+    const arrStart = html.indexOf('[', start);
+    const arrEnd = html.indexOf('];', arrStart);
+    const arrText = html.slice(arrStart, arrEnd + 1);
+    return Function('return (' + arrText + ')')();
+  } catch { return []; }
+}
+const norm = (s) => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+const existing = loadExisting();
+const html = fromHtml();
+const map = new Map();
+// Kolejność: najpierw HTML, potem existing — existing (z ew. poprawkami/nowymi) wygrywa.
+for (const o of [...html, ...existing]) {
+  if (!o || !o.n) continue;
+  const k = norm(o.n);
+  map.set(k, { ...(map.get(k) || {}), ...o });
+}
+const merged = [...map.values()];
+mkdirSync('src/data', { recursive: true });
+writeFileSync(OUT, JSON.stringify(merged, null, 2), 'utf8');
+console.log('[seed] merge OK:', merged.length, 'ofert (html ' + html.length + ' + existing ' + existing.length + ') ->', OUT);
