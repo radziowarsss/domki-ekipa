@@ -52,33 +52,83 @@ export function burst(n = 60) {
   if (!running) { running = true; requestAnimationFrame(loop); }
 }
 
-/* ===== Muzyka (chill ambient pad, WebAudio) ===== */
-let actx: AudioContext | null = null;
-let started = false;
+/* ===== Muzyka w tle: realny utwór z YouTube (oficjalny odtwarzacz, zapętlony) ===== */
+const YT_ID = '9y8sZ6bZtaA';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+let ytPlayer: any = null;
+let ytReady = false;
+let wantPlay = false;
+let onStateCb: ((playing: boolean) => void) | null = null;
 
-function startMusic() {
-  const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-  actx = new AC();
-  const master = actx.createGain(); master.gain.value = 0.06; master.connect(actx.destination);
-  const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 700; lp.connect(master);
-  [110, 164.81, 220, 277.18].forEach((f, i) => {
-    const o = actx!.createOscillator(); o.type = 'sine'; o.frequency.value = f;
-    const g = actx!.createGain(); g.gain.value = 0.5; o.connect(g); g.connect(lp); o.start();
-    const lfo = actx!.createOscillator(); lfo.frequency.value = 0.04 + i * 0.03;
-    const lg = actx!.createGain(); lg.gain.value = 0.4; lfo.connect(lg); lg.connect(g.gain); lfo.start();
+function loadYT(cb: () => void) {
+  const w = window as any;
+  if (w.YT && w.YT.Player) { cb(); return; }
+  const prev = w.onYouTubeIframeAPIReady;
+  w.onYouTubeIframeAPIReady = () => { if (typeof prev === 'function') prev(); cb(); };
+  if (!document.getElementById('yt-api')) {
+    const s = document.createElement('script');
+    s.id = 'yt-api';
+    s.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(s);
+  }
+}
+
+function ensurePlayer() {
+  const w = window as any;
+  if (ytPlayer) return;
+  let host = document.getElementById('yt-bg');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'yt-bg';
+    host.style.cssText = 'position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none';
+    document.body.appendChild(host);
+  }
+  ytPlayer = new w.YT.Player('yt-bg', {
+    videoId: YT_ID,
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1, modestbranding: 1, rel: 0 },
+    events: {
+      onReady: (e: any) => { ytReady = true; try { e.target.setVolume(30); } catch { /* noop */ } if (wantPlay) e.target.playVideo(); },
+      onStateChange: (e: any) => { if (onStateCb) onStateCb(e.data === 1); },
+    },
   });
-  started = true;
 }
 
 export function MusicToggle() {
   const [on, setOn] = useState(false);
-  const toggle = () => {
-    if (!on) { if (!started) startMusic(); else void actx?.resume(); setOn(true); }
-    else { void actx?.suspend(); setOn(false); }
+  onStateCb = setOn;
+
+  const play = () => {
+    wantPlay = true;
+    localStorage.removeItem('domki_music_off');
+    loadYT(ensurePlayer);
+    if (ytReady && ytPlayer) { try { ytPlayer.playVideo(); } catch { /* noop */ } }
+    setOn(true);
   };
+  const pause = () => {
+    wantPlay = false;
+    localStorage.setItem('domki_music_off', '1');
+    if (ytReady && ytPlayer) { try { ytPlayer.pauseVideo(); } catch { /* noop */ } }
+    setOn(false);
+  };
+
+  useEffect(() => {
+    // player tworzymy od razu (gotowy zanim user kliknie), a gra dopiero po geście
+    loadYT(ensurePlayer);
+    if (localStorage.getItem('domki_music_off') === '1') return;
+    const kick = () => { play(); off(); };
+    const off = () => {
+      window.removeEventListener('pointerdown', kick);
+      window.removeEventListener('keydown', kick);
+    };
+    window.addEventListener('pointerdown', kick, { once: true });
+    window.addEventListener('keydown', kick, { once: true });
+    return off;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <button
-      onClick={toggle}
+      onClick={() => (on ? pause() : play())}
       aria-label="Przełącz muzykę"
       className={'fixed right-3 bottom-3 z-50 rounded-full px-4 py-2.5 text-sm font-semibold border backdrop-blur transition ' +
         (on ? 'bg-gradient-to-r from-teal-400 to-sky-400 text-teal-950 border-transparent' : 'bg-slate-800/90 text-slate-200 border-slate-700')}
