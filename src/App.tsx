@@ -536,6 +536,17 @@ export default function App() {
           ))}
         </div>
 
+        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/10 to-fuchsia-500/10 p-4 hover:border-amber-400/70 transition">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl shrink-0">🏆</span>
+            <div className="min-w-0 flex-1">
+              <div className="font-extrabold text-amber-200 leading-tight">Brygada typuje: ForRest nad Zalewem Koronowskim</div>
+              <div className="text-xs text-slate-300 mt-0.5">Łopatologiczne porównanie ze zdjęciami — czemu miażdży Przyjezierze w każdy możliwy sposób →</div>
+            </div>
+            <span className="text-slate-400 group-hover:text-amber-200 transition shrink-0 text-xl">›</span>
+          </div>
+        </a>
+
         <div className="mt-4 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-teal-500/10 via-sky-500/5 to-fuchsia-500/10 p-5 flex flex-wrap items-center gap-4 shadow-lg shadow-black/20">
           <div>
             <div className="text-lg font-extrabold">Wbijasz z nami? 🔥</div>
