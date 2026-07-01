@@ -717,9 +717,11 @@ export default function App() {
           <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
             ▶ Odtwórz intro ponownie
           </button>
-          <button onClick={doReset} className="rounded-full border border-rose-500/40 bg-rose-500/10 px-4 py-2 font-semibold text-rose-300 hover:text-rose-100 hover:border-rose-500/70 transition">
-            🧹 Reset aktywności ekipy
-          </button>
+          {name === 'Radzio' && (
+            <button onClick={doReset} className="rounded-full border border-rose-500/40 bg-rose-500/10 px-4 py-2 font-semibold text-rose-300 hover:text-rose-100 hover:border-rose-500/70 transition">
+              🧹 Reset aktywności ekipy (tylko Radzio)
+            </button>
+          )}
         </div>
         <div>Domki Ekipa 🏕️ • {OFFERS.length} chat · termin 3–5.07 · głosy, raporty i muzyka na żywo • zrobione dla ekipy, przez ekipę 🤙</div>
       </footer>
