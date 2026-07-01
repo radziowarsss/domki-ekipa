@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Offer } from './types';
-import type { UpdateItem } from './api';
+import type { UpdateItem, Avail } from './api';
 import rawOffers from './data/offers.json';
 import { api } from './api';
 
@@ -25,6 +25,15 @@ const UPDATE_TYPES: [string, string][] = [
   ['notatka', '📝 notatka'],
 ];
 const TYPE_LABEL: Record<string, string> = Object.fromEntries(UPDATE_TYPES);
+
+// status terminu 3–5.07: klucz, etykieta, klasy koloru
+const AVAIL: [string, string, string][] = [
+  ['wolne', '✅ wolne', 'bg-emerald-500/20 text-emerald-200 border-emerald-400'],
+  ['zajete', '❌ zajęte', 'bg-rose-500/20 text-rose-200 border-rose-400'],
+  ['potw', '❓ do potw.', 'bg-slate-700 text-slate-300 border-slate-500'],
+];
+const AVAIL_LABEL: Record<string, string> = Object.fromEntries(AVAIL.map(([k, l]) => [k, l]));
+const AVAIL_CLS: Record<string, string> = Object.fromEntries(AVAIL.map(([k, , c]) => [k, c]));
 
 function oneBadge(o: string) {
   if (o === 'tak') return { t: '✅ 1 noc OK', c: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40' };
@@ -51,10 +60,11 @@ function ago(ts: number): string {
 }
 
 function OfferCard({
-  d, votes, liked, onVote, updates, onAddUpdate,
+  d, votes, liked, onVote, updates, onAddUpdate, availStatus, onSetAvail,
 }: {
   d: Offer; votes: number; liked: boolean; onVote: () => void;
   updates: UpdateItem[]; onAddUpdate: (type: string, text: string) => void;
+  availStatus: string; onSetAvail: (status: string) => void;
 }) {
   const b = oneBadge(d.one);
   const [open, setOpen] = useState(false);
@@ -71,6 +81,7 @@ function OfferCard({
         <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
         {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
         {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
+        {availStatus ? <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + (AVAIL_CLS[availStatus] || '')}>📅 3–5.07: {AVAIL_LABEL[availStatus] || availStatus}</span> : null}
       </div>
       <div className="text-sm text-slate-300 space-y-0.5">
         <div>🏠 {d.loc}</div>
@@ -79,6 +90,13 @@ function OfferCard({
       </div>
       <div className="text-xl font-extrabold">{d.price} <span className="text-xs text-slate-400 font-medium">/ noc</span></div>
       {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
+
+      <div className="flex items-center gap-1.5 text-[11px]">
+        <span className="text-slate-500">termin 3–5.07:</span>
+        {AVAIL.map(([k, l]) => (
+          <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-md border ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
+        ))}
+      </div>
 
       <div className="flex gap-2 flex-wrap pt-1">
         {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
@@ -127,6 +145,7 @@ export default function App() {
   const [mine, setMine] = useState<Record<string, boolean>>({});
   const [rsvps, setRsvps] = useState<string[]>([]);
   const [updates, setUpdates] = useState<Record<string, UpdateItem[]>>({});
+  const [avail, setAvail] = useState<Record<string, Avail>>({});
 
   const [q, setQ] = useState('');
   const [woj, setWoj] = useState('');
@@ -134,6 +153,7 @@ export default function App() {
   const [price, setPrice] = useState(0);
   const [far, setFar] = useState(0);
   const [balia, setBalia] = useState(false);
+  const [freeOnly, setFreeOnly] = useState(false);
   const [sort, setSort] = useState('rec');
 
   useEffect(() => {
@@ -166,6 +186,7 @@ export default function App() {
       setVotes(v); setMine(m);
       setRsvps(st.rsvps.map((r) => r.name));
       setUpdates(st.updates || {});
+      setAvail(st.availability || {});
     } catch { /* ignore */ }
   }
   function loadOffline() {
@@ -173,6 +194,7 @@ export default function App() {
     setMine(lsGet('domki_mine', {}));
     setRsvps(lsGet('domki_rsvps', []));
     setUpdates(lsGet('domki_updates', {}));
+    setAvail(lsGet('domki_avail', {}));
   }
 
   function ensureName(): string {
@@ -226,6 +248,19 @@ export default function App() {
     }
   }
 
+  async function doSetAvail(id: string, status: string) {
+    const n = ensureName();
+    if (!n) return;
+    const item: Avail = { status, who: n, ts: Date.now() };
+    if (mode === 'authed') {
+      try { await api.availability(id, status, n); } catch { /* ignore */ }
+      setAvail((p) => ({ ...p, [id]: item }));
+    } else {
+      const na = { ...avail, [id]: item };
+      setAvail(na); lsSet('domki_avail', na);
+    }
+  }
+
   async function doLogin() {
     setLoginErr('');
     try {
@@ -247,6 +282,7 @@ export default function App() {
       if (one === 'tak' && d.one !== 'tak') return false;
       if (one === 'takpotw' && d.one === 'luka') return false;
       if (balia && !d.balia) return false;
+      if (freeOnly && avail[d.n]?.status !== 'wolne') return false;
       if (price && d.pn > 0 && d.pn > price) return false;
       if (far && d.tmin > far) return false;
       if (q) {
@@ -264,7 +300,10 @@ export default function App() {
       return (a.pn || 99999) - (b.pn || 99999);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [q, woj, one, price, far, balia, sort, votes, updates]);
+  }, [q, woj, one, price, far, balia, freeOnly, sort, votes, updates, avail]);
+
+  const freeN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'wolne').length, [avail]);
+  const busyN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'zajete').length, [avail]);
 
   if (mode === 'loading') {
     return <div className="min-h-screen grid place-items-center text-slate-400">⏳ Ładowanie…</div>;
@@ -307,7 +346,7 @@ export default function App() {
           🏕️ DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️, dzwoń i wrzucaj updaty. 🤙
+          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. Głosuj ❤️, dzwoń, oznaczaj termin. 🤙
         </p>
 
         <div className="mt-4 rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/10 to-fuchsia-500/10 p-4 flex flex-wrap items-center gap-4">
@@ -327,10 +366,15 @@ export default function App() {
           </div>
         )}
 
-        <div className="mt-3 text-sm text-slate-400">
-          Ofert w bazie: <b className="text-slate-200">{OFFERS.length}</b>
-          {mode === 'offline' && <span className="ml-2 text-amber-400">• tryb offline (głosy/RSVP/updaty lokalnie — pełne współdzielenie po deployu)</span>}
-          {name && <span className="ml-2">• cześć, <b className="text-slate-200">{name}</b>!</span>}
+        <div className="mt-3 flex flex-wrap gap-2 text-sm">
+          <span className="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">✅ {freeN} wolnych na 3–5.07</span>
+          <span className="px-3 py-1 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">❌ {busyN} zajętych</span>
+          <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">🏠 {OFFERS.length} ofert</span>
+        </div>
+
+        <div className="mt-2 text-sm text-slate-400">
+          {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — pełne współdzielenie po deployu) </span>}
+          {name && <span>• cześć, <b className="text-slate-200">{name}</b>!</span>}
         </div>
       </header>
 
@@ -361,6 +405,9 @@ export default function App() {
           <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
             <input type="checkbox" checked={balia} onChange={(e) => setBalia(e.target.checked)} /> 🛁 balia/sauna
           </label>
+          <label className="flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm cursor-pointer">
+            <input type="checkbox" checked={freeOnly} onChange={(e) => setFreeOnly(e.target.checked)} /> ✅ wolne 3–5.07
+          </label>
           <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
             <option value="rec">⭐ polecane</option>
             <option value="price">💸 najtaniej</option>
@@ -385,12 +432,14 @@ export default function App() {
             onVote={() => doVote(d.n)}
             updates={updates[d.n] || []}
             onAddUpdate={(type, text) => doAddUpdate(d.n, type, text)}
+            availStatus={avail[d.n]?.status || ''}
+            onSetAvail={(status) => doSetAvail(d.n, status)}
           />
         ))}
       </main>
 
       <footer className="max-w-6xl mx-auto px-5 py-10 text-center text-xs text-slate-500">
-        Domki Ekipa • runda 4 (updaty ekipy) • baza i funkcje rosną z każdą rundą 🤙
+        Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙
       </footer>
     </div>
   );
