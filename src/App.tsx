@@ -93,9 +93,12 @@ function OfferCard({
   onDelUpdate: (ts: number) => void;
 }) {
   const b = oneBadge(d.one);
-  const priceMain = d.pn > 0 ? d.pn + ' zł' : String(d.price);
+  const priceFull = String(d.price || '').trim();
+  const priceNumMatch = priceFull.match(/\d+/);
+  const priceNum = d.pn > 0 ? d.pn : (priceNumMatch ? +priceNumMatch[0] : 0);
+  const priceShort = priceNum > 0 ? (d.pn > 0 ? priceNum + ' zł' : 'od ' + priceNum + ' zł') : 'zapytaj';
   const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((d.loc || d.r || '') + ', Polska');
-  const priceExtra = d.pn > 0 && /[a-ząćęłńóśźż]/i.test(String(d.price).replace(/z[łl]/gi, '')) ? String(d.price) : '';
+  const priceExtra = /[a-ząćęłńóśźż]/i.test(priceFull.replace(/z[łl]/gi, '')) ? priceFull : '';
   const [open, setOpen] = useState(false);
   const [utype, setUtype] = useState('biora');
   const [utext, setUtext] = useState('');
@@ -105,13 +108,13 @@ function OfferCard({
   return (
     <article className={'card-in group rounded-2xl border p-4 flex flex-col gap-2.5 bg-gradient-to-b from-slate-800/70 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/40 hover:border-amber-500/60' : 'border-slate-700/80 hover:border-slate-600')}>
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <div className="font-bold text-[17px] leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
+        <div className="min-w-0 flex-1">
+          <div className="font-bold text-[17px] leading-tight break-words group-hover:text-teal-200 transition-colors">{d.n}</div>
           <div className="text-xs text-slate-400 mt-0.5">📍 {d.r} · {WOJ_LABEL[d.w] || d.w}</div>
         </div>
-        <div className="text-right shrink-0">
-          <div className="text-xl font-black text-white leading-none whitespace-nowrap">{priceMain}</div>
-          <div className="text-[10px] text-slate-400 mt-1">za dobę</div>
+        <div className="text-right shrink-0 max-w-[40%]">
+          <div className="text-lg font-black text-white leading-tight whitespace-nowrap">{priceShort}</div>
+          <div className="text-[10px] text-slate-400 mt-0.5">za dobę</div>
         </div>
       </div>
 
