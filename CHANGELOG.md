@@ -1,16 +1,14 @@
 # CHANGELOG — Domki Ekipa
 
-## Runda 11 — dedup + paginacja
-- `scripts/dedup.mjs`: usuwa near-duplikaty (znormalizowana nazwa ≥8 znaków + ta sama miejscowość → zostaje najlepsza oferta wg score: link /d/oferta lub własna strona, feat, cena, telefon). Usunięto 7 → ~233.
-- Front: paginacja — 48 kart + „Pokaż więcej (+48)", reset limitu przy zmianie filtrów (płynność przy 233 kartach na mobile).
+## Runda 12 — PWA + polish
+- `public/manifest.webmanifest` (name Domki Ekipa, standalone, theme #0b1220) + `public/icon.svg` (namiot + jezioro) + meta w index.html (theme-color, apple-mobile-web-app).
+- `public/sw.js` — service worker: cache-first dla /assets/ (hash w nazwie), network-first dla reszty, pomija /api/* i /.netlify/*; rejestrowany w main.tsx. Apka instalowalna + działa offline.
+- Focus-visible ring (a11y) w index.css.
 - Build zielony.
 
-## Runda 10 — a11y + jakość danych
-- Aria-labele (głos ❤️, usuń ✕, muzyka). `scripts/fix-tmin.mjs` — potwierdzono, że wszystkie oferty mają tmin.
-
-## Runda 9 — panel admin + linki
-- `/api/del-update` + przycisk ✕. `scripts/fix-links.mjs`: 99 linków → Booking deep-link.
-
+## Runda 11 — dedup (240→235) + paginacja „Pokaż więcej"
+## Runda 10 — a11y (aria-labele) + fix-tmin
+## Runda 9 — panel admin (del-update) + fix-links (99 → Booking deep-link)
 ## Runda 8 — FAN-OUT: 84 → 240 ofert (seed merge + merge-fanout)
 ## Runda 7 — filtry + feed aktywności
 ## Runda 6 — oprawa premium (muzyka/konfetti/ikonki)

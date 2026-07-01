@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 11 UKOŃCZONA** ✅ — dedup near-duplikatów + paginacja (wydajność). Build zielony.
+**Runda 12 UKOŃCZONA** ✅ — PWA (instalowalna + offline) + polish (focus-visible). Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -12,20 +12,20 @@ Token: netlify.com → **User settings → Applications → Personal access toke
 
 ## Zrobione
 - [x] **R1–R7**: szkielet · backend Blobs+JWT · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu 3–5.07 · oprawa premium · filtry+feed aktywności.
-- [x] **R8** fan-out → 240 ofert. **R9** panel admin + 99 linków. **R10** a11y + dane dojazdów.
-- [x] **R11** **dedup** near-duplikatów (`scripts/dedup.mjs`, zachowawczo: nazwa≥8 znaków + ta sama miejscowość → zostaje najlepsza) — usunięto 7, **~233 oferty**. **Paginacja**: 48 kart + „Pokaż więcej (+48)", reset przy zmianie filtrów (płynność na mobile). Build zielony.
+- [x] **R8** fan-out → 240 · **R9** admin + linki · **R10** a11y · **R11** dedup+paginacja (235).
+- [x] **R12** **PWA**: `manifest.webmanifest` + ikona SVG + `sw.js` (cache-first assety, network-first reszta, NIE cache /api) rejestrowany w main.tsx → **apka instalowalna na telefon i działa offline**. Meta theme-color/apple. Focus-visible ring (a11y). Build zielony.
 
 ## Funkcje (stan pełny)
-Logowanie · ~233 oferty (linki+dojazdy kompletne) · 10 filtrów · 5 sortowań · paginacja · głosy ❤️ · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · a11y · fallback offline.
+Logowanie · ~235 ofert · 10 filtrów · 5 sortowań · paginacja · głosy ❤️ · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · a11y · **PWA (instalowalna + offline)** · fallback offline.
 
 ## Następne rundy
-- [ ] **R12**: PWA (manifest + service worker → instalowalna + działa offline) + drobny wizual polish.
-- [ ] Kolejne fan-outy. **Deploy + LIVE URL** (gdy token) + screenshot.
+- [ ] **R13**: przycisk „udostępnij ekipie" (kopiuj link) + mini-ranking „top typy" (najwięcej głosów).
+- [ ] Kolejny fan-out (więcej ofert). **Deploy + LIVE URL** (gdy token) + screenshot.
 
 ## Odpalenie lokalne
 ```
 cd C:\Users\radzi\Downloads\domki-ekipa
-npm run dev                 # ~233 oferty, wszystko offline (localStorage)
+npm run dev                 # ~235 ofert, wszystko offline (localStorage)
 npx netlify dev --offline   # pełne API + logowanie + Blobs (zweryfikowane)
 ```
 

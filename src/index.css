@@ -32,3 +32,8 @@ body { margin: 0; background: #0b1220; color: #e8eef7; font-family: 'Segoe UI', 
   to { opacity: 1; transform: translateY(0); }
 }
 .card-in { animation: cardIn .4s ease both; }
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #54d6c4;
+  outline-offset: 2px;
+}
