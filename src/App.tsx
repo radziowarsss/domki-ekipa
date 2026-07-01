@@ -164,6 +164,7 @@ export default function App() {
   const [bioraOnly, setBioraOnly] = useState(false);
   const [sort, setSort] = useState('rec');
   const [limit, setLimit] = useState(48);
+  const [toast, setToast] = useState('');
 
   useEffect(() => {
     let cancel = false;
@@ -294,6 +295,19 @@ export default function App() {
     } catch { setLoginErr('Błąd połączenia z serwerem'); }
   }
 
+  async function doShare() {
+    const url = location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Domki Ekipa 🏕️', text: 'Wybieramy domek na wyjazd — wskakuj i głosuj!', url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setToast('📋 Skopiowano link — wyślij ekipie!');
+        setTimeout(() => setToast(''), 2200);
+      }
+    } catch { /* anulowano */ }
+  }
+
   function lastUpdateTs(id: string): number {
     const arr = updates[id];
     if (!arr || arr.length === 0) return 0;
@@ -331,6 +345,7 @@ export default function App() {
 
   const freeN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'wolne').length, [avail]);
   const busyN = useMemo(() => OFFERS.filter((o) => avail[o.n]?.status === 'zajete').length, [avail]);
+  const topVoted = useMemo(() => OFFERS.filter((o) => (votes[o.n] || 0) > 0).map((o) => ({ n: o.n, v: votes[o.n] || 0 })).sort((a, b) => b.v - a.v).slice(0, 3), [votes]);
 
   const activity = useMemo(() => {
     const evs: { ts: number; text: string }[] = [];
@@ -406,11 +421,25 @@ export default function App() {
           </div>
         )}
 
-        <div className="mt-3 flex flex-wrap gap-2 text-sm">
+        <div className="mt-3 flex flex-wrap gap-2 text-sm items-center">
           <span className="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">✅ {freeN} wolnych na 3–5.07</span>
           <span className="px-3 py-1 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">❌ {busyN} zajętych</span>
           <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">🏠 {OFFERS.length} ofert</span>
+          <button onClick={doShare} className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-200 border border-sky-500/40 hover:bg-sky-500/25 transition">📤 Udostępnij ekipie</button>
         </div>
+
+        {topVoted.length > 0 && (
+          <div className="mt-3 rounded-2xl border border-amber-600/30 bg-amber-400/5 p-3">
+            <div className="text-sm font-bold mb-1.5">🏆 Top typy ekipy</div>
+            <div className="flex flex-wrap gap-2">
+              {topVoted.map((t, i) => (
+                <button key={t.n} onClick={() => setSort('votes')} className="text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 hover:border-amber-500 transition">
+                  {['🥇', '🥈', '🥉'][i]} {t.n} <span className="text-rose-300">❤️ {t.v}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="mt-2 text-sm text-slate-400">
           {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — pełne współdzielenie po deployu) </span>}
@@ -512,6 +541,10 @@ export default function App() {
       <footer className="max-w-6xl mx-auto px-5 py-10 text-center text-xs text-slate-500">
         Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙
       </footer>
+
+      {toast && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-slate-800 border border-slate-600 rounded-xl px-4 py-2.5 text-sm shadow-xl">{toast}</div>
+      )}
     </div>
   );
 }
