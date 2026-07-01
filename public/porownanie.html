@@ -54,6 +54,26 @@
   .award .t { font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#fdba74; font-weight:900; }
   .award .big2 { font-size:26px; font-weight:900; margin:6px 0; color:#fde68a; letter-spacing:.04em; }
   @media (max-width:560px){ .stats{grid-template-columns:repeat(2,1fr)} }
+  .score-head { display:flex; align-items:center; justify-content:center; gap:18px; margin:18px 0 14px; }
+  .score-head .s { text-align:center; }
+  .score-head .s .name { font-size:13px; color:var(--mut); }
+  .score-head .s .val { font-size:46px; font-weight:900; line-height:1; }
+  .score-head .ff .val { color:#5eead4; }
+  .score-head .pj .val { color:#fda4af; }
+  .score-head .dash { font-size:26px; color:var(--mut); font-weight:900; }
+  .scard { border:1px solid var(--line); border-radius:16px; overflow:hidden; background:rgba(58,42,30,.22); }
+  .srow { padding:11px 14px; border-bottom:1px solid var(--line); }
+  .srow:last-child { border-bottom:0; }
+  .srow .cat { font-size:13.5px; color:#ecdcce; display:flex; justify-content:space-between; margin-bottom:7px; }
+  .srow .cat .max { color:var(--mut); font-size:12px; }
+  .bars { display:flex; flex-direction:column; gap:5px; }
+  .bar { display:flex; align-items:center; gap:8px; }
+  .bar .track { flex:1; height:9px; background:rgba(255,255,255,.06); border-radius:99px; overflow:hidden; }
+  .bar .fill { height:100%; border-radius:99px; }
+  .bar.ff .fill { background:linear-gradient(90deg,#2dd4bf,#38bdf8); }
+  .bar.pj .fill { background:linear-gradient(90deg,#fb7185,#f472b6); }
+  .bar .pt { width:52px; text-align:right; font-size:12.5px; color:#ecdcce; font-weight:700; }
+  .stotal { padding:15px; text-align:center; background:rgba(45,212,191,.08); font-weight:900; font-size:16px; color:#a7f3d0; }
   .sign { text-align:center; margin-top:24px; }
   .sign .who { font-size:15px; color:#fed7aa; font-weight:800; }
   .ps { text-align:center; color:#9c8069; font-size:13px; margin-top:20px; font-style:italic; line-height:1.9; }
@@ -152,6 +172,26 @@
   </div>
 
   <p class="ps">PS: „domek jest zajebisty" — to Wasze słowa. Ja się tylko podpisuję.<br>PS2: 25 minut. Tyle to było warte. Zapamiętajcie tę liczbę.</p>
+
+  <h2 style="margin-top:44px">🧮 <span class="em">Werdykt 1:1 — punktacja 0–100</span></h2>
+  <p class="big">Obiektywnie, kategoria po kategorii. Oddaję im nawet punkty za cenę i wygodę dojazdu — a i tak wynik jest, jaki jest:</p>
+  <div class="score-head">
+    <div class="s ff"><div class="name">🏕️ ForRest</div><div class="val">90</div></div>
+    <div class="dash">:</div>
+    <div class="s pj"><div class="name">🏚️ Przyjezierze</div><div class="val">43</div></div>
+  </div>
+  <div class="scard">
+    <div class="srow"><div class="cat"><span>🔥 Atrakcje (balia, sauna)</span><span class="max">/ 20</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pt">🏕️ 20</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:10%"></div></div><span class="pt">🏚️ 2</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🌊 Nad wodą (pomost, plaża)</span><span class="max">/ 15</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pt">🏕️ 15</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:40%"></div></div><span class="pt">🏚️ 6</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🛋️ Standard i wyposażenie</span><span class="max">/ 15</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:93%"></div></div><span class="pt">🏕️ 14</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:40%"></div></div><span class="pt">🏚️ 6</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🤫 Klimat i prywatność</span><span class="max">/ 12</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:92%"></div></div><span class="pt">🏕️ 11</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:42%"></div></div><span class="pt">🏚️ 5</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🍖 Grill i ognisko</span><span class="max">/ 10</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pt">🏕️ 10</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:20%"></div></div><span class="pt">🏚️ 2</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🌲 Jezioro i otoczenie</span><span class="max">/ 8</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:100%"></div></div><span class="pt">🏕️ 8</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:63%"></div></div><span class="pt">🏚️ 5</span></div></div></div>
+    <div class="srow"><div class="cat"><span>💸 Cena <span style="color:#fda4af">(tu wygrywają)</span></span><span class="max">/ 10</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:70%"></div></div><span class="pt">🏕️ 7</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:90%"></div></div><span class="pt">🏚️ 9</span></div></div></div>
+    <div class="srow"><div class="cat"><span>🚗 Wygoda dojazdu <span style="color:#fda4af">(i tu też)</span></span><span class="max">/ 10</span></div><div class="bars"><div class="bar ff"><div class="track"><div class="fill" style="width:50%"></div></div><span class="pt">🏕️ 5</span></div><div class="bar pj"><div class="track"><div class="fill" style="width:80%"></div></div><span class="pt">🏚️ 8</span></div></div></div>
+    <div class="stotal">🏕️ ForRest 90 &nbsp;—&nbsp; 43 Przyjezierze 🏚️ · przewaga 47 punktów</div>
+  </div>
+  <p class="big" style="text-align:center;color:#c4a790">Nawet z forą na cenę i dojazd — przegrana o <b style="color:#fed7aa">47 punktów</b>. To nie był bliski mecz. To była masakra, którą wybrałyście dobrowolnie.</p>
 
   <a class="back" href="/">‹ wróć do listy chat</a>
 
