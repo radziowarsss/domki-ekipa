@@ -3,102 +3,130 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>💛 Słyszymy Was — i mamy plan</title>
-<meta name="theme-color" content="#0b1220" />
-<meta property="og:title" content="Słyszymy Was — i mamy plan 💛" />
-<meta property="og:description" content="Bez docinków. Macie rację co do dwóch rzeczy — dojazdu i jednej nocy. Więc je rozwiązujemy." />
+<title>🎤 Różnica, którą olałyście — do akt</title>
+<meta name="theme-color" content="#140c08" />
+<meta property="og:title" content="Różnica, którą olałyście — do akt 🎤" />
+<meta property="og:description" content="Już nie namawiam. Zapisuję tylko na później: była różnica. Ogromna. Za 50 zł i fotel w aucie." />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --bg:#0b1220; --tx:#e6edf5; --mut:#93a4bb; --line:#22304a; --teal:#2dd4bf; --sky:#38bdf8; --amber:#fbbf24; --pink:#f472b6; --green:#34d399; }
+  :root { --bg:#140c08; --tx:#f6ece2; --mut:#c4a790; --line:#3a2a1e; --amber:#fbbf24; --orange:#fb923c; --rose:#fb7185; --teal:#2dd4bf; --green:#34d399; }
   body { background:
-      radial-gradient(1100px 560px at 15% -10%, rgba(45,212,191,.13), transparent),
-      radial-gradient(900px 500px at 92% 0%, rgba(244,114,182,.10), transparent),
-      radial-gradient(900px 700px at 50% 122%, rgba(56,189,248,.07), transparent),
+      radial-gradient(1100px 560px at 15% -10%, rgba(251,146,60,.14), transparent),
+      radial-gradient(900px 500px at 95% 0%, rgba(251,113,133,.10), transparent),
+      radial-gradient(900px 700px at 50% 122%, rgba(45,212,191,.06), transparent),
       var(--bg);
     color: var(--tx); font-family: system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.62;
     padding: 0 16px 100px; }
   .wrap { max-width: 760px; margin: 0 auto; }
   .hero { text-align:center; padding: 46px 0 6px; }
-  .tag { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:#5eead4; border:1px solid var(--line); background:rgba(15,23,42,.6); padding:7px 16px; border-radius:999px; }
-  h1 { font-size: clamp(30px, 7vw, 52px); font-weight:900; line-height:1.05; margin:16px 0 10px; letter-spacing:-.02em;
-    background: linear-gradient(90deg,#99f6e4,#38bdf8,#f472b6); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .hero .sub { color:var(--mut); font-size:17px; max-width:600px; margin:0 auto; }
-  .lead { font-size:18px; margin:30px 0 8px; border-left:3px solid var(--teal); padding-left:16px; color:#eaf1f8; }
-  h2 { font-size:23px; font-weight:900; margin:38px 0 8px; }
-  h2 .em { background:linear-gradient(90deg,#5eead4,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .zarzut { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:#fda4af; font-weight:800; margin-top:34px; }
-  p.big { font-size:16.5px; color:#d6e0ee; margin:10px 0; }
-  p.big b { color:#a7f3d0; }
-  .card { border:1px solid var(--line); border-radius:18px; padding:20px 22px; margin:14px 0; background:linear-gradient(180deg,rgba(30,41,59,.4),rgba(15,23,42,.7)); }
-  .card.hi { border-color:rgba(45,212,191,.4); background:rgba(45,212,191,.06); }
-  .card h3 { font-size:17px; margin-bottom:8px; color:#5eead4; }
-  .plan { counter-reset:s; margin-top:12px; }
-  .pstep { counter-increment:s; position:relative; padding:12px 14px 12px 52px; border:1px solid var(--line); border-radius:14px; margin-bottom:10px; background:rgba(15,23,42,.5); font-size:15px; }
-  .pstep::before { content:counter(s); position:absolute; left:13px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#2dd4bf,#38bdf8); color:#042f2e; font-weight:900; display:grid; place-items:center; font-size:15px; }
-  .pstep b { color:#a7f3d0; }
-  .payoff { border:1px solid rgba(251,191,36,.3); background:rgba(251,191,36,.05); border-radius:18px; padding:20px 22px; margin:22px 0; }
-  .payoff ul { list-style:none; margin-top:8px; }
-  .payoff li { font-size:15.5px; padding:6px 0; }
-  .cta-box { text-align:center; border:1px solid rgba(45,212,191,.5); border-radius:22px; padding:30px 22px; margin:36px 0 14px;
-    background:linear-gradient(180deg,rgba(45,212,191,.1),rgba(15,23,42,.6)); }
-  .cta-box p { font-size: clamp(18px,4vw,24px); font-weight:900; line-height:1.4; }
-  .cta-box .kick { margin-top:12px; font-size:15px; font-weight:600; color:var(--mut); }
-  .sign { text-align:center; margin-top:22px; }
-  .sign .who { font-size:15px; color:#a7f3d0; font-weight:800; }
-  .ps { text-align:center; color:#7f93ab; font-size:13px; margin-top:20px; font-style:italic; line-height:1.9; }
-  a.back { display:inline-block; margin:22px 0 0; color:#5b6f89; text-decoration:none; font-size:12px; }
-  a.back:hover { color:var(--teal); }
+  .tag { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:#fdba74; border:1px solid var(--line); background:rgba(58,42,30,.5); padding:7px 16px; border-radius:999px; }
+  h1 { font-size: clamp(32px, 8.5vw, 60px); font-weight:900; line-height:1; margin:16px 0 12px; letter-spacing:-.02em;
+    background: linear-gradient(90deg,#fdba74,#fbbf24,#fb7185); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero .sub { color:var(--mut); font-size:17px; max-width:620px; margin:0 auto; }
+  .lead { font-size:18px; margin:30px 0 8px; border-left:3px solid var(--orange); padding-left:16px; color:#f6ece2; }
+  h2 { font-size:23px; font-weight:900; margin:40px 0 8px; }
+  h2 .em { background:linear-gradient(90deg,#fdba74,#fb7185); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p.big { font-size:16.5px; color:#ecdcce; margin:11px 0; }
+  p.big b { color:#fed7aa; }
+  .math { border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin:14px 0; background:rgba(58,42,30,.28); font-size:15px; }
+  .math .row { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.06); }
+  .math .row:last-child { border-bottom:0; font-weight:900; color:#fed7aa; }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+  .box { border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+  .box.win { background:rgba(45,212,191,.06); border-color:rgba(45,212,191,.4); }
+  .box.meh { background:rgba(251,113,133,.06); border-color:rgba(251,113,133,.32); }
+  .box h3 { font-size:15px; margin-bottom:10px; }
+  .box.win h3 { color:#5eead4; }
+  .box.meh h3 { color:#fda4af; }
+  .box ul { list-style:none; }
+  .box li { font-size:14px; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,.06); }
+  .box li:last-child { border-bottom:0; }
+  .quote-mock { border-left:3px solid var(--rose); padding:4px 0 4px 16px; margin:14px 0; color:#fecdd3; font-style:italic; font-size:16px; }
+  .drop { text-align:center; border:1px solid rgba(251,146,60,.5); border-radius:22px; padding:32px 22px; margin:38px 0 14px;
+    background:linear-gradient(180deg,rgba(251,146,60,.1),rgba(20,12,8,.6)); }
+  .drop p { font-size: clamp(19px,4.4vw,27px); font-weight:900; line-height:1.32; }
+  .drop .kick { margin-top:12px; font-size:15px; font-weight:600; color:var(--mut); }
+  .sign { text-align:center; margin-top:24px; }
+  .sign .who { font-size:15px; color:#fed7aa; font-weight:800; }
+  .ps { text-align:center; color:#9c8069; font-size:13px; margin-top:20px; font-style:italic; line-height:1.9; }
+  a.back { display:inline-block; margin:22px 0 0; color:#6f5947; text-decoration:none; font-size:12px; }
+  a.back:hover { color:var(--orange); }
+  @media (max-width:560px){ .two{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="hero">
-    <span class="tag">Dla naszych koleżanek 💛 · weekend 3–5.07</span>
-    <h1>OK, słyszymy Was.<br>Serio.</h1>
-    <p class="sub">Bez docinków i bez namawiania na siłę. Przeczytaliśmy Wasze wiadomości — i zamiast się obrażać, bierzemy się do roboty. Bo macie rację co do dwóch rzeczy.</p>
+    <span class="tag">Do akt · dla potomności · weekend 3–5.07</span>
+    <h1>RÓŻNICA,<br>KTÓRĄ OLAŁYŚCIE</h1>
+    <p class="sub">Spoko — już nie namawiam. Nie mam do czego. Zapisuję to tylko na później, żeby było czarno na białym: była różnica. Ogromna. Zamieniłyście ją na 50 zł i fotel pasażera.</p>
   </div>
 
-  <p class="lead">Tu nie chodzi o to, żeby ktokolwiek jechał „sb sam". Chodzi o to, żeby ekipa była w komplecie. A dwie rzeczy, które realnie Was blokują, da się ogarnąć — i to nie Waszym kosztem.</p>
+  <p class="lead">Bez dramy, bez focha, bez proszenia. Po prostu zostawiam to tu — dla nas wszystkich, na spokojne przeczytanie za jakiś czas. 😌</p>
 
-  <div class="zarzut">Zarzut #1</div>
-  <h2>„Na jedną noc <span class="em">nie chce mi się kombinować</span>"</h2>
-  <p class="big">I to jest <b>fair</b>. Jedna noc + karkołomny dojazd = faktycznie kiepsko się spina. Nie udajemy, że jest inaczej.</p>
-  <p class="big">Więc gadajmy jak ludzie: jeśli dla Was jedna noc to za mało zachodu — <b>powiedzcie wprost, a pomyślimy nad dwiema</b>. Domek jest zajebisty (sami to napisałyście 😉), więc może szkoda go na jedną dobę? Jesteśmy elastyczni. Nie ma opcji „albo na naszych zasadach, albo wcale".</p>
+  <h2>Rozdział 1: <span class="em">podziękowania za wkład</span></h2>
+  <p class="big"><b>20 godzin</b> siedzenia nad apką. <b>50 telefonów</b> w jeden dzień. Wszystko po to, żeby wyłuskać najlepszą chatę w całym województwie za najmniejszą kasę — żeby KAŻDY był zadowolony.</p>
+  <p class="big">Nagroda za tę robotę? „Jebać domki, jedźmy tam gdzie wygodniej". Klaskać na stojąco. Dziękuję, dobranoc. 👏</p>
 
-  <div class="zarzut">Zarzut #2 — ten najważniejszy</div>
-  <h2>„Dojazd bez auta <span class="em">to koszmar</span>"</h2>
-  <p class="big">To jest <b>prawdziwy</b> problem i totalnie go rozumiemy. Bez auta, z przesiadkami, bez pewności czy w niedzielę w ogóle wrócicie — to nie jest „nie chce mi się", to jest <b>„nie wiem jak"</b>. Różnica jest ogromna i my ją łapiemy.</p>
-  <div class="card hi">
-    <h3>Więc nie zostawiamy Was z tym samych:</h3>
-    <div class="plan">
-      <div class="pstep"><b>Kacper już sprawdza konkretne godziny</b> — i wychodzi, że transport jest banalny (ok. 2h autobusem). To nie jest wyprawa przez pół Polski.</div>
-      <div class="pstep">Dostaniecie <b>gotowy rozkład rozpisany co do minuty</b> — skąd, o której, ile przesiadek, i — najważniejsze — <b>pewny powrót w niedzielę</b>. Personalnie dla Was, nie ogólniki.</div>
-      <div class="pstep"><b>Nie jedziecie same.</b> Umawiamy się tak, żeby ktoś, kto ogarnia, jechał z Wami albo złapał Was po drodze. Amelia — nie musisz sama kminić busów, od tego jesteśmy. 🤝</div>
+  <h2>Rozdział 2: <span class="em">matematyka, której nie chciałyście policzyć</span></h2>
+  <p class="big">Cała wojna toczyła się o… <b>25 minut</b>. Dwadzieścia pięć. Tyle dłużej jedzie się do lepszego świata:</p>
+  <div class="math">
+    <div class="row"><span>Bydgoszcz</span><span>30 min</span></div>
+    <div class="row"><span>spacer na dworzec</span><span>15 min</span></div>
+    <div class="row"><span>autobus</span><span>30 min</span></div>
+    <div class="row"><span>auto z miejscówki</span><span>10 min</span></div>
+    <div class="row"><span>RAZEM</span><span>85 min · vs 60 do przyja</span></div>
+  </div>
+  <p class="big">Za te <b>25 minut i 50 zł na CAŁĄ ekipę</b> (podzielcie na łepka — grosze) różnica wygląda tak:</p>
+  <div class="two">
+    <div class="box win">
+      <h3>🏕️ To, co olałyście</h3>
+      <ul>
+        <li>gorąca balia nad wodą</li>
+        <li>sauna</li>
+        <li>domek na samej plaży</li>
+        <li>nowe domki, meble z wyższej półki</li>
+        <li>miejsce na grilla i ognisko</li>
+        <li>jezioro, cisza, spokój</li>
+      </ul>
     </div>
-    <p class="big" style="margin-top:12px">Krótko: <b>Wy nie kombinujecie NIC.</b> My podajemy gotowca, Wy tylko wsiadacie.</p>
+    <div class="box meh">
+      <h3>🏚️ To, co wybrałyście</h3>
+      <ul>
+        <li>domek</li>
+        <li>„wygodnie"</li>
+        <li>grill? mandat.</li>
+        <li>ognisko? też nie bardzo</li>
+        <li>fotel w aucie</li>
+        <li>50 zł w kieszeni (na wszystkich)</li>
+      </ul>
+    </div>
   </div>
+  <p class="big">Ktoś to nazwał trafnie: ForRest to było <b>nadbydgoskie Monako</b>. Wy wybrałyście parking pod Monako.</p>
 
-  <div class="payoff">
-    <p class="big" style="margin:0"><b>A po drugiej stronie tej jednej nocy jest:</b></p>
-    <ul>
-      <li>🔥 gorąca balia nad samą wodą (tak, ta z bańki)</li>
-      <li>🌊 jezioro, pomost i ognisko pod gwiazdami</li>
-      <li>🍻 ekipa w komplecie i głupoty, których się nie odtworzy w domu</li>
-    </ul>
-    <p class="big" style="margin-top:8px">Jedna dobra noc z ekipą bije dziesięć nijakich weekendów na kanapie. Serio.</p>
-  </div>
+  <h2>Rozdział 3: <span class="em">„wygodniej"</span></h2>
+  <p class="big">Całe uzasadnienie zmieściło się w jednym słowie: <b>wygodniej</b>. Nie „lepiej". Nie „fajniej". Wygodniej. Bo ktoś podwiezie autem i nie trzeba ruszyć palcem.</p>
+  <p class="big">I to jest cała filozofia tego wyjazdu — byle bez wysiłku, choćby w gorsze miejsce. Komfort fotela wygrał z balią, sauną i jeziorem. Gratulacje, mocny wybór. 🫡</p>
 
-  <div class="cta-box">
-    <p>Dajcie nam jedno:<br>szansę ogarnąć Wam dojazd.</p>
-    <div class="kick">Dostaniecie gotowy plan i dalej powiecie „nie"? Okej — szanujemy, koniec tematu, zero focha. Ale niech nie decyduje za Was rozkład busów, którego nikt Wam jeszcze nie rozpisał.</div>
+  <h2>Rozdział 4: <span class="em">bramka, która zawsze się przesuwa</span></h2>
+  <p class="big">„Na jedną noc szkoda zachodu" — ale na tę samą jedną noc do przyja już zachodu nie szkoda. „Nie ogarniam busów" — ale rozkład rozpisany co do minuty i tak za mało. „Domek zajebisty, ALE…" — i zawsze jest jakieś ALE, kiedy wynik od początku był ustawiony na „nie".</p>
+  <p class="quote-mock">Najpierw Ślesin. Potem Koronowo. Na końcu „jedźmy do przyja bo wygodniej". Bramka wędrowała tak długo, aż piłka wpadła tam, gdzie miała wpaść od początku.</p>
+
+  <h2>Rozdział 5: <span class="em">„i tak się najebiemy"</span></h2>
+  <p class="big">Padło zdanie: „i tak każdy się urżnie, po co nam grille i wypasiona chata". I wiecie co? <b>Racja.</b> Jeśli jedyny plan na wyjazd to zejść w trupa, to miejsce faktycznie nie ma znaczenia.</p>
+  <p class="big">Ławka za Netto w Sikorowie robi tę samą robotę. Zdrowie. 🍺</p>
+
+  <div class="drop">
+    <p>Więc tyle.<br>Wybrałyście wygodnie i taniej o 50 zł.<br>Zamiast bali nad jeziorem — fotel i domek bez grilla.</p>
+    <div class="kick">Bez focha, bez dramy. Wasz wybór, wasza strata. Zapisane — dla potomności.</div>
   </div>
 
   <div class="sign">
-    <div class="who">Jesteście dla nas ważne — dlatego się tak stawiamy. 💛 — Ekipa</div>
+    <div class="who">— Radek (który przestał się starać) 🎤⬇️</div>
   </div>
 
-  <p class="ps">PS: Radek obiecuje zdać pełną relację z dojazdu — tam i z powrotem, było spoko czy nie — dokładnie jak chciałaś, Amelia. 😄<br>PS2: „domek jest zajebisty" — to Wasze słowa. My się tylko podpisujemy.</p>
+  <p class="ps">PS: „domek jest zajebisty" — to Wasze słowa. Ja się tylko podpisuję.<br>PS2: 25 minut. Tyle to było warte. Zapamiętajcie tę liczbę.</p>
 
   <a class="back" href="/">‹ wróć do listy chat</a>
 

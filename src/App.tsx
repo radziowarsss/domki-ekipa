@@ -536,14 +536,14 @@ export default function App() {
           ))}
         </div>
 
-        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-teal-500/40 bg-gradient-to-r from-teal-500/10 to-fuchsia-500/10 p-4 hover:border-teal-400/70 transition">
+        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-500/10 to-rose-500/10 p-4 hover:border-orange-400/70 transition">
           <div className="flex items-center gap-3">
-            <span className="text-2xl shrink-0">💛</span>
+            <span className="text-2xl shrink-0">🎤</span>
             <div className="min-w-0 flex-1">
-              <div className="font-extrabold text-teal-200 leading-tight">Dla koleżanek: słyszymy Was — ogarniamy dojazd</div>
-              <div className="text-xs text-slate-300 mt-0.5">Bez docinków: odpowiedź na dojazd i „jedną noc" + gotowy plan — kliknij i wyślij →</div>
+              <div className="font-extrabold text-orange-200 leading-tight">Różnica, którą olałyście — do akt</div>
+              <div className="text-xs text-slate-300 mt-0.5">25 minut i 50 zł kontra balia, sauna i jezioro. Zapisane dla potomności →</div>
             </div>
-            <span className="text-slate-400 group-hover:text-teal-200 transition shrink-0 text-xl">›</span>
+            <span className="text-slate-400 group-hover:text-orange-200 transition shrink-0 text-xl">›</span>
           </div>
         </a>
 
