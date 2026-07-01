@@ -94,9 +94,9 @@ export function FloatingIcons() {
   useEffect(() => {
     const box = ref.current;
     if (!box) return;
-    const em = ['🏕️', '🌊', '🔥', '🍺', '🎵', '⛺', '🌲', '☀️'];
+    const em = ['🏕️', '🌊', '🍺', '🌲'];
     const nodes: HTMLSpanElement[] = [];
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 7; i++) {
       const s = document.createElement('span');
       s.textContent = em[i % em.length];
       s.className = 'pcl';

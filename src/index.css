@@ -11,20 +11,23 @@ body { margin: 0; background: #0b1220; color: #e8eef7; font-family: 'Segoe UI', 
   100% { transform: translate(-10%, -10%) rotate(360deg); }
 }
 .aurora {
-  position: fixed; inset: -20%; z-index: -2;
-  background: conic-gradient(from 0deg, #0e1726, #123a4d, #1b2b52, #0f2e3a, #0e1726);
-  filter: blur(90px); opacity: .5; animation: aurora 28s linear infinite;
+  position: fixed; inset: -30%; z-index: -2;
+  background:
+    radial-gradient(50% 40% at 25% 18%, rgba(84, 214, 196, .12), transparent 60%),
+    radial-gradient(45% 45% at 82% 55%, rgba(84, 160, 255, .10), transparent 60%),
+    radial-gradient(40% 40% at 60% 92%, rgba(192, 132, 252, .08), transparent 60%);
+  filter: blur(50px); opacity: 1; animation: aurora 44s linear infinite;
 }
 
 @keyframes floatUp {
   0% { transform: translateY(20px); opacity: 0; }
-  10% { opacity: .7; }
+  12% { opacity: .16; }
   100% { transform: translateY(-110vh); opacity: 0; }
 }
 .pcl {
   position: absolute; bottom: -30px;
   animation-name: floatUp; animation-timing-function: linear; animation-iteration-count: infinite;
-  opacity: .7;
+  opacity: .16;
 }
 
 @keyframes cardIn {
