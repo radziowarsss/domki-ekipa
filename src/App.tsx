@@ -536,14 +536,14 @@ export default function App() {
           ))}
         </div>
 
-        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-rose-500/40 bg-gradient-to-r from-rose-500/10 to-fuchsia-500/10 p-4 hover:border-rose-400/70 transition">
+        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-teal-500/40 bg-gradient-to-r from-teal-500/10 to-fuchsia-500/10 p-4 hover:border-teal-400/70 transition">
           <div className="flex items-center gap-3">
-            <span className="text-2xl shrink-0">📜</span>
+            <span className="text-2xl shrink-0">🍺</span>
             <div className="min-w-0 flex-1">
-              <div className="font-extrabold text-rose-200 leading-tight">Ogłoszenie dla dziewczyn: jedziemy bez was 💅✌️</div>
-              <div className="text-xs text-slate-300 mt-0.5">Oficjalny manifest Brygady Trzech — kliknij, przeczytaj, wyślij →</div>
+              <div className="font-extrabold text-teal-200 leading-tight">Dziewczyny, no weź — ogarnijmy ten wyjazd</div>
+              <div className="text-xs text-slate-300 mt-0.5">Luźne porównanie: chaos teraz vs chill jak się dogadamy — kliknij i wyślij →</div>
             </div>
-            <span className="text-slate-400 group-hover:text-rose-200 transition shrink-0 text-xl">›</span>
+            <span className="text-slate-400 group-hover:text-teal-200 transition shrink-0 text-xl">›</span>
           </div>
         </a>
 
