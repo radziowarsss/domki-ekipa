@@ -72,6 +72,7 @@ function OfferCard({
   const [open, setOpen] = useState(false);
   const [utype, setUtype] = useState('biora');
   const [utext, setUtext] = useState('');
+  const [copied, setCopied] = useState(false);
   const feed = [...updates].sort((a, x) => x.ts - a.ts);
 
   return (
@@ -102,6 +103,7 @@ function OfferCard({
 
       <div className="flex gap-2 flex-wrap pt-1">
         {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
+        {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300">{copied ? '✓' : '📋'}</button> : null}
         {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a> : null}
         <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
       </div>
