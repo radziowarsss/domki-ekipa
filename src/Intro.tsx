@@ -29,7 +29,7 @@ const SCENES: Scene[] = [
     big: true,
     lines: [
       'Bard stroi lutnię, ognisko trzaska w mroku…',
-      'Oto opowieść w czterech aktach — o sojuszu, podstępie i browarze przeznaczenia.',
+      'Sześcioro imion, jedna legenda: Radzio, Lewarczyk, Beścik, Amelka, Małagosia i Natalka.',
     ],
     accent: '#54d6c4',
     accent2: '#c084fc',
@@ -45,8 +45,8 @@ const SCENES: Scene[] = [
     heading: 'Sekretny Sojusz',
     lines: [
       'Pewnego dnia, w krainie zwykłych planów i nudnych wtorków,',
-      'dwie dzielne panny uknuły sekretny sojusz —',
-      'wspólną wyprawę pełną nadziei, motyli w brzuchu i tajemnych chichotów.',
+      'Amelka i Małagosia uknuły plan doskonały: kocyk, jezioro i ZERO chłopaków —',
+      'a Natalka już pakowała krem z filtrem i zapas dobrego humoru.',
     ],
     accent: '#ff8fb1',
     accent2: '#54d6c4',
@@ -57,12 +57,12 @@ const SCENES: Scene[] = [
   },
   {
     glyph: '🐉',
-    overline: 'Akt II — Radek Przebiegły',
-    heading: 'Radek Przebiegły',
+    overline: 'Akt II — Radzio Przebiegły',
+    heading: 'Radzio Przebiegły',
     lines: [
       'Lecz o świcie, gdy rosa jeszcze lśniła na trawie, z cienia wyłonił się ON.',
-      'Radek Przebiegły — mistrz okazji, łowca promocji, smok węszący rabaty na sto mil.',
-      'Jednym sprytnym ruchem przechytrzył ich knowania i obrócił losy na swoją korzyść.',
+      'Radzio Przebiegły — mistrz okazji, łowca promocji, smok węszący rabaty na sto mil.',
+      'Zamiast po prostu zadzwonić — zbudował CAŁĄ stronę i zamienił kameralną randkę w najazd całej ekipy.',
     ],
     accent: '#c084fc',
     accent2: '#7c5cff',
@@ -77,9 +77,9 @@ const SCENES: Scene[] = [
     overline: 'Akt III — Narodziny Legendy',
     heading: 'Narodziny Legendy',
     lines: [
-      'I tak, zamiast jednej skromnej randki, narodziła się LEGENDA.',
-      'Wielki Wyjazd Ekipy: sześcioro śmiałków, jezioro gładkie jak lustro,',
-      'domek nad wodą i browar, co wiernie czeka na brzegu.',
+      'I tak, zamiast dwojga — ruszyło SZEŚCIORO śmiałków.',
+      'Radzio (mózg operacji), Lewarczyk (siła i cennik), Beścik (klimat),',
+      'Amelka (plan), Małagosia (bagaż na dwa tygodnie) i Natalka (radar plaż).',
     ],
     accent: '#ffce54',
     accent2: '#54d6c4',
@@ -95,7 +95,7 @@ const SCENES: Scene[] = [
     heading: 'DOMKI EKIPA',
     big: true,
     lines: [
-      'Proroctwo dopełnione.',
+      'Proroctwo dopełnione. Sześcioro, jedno jezioro, jeden wielki browar.',
       'Wybierz chatę. Zwołaj drużynę. Niech legenda się zacznie.',
     ],
     accent: '#54d6c4',

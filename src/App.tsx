@@ -47,6 +47,16 @@ function oneBadge(o: string) {
 const sel = 'bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-teal-400 transition';
 const TEAM = 6;
 
+// Ekipa — wybór postaci po haśle (żartobliwe fakty)
+const CREW: { id: string; name: string; emoji: string; grad: string; fact: string }[] = [
+  { id: 'radzio', name: 'Radzio', emoji: '🧠', grad: 'from-teal-400 to-sky-500', fact: 'Zamiast zadzwonić — zbudował całą stronę. Klasyk.' },
+  { id: 'lewarczyk', name: 'Lewarczyk', emoji: '💪', grad: 'from-amber-400 to-orange-500', fact: 'Podniesie lodówkę, ale nie słuchawkę przed 12:00.' },
+  { id: 'bescik', name: 'Beścik', emoji: '😎', grad: 'from-fuchsia-400 to-purple-500', fact: 'Beściak. Nazwa zobowiązuje.' },
+  { id: 'amelka', name: 'Amelka', emoji: '🦋', grad: 'from-pink-400 to-rose-500', fact: 'Zaplanowała randkę — wyszła wyprawa ekipy.' },
+  { id: 'malagosia', name: 'Małagosia', emoji: '🌸', grad: 'from-rose-400 to-fuchsia-500', fact: 'Spakuje się na 1 noc jak na dwa tygodnie.' },
+  { id: 'natalka', name: 'Natalka', emoji: '⭐', grad: 'from-sky-400 to-indigo-500', fact: 'Wie, gdzie najlepsza plaża, zanim wysiądziecie z auta.' },
+];
+
 type Mode = 'loading' | 'login' | 'authed' | 'offline';
 
 function lsGet<T>(k: string, f: T): T {
@@ -476,6 +486,31 @@ export default function App() {
     );
   }
 
+  if ((mode === 'authed' || mode === 'offline') && !name) {
+    const pick = (n: string) => { setName(n); try { localStorage.setItem('domki_name', n); } catch { /* ignore */ } burst(40); };
+    return (
+      <div className="min-h-screen grid place-items-center px-4 relative">
+        <div className="aurora" />
+        <FloatingIcons />
+        <div className="w-full max-w-lg relative rounded-3xl border border-slate-800 bg-slate-900/70 p-7 text-center backdrop-blur-xl shadow-2xl shadow-black/40">
+          <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-teal-300/80">Kronika Ekipy · 2026</div>
+          <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Kto wbija? 🤙</h1>
+          <p className="mt-2 text-sm text-slate-400">Klepnij swoją ikonę — ekipa zobaczy Twoje głosy, RSVP i raporty.</p>
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {CREW.map((c) => (
+              <button key={c.id} onClick={() => pick(c.name)} className="group rounded-2xl border border-slate-700 bg-slate-800/60 p-3 hover:border-teal-400 hover:bg-slate-800 transition text-center">
+                <div className={'mx-auto grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br ' + c.grad + ' text-2xl shadow-lg group-hover:scale-110 transition'}>{c.emoji}</div>
+                <div className="mt-2 font-bold text-slate-100">{c.name}</div>
+                <div className="text-[10px] text-slate-400 leading-snug mt-0.5">{c.fact}</div>
+              </button>
+            ))}
+          </div>
+          <div className="mt-5 text-[11px] text-slate-500">nie ma Cię na liście? <button onClick={() => { const n = (window.prompt('Twoja ksywa?') || '').trim(); if (n) pick(n); }} className="text-teal-300 hover:underline">dopisz się</button></div>
+        </div>
+      </div>
+    );
+  }
+
   const going = rsvps.length;
   return (
     <div className="min-h-screen">
@@ -544,7 +579,7 @@ export default function App() {
 
         <div className="mt-2 text-sm text-slate-400">
           {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — ekipa zobaczy wszystko po wrzuceniu na serwer) </span>}
-          {name && <span>• siema, <b className="text-slate-200">{name}</b>! 🤙</span>}
+          {name && <span>• siema, <b className="text-slate-200">{name}</b>! 🤙 <button onClick={() => { setName(''); try { localStorage.removeItem('domki_name'); } catch { /* ignore */ } }} className="text-slate-500 hover:text-teal-300 underline">(zmień)</button></span>}
         </div>
 
         {activity.length > 0 && (
