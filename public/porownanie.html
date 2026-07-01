@@ -3,163 +3,102 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🍺 Dziewczyny, no weź — jeszcze da się to uratować</title>
+<title>💛 Słyszymy Was — i mamy plan</title>
 <meta name="theme-color" content="#0b1220" />
-<meta property="og:title" content="Dziewczyny, no weź — jeszcze da się to uratować 🍺" />
-<meta property="og:description" content="Plan wisi na włosku. Trochę ostro, ale z miłością — i konkretny plan ratunkowy. Jedziemy razem." />
+<meta property="og:title" content="Słyszymy Was — i mamy plan 💛" />
+<meta property="og:description" content="Bez docinków. Macie rację co do dwóch rzeczy — dojazdu i jednej nocy. Więc je rozwiązujemy." />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --bg:#0b1220; --tx:#e6edf5; --mut:#93a4bb; --line:#22304a; --teal:#2dd4bf; --sky:#38bdf8; --amber:#fbbf24; --pink:#f472b6; --rose:#fb7185; --green:#34d399; }
+  :root { --bg:#0b1220; --tx:#e6edf5; --mut:#93a4bb; --line:#22304a; --teal:#2dd4bf; --sky:#38bdf8; --amber:#fbbf24; --pink:#f472b6; --green:#34d399; }
   body { background:
-      radial-gradient(1100px 560px at 15% -10%, rgba(45,212,191,.14), transparent),
-      radial-gradient(900px 500px at 95% 0%, rgba(244,114,182,.10), transparent),
-      radial-gradient(900px 700px at 50% 120%, rgba(56,189,248,.08), transparent),
+      radial-gradient(1100px 560px at 15% -10%, rgba(45,212,191,.13), transparent),
+      radial-gradient(900px 500px at 92% 0%, rgba(244,114,182,.10), transparent),
+      radial-gradient(900px 700px at 50% 122%, rgba(56,189,248,.07), transparent),
       var(--bg);
     color: var(--tx); font-family: system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.62;
     padding: 0 16px 100px; }
-  .wrap { max-width: 780px; margin: 0 auto; }
+  .wrap { max-width: 760px; margin: 0 auto; }
   .hero { text-align:center; padding: 46px 0 6px; }
-  .tag { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.22em; text-transform:uppercase; color:#5eead4; border:1px solid var(--line); background:rgba(15,23,42,.6); padding:7px 16px; border-radius:999px; }
-  h1 { font-size: clamp(30px, 7.2vw, 54px); font-weight:900; line-height:1.03; margin:16px 0 10px; letter-spacing:-.02em;
+  .tag { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.2em; text-transform:uppercase; color:#5eead4; border:1px solid var(--line); background:rgba(15,23,42,.6); padding:7px 16px; border-radius:999px; }
+  h1 { font-size: clamp(30px, 7vw, 52px); font-weight:900; line-height:1.05; margin:16px 0 10px; letter-spacing:-.02em;
     background: linear-gradient(90deg,#99f6e4,#38bdf8,#f472b6); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .hero .sub { color:var(--mut); font-size:17px; max-width:620px; margin:0 auto; }
+  .hero .sub { color:var(--mut); font-size:17px; max-width:600px; margin:0 auto; }
   .lead { font-size:18px; margin:30px 0 8px; border-left:3px solid var(--teal); padding-left:16px; color:#eaf1f8; }
-  h2 { font-size:24px; font-weight:900; margin:40px 0 12px; }
+  h2 { font-size:23px; font-weight:900; margin:38px 0 8px; }
   h2 .em { background:linear-gradient(90deg,#5eead4,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .zarzut { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:#fda4af; font-weight:800; margin-top:34px; }
   p.big { font-size:16.5px; color:#d6e0ee; margin:10px 0; }
   p.big b { color:#a7f3d0; }
-  .card { border:1px solid var(--line); border-radius:18px; padding:20px 22px; margin:16px 0; background:linear-gradient(180deg,rgba(30,41,59,.4),rgba(15,23,42,.7)); }
-  .card.diag { border-color:rgba(251,113,133,.32); background:rgba(251,113,133,.05); }
-  .card h3 { font-size:17px; margin-bottom:10px; }
-  .card.diag h3 { color:#fda4af; }
-  ul.sym { list-style:none; }
-  ul.sym li { font-size:15px; padding:8px 0; border-bottom:1px dashed rgba(255,255,255,.07); }
-  ul.sym li:last-child { border-bottom:0; }
-  ul.sym li b { color:#fecdd3; }
-  .rok { margin-top:10px; font-size:15px; color:#a7f3d0; font-weight:700; }
-  .timeline { border-left:2px solid var(--line); margin:14px 0 8px; padding-left:0; }
-  .tl { position:relative; padding:8px 0 8px 22px; font-size:15px; color:#d6e0ee; }
-  .tl::before { content:''; position:absolute; left:-7px; top:15px; width:12px; height:12px; border-radius:50%; background:var(--sky); box-shadow:0 0 0 3px rgba(56,189,248,.15); }
-  .tl b { color:#bfe6ff; }
-  .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0; }
-  .box { border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
-  .box.no { background:rgba(251,113,133,.06); border-color:rgba(251,113,133,.32); }
-  .box.yes { background:rgba(45,212,191,.07); border-color:rgba(45,212,191,.4); }
-  .box h3 { font-size:16px; margin-bottom:10px; }
-  .box.no h3 { color:#fda4af; }
-  .box.yes h3 { color:#5eead4; }
-  .box ul { list-style:none; }
-  .box li { font-size:14.5px; padding:7px 0; border-bottom:1px dashed rgba(255,255,255,.06); }
-  .box li:last-child { border-bottom:0; }
-  .mid { text-align:center; color:var(--mut); font-size:15px; margin:6px 0 2px; }
-  .mid b { color:#a7f3d0; }
-  .save { border:1px solid rgba(45,212,191,.4); background:rgba(45,212,191,.06); border-radius:18px; padding:22px; margin:22px 0; }
-  .save .h { font-size:19px; font-weight:900; color:#5eead4; margin-bottom:6px; }
-  .steps { counter-reset:s; margin-top:14px; }
-  .step { counter-increment:s; position:relative; padding:12px 12px 12px 54px; border:1px solid var(--line); border-radius:14px; margin-bottom:10px; background:rgba(15,23,42,.5); font-size:15px; }
-  .step::before { content:counter(s); position:absolute; left:14px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#2dd4bf,#38bdf8); color:#042f2e; font-weight:900; display:grid; place-items:center; font-size:15px; }
-  .step b { color:#a7f3d0; }
-  .urg { border:1px dashed rgba(251,191,36,.4); background:rgba(251,191,36,.05); border-radius:16px; padding:16px 20px; margin:22px 0; font-size:15.5px; color:#fde68a; }
-  .urg b { color:#fff3c4; }
-  .cta-box { text-align:center; border:1px solid rgba(45,212,191,.5); border-radius:22px; padding:32px 22px; margin:34px 0 14px;
+  .card { border:1px solid var(--line); border-radius:18px; padding:20px 22px; margin:14px 0; background:linear-gradient(180deg,rgba(30,41,59,.4),rgba(15,23,42,.7)); }
+  .card.hi { border-color:rgba(45,212,191,.4); background:rgba(45,212,191,.06); }
+  .card h3 { font-size:17px; margin-bottom:8px; color:#5eead4; }
+  .plan { counter-reset:s; margin-top:12px; }
+  .pstep { counter-increment:s; position:relative; padding:12px 14px 12px 52px; border:1px solid var(--line); border-radius:14px; margin-bottom:10px; background:rgba(15,23,42,.5); font-size:15px; }
+  .pstep::before { content:counter(s); position:absolute; left:13px; top:50%; transform:translateY(-50%); width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#2dd4bf,#38bdf8); color:#042f2e; font-weight:900; display:grid; place-items:center; font-size:15px; }
+  .pstep b { color:#a7f3d0; }
+  .payoff { border:1px solid rgba(251,191,36,.3); background:rgba(251,191,36,.05); border-radius:18px; padding:20px 22px; margin:22px 0; }
+  .payoff ul { list-style:none; margin-top:8px; }
+  .payoff li { font-size:15.5px; padding:6px 0; }
+  .cta-box { text-align:center; border:1px solid rgba(45,212,191,.5); border-radius:22px; padding:30px 22px; margin:36px 0 14px;
     background:linear-gradient(180deg,rgba(45,212,191,.1),rgba(15,23,42,.6)); }
-  .cta-box p { font-size: clamp(19px,4.2vw,26px); font-weight:900; line-height:1.35; }
-  .cta-box .kick { margin-top:10px; font-size:15px; font-weight:600; color:var(--mut); }
+  .cta-box p { font-size: clamp(18px,4vw,24px); font-weight:900; line-height:1.4; }
+  .cta-box .kick { margin-top:12px; font-size:15px; font-weight:600; color:var(--mut); }
   .sign { text-align:center; margin-top:22px; }
   .sign .who { font-size:15px; color:#a7f3d0; font-weight:800; }
   .ps { text-align:center; color:#7f93ab; font-size:13px; margin-top:20px; font-style:italic; line-height:1.9; }
   a.back { display:inline-block; margin:22px 0 0; color:#5b6f89; text-decoration:none; font-size:12px; }
   a.back:hover { color:var(--teal); }
-  @media (max-width:560px){ .two{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <div class="hero">
-    <span class="tag">Apel ekipy · ostatnie wołanie · 3–5.07</span>
-    <h1>Dziewczyny, no weź —<br>jeszcze da się to uratować 🍺</h1>
-    <p class="sub">Bez spiny, ale na serio: plan wisi na włosku. Da się go jeszcze odratować — i bardzo chcemy, żebyście były przy tym z nami.</p>
+    <span class="tag">Dla naszych koleżanek 💛 · weekend 3–5.07</span>
+    <h1>OK, słyszymy Was.<br>Serio.</h1>
+    <p class="sub">Bez docinków i bez namawiania na siłę. Przeczytaliśmy Wasze wiadomości — i zamiast się obrażać, bierzemy się do roboty. Bo macie rację co do dwóch rzeczy.</p>
   </div>
 
-  <p class="lead">Kochamy Was. Serio. Ale organizacyjnie ten wyjazd wygląda ostatnio jak dramat w trzech aktach z jednym niekończącym się cliffhangerem. Usiądźcie, przeczytajcie do końca — a potem zróbcie JEDNĄ konkretną rzecz. 😅</p>
+  <p class="lead">Tu nie chodzi o to, żeby ktokolwiek jechał „sb sam". Chodzi o to, żeby ekipa była w komplecie. A dwie rzeczy, które realnie Was blokują, da się ogarnąć — i to nie Waszym kosztem.</p>
 
-  <h2>🩺 Diagnoza: <span class="em">ostry przypadek niezdecydowania</span></h2>
-  <div class="card diag">
-    <h3>Objawy, które zauważyliśmy (z troską):</h3>
-    <ul class="sym">
-      <li><b>Objaw 1:</b> trzy „ostateczne" plany dziennie — i każdy inny.</li>
-      <li><b>Objaw 2:</b> „jedziemy!" o 12:00, „a może jednak nie" o 14:00.</li>
-      <li><b>Objaw 3:</b> decyzja o godzinie wyjazdu ma już więcej wersji niż grupowa playlista — i tak samo żadna nie jest finalna.</li>
-      <li><b>Objaw 4:</b> 40 minut na „zaraz, tylko się ogarnę", 0 minut na klepnięcie terminu.</li>
-      <li><b>Objaw 5:</b> „a kto właściwie jedzie?" pytane po raz siódmy, wciąż bez odpowiedzi.</li>
+  <div class="zarzut">Zarzut #1</div>
+  <h2>„Na jedną noc <span class="em">nie chce mi się kombinować</span>"</h2>
+  <p class="big">I to jest <b>fair</b>. Jedna noc + karkołomny dojazd = faktycznie kiepsko się spina. Nie udajemy, że jest inaczej.</p>
+  <p class="big">Więc gadajmy jak ludzie: jeśli dla Was jedna noc to za mało zachodu — <b>powiedzcie wprost, a pomyślimy nad dwiema</b>. Domek jest zajebisty (sami to napisałyście 😉), więc może szkoda go na jedną dobę? Jesteśmy elastyczni. Nie ma opcji „albo na naszych zasadach, albo wcale".</p>
+
+  <div class="zarzut">Zarzut #2 — ten najważniejszy</div>
+  <h2>„Dojazd bez auta <span class="em">to koszmar</span>"</h2>
+  <p class="big">To jest <b>prawdziwy</b> problem i totalnie go rozumiemy. Bez auta, z przesiadkami, bez pewności czy w niedzielę w ogóle wrócicie — to nie jest „nie chce mi się", to jest <b>„nie wiem jak"</b>. Różnica jest ogromna i my ją łapiemy.</p>
+  <div class="card hi">
+    <h3>Więc nie zostawiamy Was z tym samych:</h3>
+    <div class="plan">
+      <div class="pstep"><b>Kacper już sprawdza konkretne godziny</b> — i wychodzi, że transport jest banalny (ok. 2h autobusem). To nie jest wyprawa przez pół Polski.</div>
+      <div class="pstep">Dostaniecie <b>gotowy rozkład rozpisany co do minuty</b> — skąd, o której, ile przesiadek, i — najważniejsze — <b>pewny powrót w niedzielę</b>. Personalnie dla Was, nie ogólniki.</div>
+      <div class="pstep"><b>Nie jedziecie same.</b> Umawiamy się tak, żeby ktoś, kto ogarnia, jechał z Wami albo złapał Was po drodze. Amelia — nie musisz sama kminić busów, od tego jesteśmy. 🤝</div>
+    </div>
+    <p class="big" style="margin-top:12px">Krótko: <b>Wy nie kombinujecie NIC.</b> My podajemy gotowca, Wy tylko wsiadacie.</p>
+  </div>
+
+  <div class="payoff">
+    <p class="big" style="margin:0"><b>A po drugiej stronie tej jednej nocy jest:</b></p>
+    <ul>
+      <li>🔥 gorąca balia nad samą wodą (tak, ta z bańki)</li>
+      <li>🌊 jezioro, pomost i ognisko pod gwiazdami</li>
+      <li>🍻 ekipa w komplecie i głupoty, których się nie odtworzy w domu</li>
     </ul>
-    <div class="rok">Rokowania: DOBRE — pod warunkiem natychmiastowego leczenia (recepta na dole 👇).</div>
-  </div>
-
-  <h2>🗓️ Kronika chaosu: <span class="em">jak minął ten tydzień</span></h2>
-  <div class="timeline">
-    <div class="tl"><b>Poniedziałek:</b> „Jedziemy, ogarnięte, hype!" 🔥</div>
-    <div class="tl"><b>Wtorek:</b> „No dobra… ale kiedy dokładnie?" 🤔</div>
-    <div class="tl"><b>Środa:</b> cisza w grupie. Świerszcze. Wiatr hula. 🦗</div>
-    <div class="tl"><b>Czwartek:</b> „a kto w ogóle jedzie?" 😵‍💫</div>
-    <div class="tl"><b>Piątek:</b> „to jak, jedziemy czy nie?" — i kółko zamyka się od nowa. 🔁</div>
-  </div>
-  <p class="big">Widzicie ten schemat? My widzimy. I dlatego piszemy tę stronę zamiast piąty raz pytać na grupie.</p>
-
-  <h2>⚖️ Dwa scenariusze: <span class="em">wybierzcie mądrze</span></h2>
-  <div class="two">
-    <div class="box no">
-      <h3>😵‍💫 Jak jest teraz</h3>
-      <ul>
-        <li>Trzy „ostateczne" plany dziennie</li>
-        <li>Godzina debaty nad każdą pierdołą</li>
-        <li>„Może jednak nie" na 2h przed</li>
-        <li>„Zaraz, tylko się ogarnę" × 40 min</li>
-        <li>Termin ucieka nam sprzed nosa</li>
-        <li>Finał: „ojej, a może innym razem" 😔</li>
-      </ul>
-    </div>
-    <div class="box yes">
-      <h3>😎 Jak będzie, jak się ogarniecie</h3>
-      <ul>
-        <li>Decyzja w 4 sekundy: „jedziemy? — jedziemy."</li>
-        <li>Balia pod gwiazdami + jezioro pod nosem</li>
-        <li>Grill, ognisko, browar i ekipa w komplecie</li>
-        <li>Zero spiny, sto procent chilu</li>
-        <li>Wspólne zdjęcia, których nie da się podrobić</li>
-        <li>Finał: LEGENDA, o której gadamy latami 🔥</li>
-      </ul>
-    </div>
-  </div>
-  <p class="mid">Cała lewa kolumna zamienia się w prawą w jednej chwili — <b>gdy klepniecie termin</b>. Jeden ruch. Tyle Was dzieli od dobrej strony mocy.</p>
-
-  <h2>💊 Recepta: <span class="em">da się to jeszcze uratować</span></h2>
-  <div class="save">
-    <div class="h">Spokojnie. Nie jest za późno.</div>
-    <p class="big" style="margin-top:4px">Termin stoi. Chata czeka. Browar się chłodzi. Brakuje dokładnie jednej rzeczy: Waszego <b>„jedziemy"</b> — tego prawdziwego, którego się nie cofa dwie godziny później. Trzy kroki i jesteście w grze:</p>
-    <div class="steps">
-      <div class="step">Wejdźcie na apkę ekipy (link niżej) i zalogujcie się.</div>
-      <div class="step">Klepnijcie <b>termin 3–5.07</b> przy chacie, która Wam pasuje.</div>
-      <div class="step">Zaklepcie miejsce — jedno kliknięcie <b>„WBIJAM"</b> i temat z głowy.</div>
-    </div>
-    <p class="big" style="margin-top:12px">Zajmie Wam to mniej czasu niż wybór filtra na story. Obiecujemy. ✋</p>
-  </div>
-
-  <div class="urg">
-    ⏳ <b>Tylko nie zwlekajcie.</b> Każdy dzień gadania zamiast klikania to jedna dobra chata mniej — inni nie czekają, aż się naradzicie. Najlepsze miejscówki na ten weekend znikają <b>teraz</b>, nie „jak się zdecydujecie".
+    <p class="big" style="margin-top:8px">Jedna dobra noc z ekipą bije dziesięć nijakich weekendów na kanapie. Serio.</p>
   </div>
 
   <div class="cta-box">
-    <p>Możemy to jeszcze uratować.<br>Jeden ruch. Jedno „jedziemy".<br>I jedziemy RAZEM. 🍺</p>
-    <div class="kick">Ekipa w komplecie — albo to nie ta sama ekipa. Wskakujcie, czekamy (ale nie w nieskończoność).</div>
+    <p>Dajcie nam jedno:<br>szansę ogarnąć Wam dojazd.</p>
+    <div class="kick">Dostaniecie gotowy plan i dalej powiecie „nie"? Okej — szanujemy, koniec tematu, zero focha. Ale niech nie decyduje za Was rozkład busów, którego nikt Wam jeszcze nie rozpisał.</div>
   </div>
 
   <div class="sign">
-    <div class="who">— Ekipa, która serio, mega chce z Wami jechać 💛</div>
+    <div class="who">Jesteście dla nas ważne — dlatego się tak stawiamy. 💛 — Ekipa</div>
   </div>
 
-  <p class="ps">PS: Tak, będzie balia. <br>PS2: Nie, nie zapytamy szósty raz „a jesteście pewne?" — po prostu klepnijcie i wskakujcie. <br>PS3: Klepnięcie terminu boli dużo mniej niż FOMO w niedzielę wieczorem. 😄</p>
+  <p class="ps">PS: Radek obiecuje zdać pełną relację z dojazdu — tam i z powrotem, było spoko czy nie — dokładnie jak chciałaś, Amelia. 😄<br>PS2: „domek jest zajebisty" — to Wasze słowa. My się tylko podpisujemy.</p>
 
   <a class="back" href="/">‹ wróć do listy chat</a>
 
