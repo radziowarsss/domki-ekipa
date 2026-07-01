@@ -3,7 +3,7 @@ import type { Offer } from './types';
 import type { UpdateItem, Avail } from './api';
 import rawOffers from './data/offers.json';
 import { api } from './api';
-import { FloatingIcons, MusicToggle, burst } from './effects';
+import { FloatingIcons, MusicToggle, burst, initMusic } from './effects';
 import Intro from './Intro';
 
 const OFFERS = rawOffers as unknown as Offer[];
@@ -192,6 +192,8 @@ export default function App() {
   }, []);
 
   useEffect(() => { setLimit(48); }, [q, woj, one, price, far, balia, freeOnly, jezOnly, topOnly, bioraOnly, sort]);
+
+  useEffect(() => { initMusic(); }, []);
 
   async function loadShared() {
     try {
@@ -612,7 +614,7 @@ export default function App() {
         <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
           ▶ Odtwórz intro ponownie
         </button>
-        <div>Domki Ekipa • runda 5 (tracker terminu 3–5.07) • baza i funkcje rosną z każdą rundą 🤙</div>
+        <div>Domki Ekipa 🏕️ • {OFFERS.length} chat · termin 3–5.07 · głosy, updaty i muzyka na żywo • zrobione dla naszej ekipy 🤙</div>
       </footer>
 
       {toast && (

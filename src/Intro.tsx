@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from 'react';
+import { toggleMusic, useMusicOn } from './effects';
 
 /**
  * Intro.tsx — kinowe, animowane intro (fantasy-bard) grane PRZED apką.
@@ -117,7 +118,7 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
   const [dir, setDir] = useState<1 | -1>(1);
   const [paused, setPaused] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
+  const musicOn = useMusicOn();
 
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -132,7 +133,6 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
   const pausedRef = useRef(false);
   const onEnterRef = useRef(onEnter);
   const accentRef = useRef('#54d6c4');
-  const audioRef = useRef<{ ctx: AudioContext; master: GainNode } | null>(null);
 
   const LAST = SCENES.length - 1;
 
@@ -358,64 +358,8 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
     };
   }, []);
 
-  // Opcjonalny podkład (WebAudio) — domyślnie OFF, z płynnym fade in/out.
-  const toggleSound = useCallback(() => {
-    const AC =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!soundOn) {
-      let a = audioRef.current;
-      if (!a) {
-        const ctx = new AC();
-        const master = ctx.createGain();
-        master.gain.value = 0;
-        master.connect(ctx.destination);
-        const lp = ctx.createBiquadFilter();
-        lp.type = 'lowpass';
-        lp.frequency.value = 620;
-        lp.connect(master);
-        [98, 146.83, 220, 293.66].forEach((f, i) => {
-          const o = ctx.createOscillator();
-          o.type = 'sine';
-          o.frequency.value = f;
-          const g = ctx.createGain();
-          g.gain.value = 0.5;
-          o.connect(g);
-          g.connect(lp);
-          o.start();
-          const lfo = ctx.createOscillator();
-          lfo.frequency.value = 0.05 + i * 0.03;
-          const lg = ctx.createGain();
-          lg.gain.value = 0.35;
-          lfo.connect(lg);
-          lg.connect(g.gain);
-          lfo.start();
-        });
-        a = { ctx, master };
-        audioRef.current = a;
-      }
-      void a.ctx.resume();
-      a.master.gain.cancelScheduledValues(a.ctx.currentTime);
-      a.master.gain.setValueAtTime(a.master.gain.value, a.ctx.currentTime);
-      a.master.gain.linearRampToValueAtTime(0.06, a.ctx.currentTime + 1.2);
-      setSoundOn(true);
-    } else {
-      const a = audioRef.current;
-      if (a) {
-        a.master.gain.cancelScheduledValues(a.ctx.currentTime);
-        a.master.gain.setValueAtTime(a.master.gain.value, a.ctx.currentTime);
-        a.master.gain.linearRampToValueAtTime(0, a.ctx.currentTime + 0.5);
-      }
-      setSoundOn(false);
-    }
-  }, [soundOn]);
-
-  useEffect(
-    () => () => {
-      void audioRef.current?.ctx.close();
-    },
-    [],
-  );
+  // Muzyka jest globalna i jedna (patrz effects.tsx: initMusic / toggleMusic / useMusicOn) —
+  // przycisk niżej tylko przełącza ten sam utwór, który gra pod intro i wchodzi do apki.
 
   const onRootClick = (e: ReactMouseEvent) => {
     // Tło NIE przewija (bez przypadkowych przeskoków) — steruj przyciskami/strzałkami.
@@ -462,8 +406,8 @@ export default function Intro({ onEnter }: { onEnter: () => void }) {
       <div className="intro-vignette" aria-hidden="true" />
 
       <div className="intro-topbar">
-        <button className="intro-btn" onClick={toggleSound} aria-label="Przełącz dźwięk intro">
-          {soundOn ? '🔊 dźwięk' : '🔈 dźwięk'}
+        <button className="intro-btn" data-music-toggle onClick={toggleMusic} aria-label="Przełącz muzykę">
+          {musicOn ? '🔊 muzyka' : '🔇 muzyka'}
         </button>
         <div className="intro-prog" role="progressbar" aria-label="Postęp opowieści">
           {SCENES.map((_, i) => (

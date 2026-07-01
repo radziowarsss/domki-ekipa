@@ -52,13 +52,15 @@ export function burst(n = 60) {
   if (!running) { running = true; requestAnimationFrame(loop); }
 }
 
-/* ===== Muzyka w tle: realny utwór z YouTube (oficjalny odtwarzacz, zapętlony) ===== */
+/* ===== Muzyka w tle: JEDEN system (YouTube: QBIK - 4 Pory Roku) — pod intro i w apce ===== */
 const YT_ID = '9y8sZ6bZtaA';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 let ytPlayer: any = null;
 let ytReady = false;
-let wantPlay = false;
-let onStateCb: ((playing: boolean) => void) | null = null;
+let musicOn = false;               // czy dźwięk jest odblokowany (odmute)
+let gestureHooked = false;
+const subs = new Set<(on: boolean) => void>();
+const notify = () => subs.forEach((f) => f(musicOn));
 
 function loadYT(cb: () => void) {
   const w = window as any;
@@ -73,9 +75,9 @@ function loadYT(cb: () => void) {
   }
 }
 
-function ensurePlayer() {
+function createPlayer() {
   const w = window as any;
-  if (ytPlayer) return;
+  if (ytPlayer || !w.YT || !w.YT.Player) return;
   let host = document.getElementById('yt-bg');
   if (!host) {
     host = document.createElement('div');
@@ -83,57 +85,82 @@ function ensurePlayer() {
     host.style.cssText = 'position:fixed;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none';
     document.body.appendChild(host);
   }
+  // autoplay MUTED (jedyne co przeglądarki puszczą bez gestu) — odmute przy 1. tapnięciu / z przycisku
   ytPlayer = new w.YT.Player('yt-bg', {
     videoId: YT_ID,
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1, modestbranding: 1, rel: 0 },
+    playerVars: { autoplay: 1, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1, mute: 1, modestbranding: 1, rel: 0 },
     events: {
-      onReady: (e: any) => { ytReady = true; try { e.target.setVolume(30); } catch { /* noop */ } if (wantPlay) e.target.playVideo(); },
-      onStateChange: (e: any) => { if (onStateCb) onStateCb(e.data === 1); },
+      onReady: (e: any) => {
+        ytReady = true;
+        try { e.target.setVolume(38); e.target.playVideo(); if (musicOn) e.target.unMute(); } catch { /* noop */ }
+      },
+      onStateChange: (e: any) => { if (e.data === 0) { try { e.target.playVideo(); } catch { /* noop */ } } },
     },
   });
 }
 
-export function MusicToggle() {
-  const [on, setOn] = useState(false);
-  onStateCb = setOn;
+function musicUnmute() {
+  musicOn = true;
+  try { localStorage.removeItem('domki_music_off'); } catch { /* noop */ }
+  loadYT(createPlayer);
+  if (ytReady && ytPlayer) { try { ytPlayer.unMute(); ytPlayer.setVolume(38); ytPlayer.playVideo(); } catch { /* noop */ } }
+  notify();
+}
 
-  const play = () => {
-    wantPlay = true;
-    localStorage.removeItem('domki_music_off');
-    loadYT(ensurePlayer);
-    if (ytReady && ytPlayer) { try { ytPlayer.playVideo(); } catch { /* noop */ } }
-    setOn(true);
-  };
-  const pause = () => {
-    wantPlay = false;
-    localStorage.setItem('domki_music_off', '1');
-    if (ytReady && ytPlayer) { try { ytPlayer.pauseVideo(); } catch { /* noop */ } }
-    setOn(false);
-  };
+function musicMute() {
+  musicOn = false;
+  try { localStorage.setItem('domki_music_off', '1'); } catch { /* noop */ }
+  if (ytReady && ytPlayer) { try { ytPlayer.mute(); } catch { /* noop */ } }
+  notify();
+}
 
+export function toggleMusic() {
+  if (musicOn) musicMute(); else musicUnmute();
+}
+
+// Woła się RAZ (z App): ładuje odtwarzacz i odblokowuje dźwięk przy pierwszym geście usera.
+export function initMusic() {
+  loadYT(createPlayer);
+  if (gestureHooked) return;
+  gestureHooked = true;
+  const kick = (ev: Event) => {
+    const t = ev.target as HTMLElement | null;
+    if (t && t.closest && t.closest('[data-music-toggle]')) return; // przycisk muzyki sam obsłuży (bez dublowania)
+    if (localStorage.getItem('domki_music_off') === '1') { cleanup(); return; }
+    musicUnmute();
+    if (ytReady && ytPlayer) cleanup(); // udało się odmute w geście → koniec nasłuchu
+  };
+  const cleanup = () => {
+    window.removeEventListener('pointerdown', kick);
+    window.removeEventListener('keydown', kick);
+    window.removeEventListener('touchstart', kick);
+  };
+  window.addEventListener('pointerdown', kick);
+  window.addEventListener('keydown', kick);
+  window.addEventListener('touchstart', kick);
+}
+
+export function useMusicOn() {
+  const [on, setOn] = useState(musicOn);
   useEffect(() => {
-    // player tworzymy od razu (gotowy zanim user kliknie), a gra dopiero po geście
-    loadYT(ensurePlayer);
-    if (localStorage.getItem('domki_music_off') === '1') return;
-    const kick = () => { play(); off(); };
-    const off = () => {
-      window.removeEventListener('pointerdown', kick);
-      window.removeEventListener('keydown', kick);
-    };
-    window.addEventListener('pointerdown', kick, { once: true });
-    window.addEventListener('keydown', kick, { once: true });
-    return off;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    subs.add(setOn);
+    setOn(musicOn);
+    return () => { subs.delete(setOn); };
   }, []);
+  return on;
+}
 
+export function MusicToggle() {
+  const on = useMusicOn();
   return (
     <button
-      onClick={() => (on ? pause() : play())}
+      onClick={toggleMusic}
+      data-music-toggle
       aria-label="Przełącz muzykę"
       className={'fixed right-3 bottom-3 z-50 rounded-full px-4 py-2.5 text-sm font-semibold border backdrop-blur transition ' +
         (on ? 'bg-gradient-to-r from-teal-400 to-sky-400 text-teal-950 border-transparent' : 'bg-slate-800/90 text-slate-200 border-slate-700')}
     >
-      🎵 Muzyka: {on ? 'ON' : 'off'}
+      {on ? '🔊 Muzyka' : '🔇 Muzyka'}
     </button>
   );
 }
