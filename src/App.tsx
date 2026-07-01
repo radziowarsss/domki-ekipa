@@ -127,12 +127,12 @@ function OfferCard({
           </div>
 
           <button onClick={() => setOpen((o) => !o)} className="mt-2 text-xs text-slate-400 hover:text-slate-200 text-left">
-            💬 updaty ekipy ({feed.length}) {open ? '▲' : '▼'}
+            💬 raporty ekipy ({feed.length}) {open ? '▲' : '▼'}
           </button>
 
           {open && (
             <div className="mt-2 rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
-              {feed.length === 0 && <div className="text-xs text-slate-500">Brak updatów — bądź pierwszy, zadzwoń i wrzuć info 🤙</div>}
+              {feed.length === 0 && <div className="text-xs text-slate-500">Brak raportów — bądź pierwszy: dzwoń i wrzuć info 🤙</div>}
               {feed.map((u, i) => (
                 <div key={i} className="text-xs border-b border-slate-800 pb-1.5 last:border-0 flex justify-between gap-2">
                   <div>
@@ -152,7 +152,7 @@ function OfferCard({
                   <button
                     onClick={() => { onAddUpdate(utype, utext.trim()); setUtext(''); setOpen(true); }}
                     className="text-xs font-semibold px-3 rounded-lg bg-teal-400 text-teal-950"
-                  >Dodaj</button>
+                  >Wrzuć</button>
                 </div>
               </div>
             </div>
@@ -240,7 +240,7 @@ export default function App() {
   function ensureName(): string {
     let n = name;
     if (!n) {
-      n = (window.prompt('Jak masz na imię? (do głosów, RSVP i updatów)') || '').trim();
+      n = (window.prompt('Jak Cię zwą w ekipie? (do głosów, RSVP i raportów)') || '').trim();
       if (n) { setName(n); localStorage.setItem('domki_name', n); }
     }
     return n;
@@ -319,18 +319,18 @@ export default function App() {
     try {
       const r = await api.login(pw);
       if (r.ok) { setMode('authed'); void loadShared(); }
-      else setLoginErr('Złe hasło 🙃');
-    } catch { setLoginErr('Błąd połączenia z serwerem'); }
+      else setLoginErr('Nie ten szyfr, ziomuś 🙃');
+    } catch { setLoginErr('Serwer chwilowo śpi — spróbuj za moment'); }
   }
 
   async function doShare() {
     const url = location.href;
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'Domki Ekipa 🏕️', text: 'Wybieramy domek na wyjazd — wskakuj i głosuj!', url });
+        await navigator.share({ title: 'Domki Ekipa 🏕️', text: 'Wybieramy chatę na legendarny wypad — wskakuj i głosuj! 🍺', url });
       } else {
         await navigator.clipboard.writeText(url);
-        setToast('📋 Skopiowano link — wyślij ekipie!');
+        setToast('📋 Link złapany — podeślij ekipie! 🤙');
         setTimeout(() => setToast(''), 2200);
       }
     } catch { /* anulowano */ }
@@ -427,18 +427,19 @@ export default function App() {
           <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/20 to-fuchsia-500/20 text-3xl">🏕️</div>
           <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-teal-300/80">Kronika Ekipy · 2026</div>
           <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Domki Ekipa</h1>
-          <p className="mt-2 text-sm text-slate-400">Podaj hasło, by wejść do legendy</p>
+          <p className="mt-2 text-sm text-slate-400">Szepnij hasło ekipy i wbijaj do legendy 🤙</p>
           <input
             type="password"
             value={pw}
             onChange={(e) => setPw(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && doLogin()}
-            placeholder="hasło…"
+            placeholder="hasło ekipy…"
             className="mt-5 w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-center outline-none focus:border-teal-400 transition"
             autoFocus
           />
           <button onClick={doLogin} className="mt-3 w-full rounded-xl bg-gradient-to-r from-teal-400 to-sky-400 py-3 font-bold text-teal-950 shadow-lg shadow-teal-500/20 hover:brightness-105 transition">Wejdź 🤙</button>
           {loginErr && <div className="mt-3 text-sm text-rose-400">{loginErr}</div>}
+          <div className="mt-4 text-[11px] text-slate-500">Zamknięta ekipa · wpuszczamy tylko swoich 🍺</div>
         </div>
       </div>
     );
@@ -454,17 +455,17 @@ export default function App() {
       <header className="px-5 pt-10 pb-6 max-w-6xl mx-auto">
         <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] px-3.5 py-1.5 rounded-full border border-slate-700 bg-slate-900/60 text-slate-300 backdrop-blur">
           <span className="h-1.5 w-1.5 rounded-full bg-teal-400 shadow-[0_0_10px_#54d6c4]"></span>
-          Wyjazd ekipy · 2026
+          Wyprawa Ekipy · Lato 2026
         </span>
         <h1 className="text-5xl sm:text-6xl font-black tracking-tight mt-4 bg-gradient-to-r from-teal-200 via-sky-400 to-fuchsia-400 bg-clip-text text-transparent">
           DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Wybieramy chatę dla <b>naszej szóstki</b> — sobota 4 → niedziela 5 lipca, do ~2h od Torunia/Inowrocławia. 🤙
+          Namierzamy chatę dla <b>naszej szóstki</b> na legendarny weekend — sobota 4 → niedziela 5 lipca, do ~2h od Torunia i Inowrocławia. Głosuj, dzwoń, klep termin. 🍺
         </p>
 
         <div className="mt-4 grid grid-cols-3 gap-2">
-          {([['❤️', 'Głosuj', 'na typy ekipy'], ['📞', 'Dzwoń', 'i wrzuć update'], ['📅', 'Termin', 'oznacz 3–5.07']] as [string, string, string][]).map(([e, t, s]) => (
+          {([['❤️', 'Głosuj', 'na typy ekipy'], ['📞', 'Dzwoń', 'i zdaj raport'], ['📅', 'Klep termin', 'na 3–5.07']] as [string, string, string][]).map(([e, t, s]) => (
             <div key={t} className="rounded-xl border border-slate-800 bg-slate-900/50 p-2.5 text-center">
               <div className="text-xl">{e}</div>
               <div className="text-xs font-bold text-slate-200 mt-0.5">{t}</div>
@@ -475,14 +476,14 @@ export default function App() {
 
         <div className="mt-4 rounded-2xl border border-slate-700/80 bg-gradient-to-br from-teal-500/10 via-sky-500/5 to-fuchsia-500/10 p-5 flex flex-wrap items-center gap-4 shadow-lg shadow-black/20">
           <div>
-            <div className="text-lg font-extrabold">Jedziesz? 🔥</div>
-            <div className="text-xs text-slate-400">Kliknij i zaklep miejsce — im więcej nas, tym taniej!</div>
+            <div className="text-lg font-extrabold">Wbijasz z nami? 🔥</div>
+            <div className="text-xs text-slate-400">Klepnij miejsce w ekipie — im nas więcej, tym taniej na łepka!</div>
           </div>
           <div className="flex-1 min-w-[160px] h-4 rounded-full bg-slate-950/60 border border-slate-700/70 overflow-hidden">
             <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 transition-all" style={{ width: `${Math.min(going / TEAM, 1) * 100}%` }} />
           </div>
-          <div className="font-extrabold whitespace-nowrap">{going}/{TEAM} zaklepane</div>
-          <button onClick={doRsvp} className="rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 px-5 py-2.5 font-extrabold text-emerald-950 shadow-lg shadow-emerald-500/20 hover:brightness-105 transition">JADĘ! 🙋</button>
+          <div className="font-extrabold whitespace-nowrap">{going}/{TEAM} w ekipie</div>
+          <button onClick={doRsvp} className="rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 px-5 py-2.5 font-extrabold text-emerald-950 shadow-lg shadow-emerald-500/20 hover:brightness-105 transition">WBIJAM! 🙋</button>
         </div>
         {going > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
@@ -493,8 +494,8 @@ export default function App() {
         <div className="mt-3 flex flex-wrap gap-2 text-sm items-center">
           <span className="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/40">✅ {freeN} wolnych na 3–5.07</span>
           <span className="px-3 py-1 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">❌ {busyN} zajętych</span>
-          <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">🏠 {OFFERS.length} ofert</span>
-          <button onClick={doShare} className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-200 border border-sky-500/40 hover:bg-sky-500/25 transition">📤 Udostępnij ekipie</button>
+          <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-300">🏠 {OFFERS.length} chat na oku</span>
+          <button onClick={doShare} className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-200 border border-sky-500/40 hover:bg-sky-500/25 transition">📤 Podeślij ekipie</button>
         </div>
 
         {topVoted.length > 0 && (
@@ -511,8 +512,8 @@ export default function App() {
         )}
 
         <div className="mt-2 text-sm text-slate-400">
-          {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — pełne współdzielenie po deployu) </span>}
-          {name && <span>• cześć, <b className="text-slate-200">{name}</b>!</span>}
+          {mode === 'offline' && <span className="text-amber-400">• tryb offline (dane lokalnie — ekipa zobaczy wszystko po wrzuceniu na serwer) </span>}
+          {name && <span>• siema, <b className="text-slate-200">{name}</b>! 🤙</span>}
         </div>
 
         {activity.length > 0 && (
@@ -537,7 +538,7 @@ export default function App() {
       <div className="sticky top-0 z-20 backdrop-blur-xl bg-slate-950/75 border-y border-slate-800/80 shadow-lg shadow-black/20">
         <div className="max-w-6xl mx-auto px-5 py-3">
           <div className="flex flex-wrap gap-2 items-center">
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj domku albo miejsca…" className={sel + ' flex-1 min-w-[200px]'} />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="🔎 szukaj chaty albo miejscówki…" className={sel + ' flex-1 min-w-[200px]'} />
             <select value={sort} onChange={(e) => setSort(e.target.value)} className={sel}>
               <option value="rec">⭐ polecane</option>
               <option value="price">💸 najtaniej</option>
@@ -598,14 +599,14 @@ export default function App() {
       {rnd && (
         <div className="max-w-6xl mx-auto px-5 pt-4">
           <div className="rounded-2xl border border-fuchsia-500/40 bg-fuchsia-500/10 p-4 flex flex-wrap items-center gap-3 backdrop-blur shadow-lg shadow-black/20">
-            <span className="text-lg">🎲 wylosowano:</span>
+            <span className="text-lg">🎲 los padł na:</span>
             <div className="flex-1 min-w-[180px]">
               <div className="font-bold">{rnd.n}</div>
               <div className="text-xs text-slate-300">📍 {rnd.loc} · {rnd.price}/noc · 🚗 T {rnd.tT} / I {rnd.tI}</div>
             </div>
             {rnd.tel && <a href={'tel:' + rnd.tel.replace(/\s/g, '')} className="text-sm font-semibold px-3 py-2 rounded-lg bg-teal-400 text-teal-950">📞 {rnd.tel}</a>}
             {rnd.link && <a href={rnd.link} target="_blank" rel="noopener" className="text-sm font-semibold px-3 py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a>}
-            <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/40 text-fuchsia-100">🎲 Jeszcze raz</button>
+            <button onClick={doRandom} className="text-sm font-semibold px-3 py-2 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/40 text-fuchsia-100">🎲 Losuj jeszcze</button>
             <button onClick={() => setRnd(null)} aria-label="Zamknij" className="text-slate-400 hover:text-white px-2">✕</button>
           </div>
         </div>
@@ -615,8 +616,8 @@ export default function App() {
         {list.length === 0 && (
           <div className="col-span-full text-center text-slate-400 py-16 flex flex-col items-center gap-3">
             <div className="text-5xl">😕</div>
-            <div className="text-slate-200 font-semibold text-lg">Nic nie pasuje do filtrów</div>
-            <div className="text-sm">Poluzuj kryteria albo wyczyść i zacznij od zera.</div>
+            <div className="text-slate-200 font-semibold text-lg">Pusto, ziomki — nic nie pasuje</div>
+            <div className="text-sm">Poluzuj filtry albo zacznij od zera.</div>
             {filtersActive && (
               <button onClick={clearFilters} className="mt-1 px-5 py-2.5 rounded-xl bg-teal-400 text-teal-950 font-bold hover:brightness-105 transition">🧹 Wyczyść filtry</button>
             )}
@@ -650,7 +651,7 @@ export default function App() {
         <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
           ▶ Odtwórz intro ponownie
         </button>
-        <div>Domki Ekipa 🏕️ • {OFFERS.length} chat · termin 3–5.07 · głosy, updaty i muzyka na żywo • zrobione dla naszej ekipy 🤙</div>
+        <div>Domki Ekipa 🏕️ • {OFFERS.length} chat · termin 3–5.07 · głosy, raporty i muzyka na żywo • zrobione dla ekipy, przez ekipę 🤙</div>
       </footer>
 
       {toast && (
