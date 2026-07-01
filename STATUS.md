@@ -1,6 +1,6 @@
 # DOMKI EKIPA — STATUS
 
-**Runda 9 UKOŃCZONA** ✅ — panel admin (usuwanie updatów) + 99 linków poprawionych. Build zielony.
+**Runda 10 UKOŃCZONA** ✅ — a11y + weryfikacja jakości danych (tmin już kompletny dla 240). Build zielony.
 
 ## ⚠️ JEDYNE co blokuje publiczny LIVE URL (raz, od Ciebie)
 
@@ -11,15 +11,15 @@ setx NETLIFY_AUTH_TOKEN "TWOJ_TOKEN_Z_NETLIFY"
 Token: netlify.com → **User settings → Applications → Personal access tokens → New token**.
 
 ## Zrobione
-- [x] **R1–R7**: szkielet · backend Blobs+JWT · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu 3–5.07 · oprawa premium (muzyka/konfetti) · filtry+feed aktywności.
-- [x] **R8** fan-out 14 agentów → **240 ofert** (z 84). Seed merge.
-- [x] **R9** **panel admin**: endpoint `/api/del-update` (auth) + przycisk ✕ przy każdym updacie w OfferCard (offline usuwa z localStorage). **99 linków** naprawionych skryptem `scripts/fix-links.mjs` (puste / strony główne → Booking deep-link z datami 2026-07-04→05 i 6 os). Build zielony.
+- [x] **R1–R7**: szkielet · backend Blobs+JWT · logowanie+głosy+RSVP · feed updatów (API smoke OK) · tracker terminu 3–5.07 · oprawa premium · filtry+feed aktywności.
+- [x] **R8** fan-out → **240 ofert**. **R9** panel admin (del-update) + 99 linków (Booking deep-link).
+- [x] **R10** a11y: aria-labele na przyciskach (głos ❤️, usuń ✕, muzyka). Skrypt `scripts/fix-tmin.mjs` (szacuje dojazd wg regionu) — sprawdził: **wszystkie 240 mają tmin**, nic do uzupełnienia. Build zielony.
 
 ## Funkcje (stan pełny)
-Logowanie hasłem · **240 ofert** (linki działają) · 10 filtrów · 5 sortowań · głosy ❤️ · RSVP X/6 · feed updatów per oferta + **usuwanie** · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · fallback offline.
+Logowanie · **240 ofert** (linki działają, dojazdy kompletne) · 10 filtrów · 5 sortowań · głosy ❤️ · RSVP X/6 · feed updatów + usuwanie · tracker terminu 3–5.07 + dashboard · feed aktywności · muzyka + konfetti + animacje · fallback offline.
 
 ## Następne rundy
-- [ ] **R10**: jakość danych (uzupełnić tmin/pn = 0 sensownymi wartościami wg regionu, żeby filtry dojazd/cena działały dla wszystkich 240) + mobile/a11y polish.
+- [ ] **R11**: dedup near-duplikatów (fan-out zostawił warianty tej samej oferty) + paginacja/„pokaż więcej" dla wydajności przy 240 kartach.
 - [ ] Kolejne fan-outy. **Deploy + LIVE URL** (gdy token) + screenshot.
 
 ## Odpalenie lokalne

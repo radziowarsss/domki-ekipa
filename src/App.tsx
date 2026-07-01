@@ -103,7 +103,7 @@ function OfferCard({
       <div className="flex gap-2 flex-wrap pt-1">
         {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-teal-400 text-teal-950">📞 {d.tel}</a> : null}
         {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-lg bg-slate-700 text-slate-100">🔗 oferta</a> : null}
-        <button onClick={onVote} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
+        <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-lg border ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
       </div>
 
       <button onClick={() => setOpen((o) => !o)} className="mt-1 text-xs text-slate-400 hover:text-slate-200 text-left">
@@ -120,7 +120,7 @@ function OfferCard({
                 {u.text ? <span className="text-slate-300"> — {u.text}</span> : null}
                 <div className="text-[10px] text-slate-500">{u.author} · {ago(u.ts)}</div>
               </div>
-              <button onClick={() => onDelUpdate(u.ts)} title="usuń" className="text-slate-600 hover:text-rose-400 shrink-0">✕</button>
+              <button onClick={() => onDelUpdate(u.ts)} title="usuń" aria-label="Usuń update" className="text-slate-600 hover:text-rose-400 shrink-0">✕</button>
             </div>
           ))}
           <div className="flex flex-col gap-1.5 pt-1">
