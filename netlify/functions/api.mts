@@ -24,7 +24,7 @@ async function writeJSON(key: string, data: unknown): Promise<void> {
 function json(data: unknown, init: ResponseInit = {}): Response {
   return new Response(JSON.stringify(data), {
     ...init,
-    headers: { 'content-type': 'application/json', ...(init.headers || {}) },
+    headers: { 'content-type': 'application/json', 'cache-control': 'no-store, max-age=0', ...(init.headers || {}) },
   });
 }
 async function makeToken(): Promise<string> {

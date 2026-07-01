@@ -15,6 +15,7 @@ export interface AppState {
 async function req(path: string, opts?: RequestInit): Promise<any> {
   const r = await fetch('/api/' + path, {
     credentials: 'same-origin',
+    cache: 'no-store',
     headers: { 'content-type': 'application/json' },
     ...opts,
   });

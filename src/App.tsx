@@ -269,13 +269,9 @@ export default function App() {
     setAvail(lsGet('domki_avail', {}));
   }
 
+  // Tożsamość wybiera się TYLKO z ikon ekipy (patrz CrewPicker) — brak obcych ksywek.
   function ensureName(): string {
-    let n = name;
-    if (!n) {
-      n = (window.prompt('Jak Cię zwą w ekipie? (do głosów, RSVP i raportów)') || '').trim();
-      if (n) { setName(n); localStorage.setItem('domki_name', n); }
-    }
-    return n;
+    return name;
   }
 
   async function doVote(id: string) {
@@ -505,7 +501,7 @@ export default function App() {
               </button>
             ))}
           </div>
-          <div className="mt-5 text-[11px] text-slate-500">nie ma Cię na liście? <button onClick={() => { const n = (window.prompt('Twoja ksywa?') || '').trim(); if (n) pick(n); }} className="text-teal-300 hover:underline">dopisz się</button></div>
+          <div className="mt-5 text-[11px] text-slate-500">tylko ekipa 🤙 — klepnij swoją mordkę wyżej</div>
         </div>
       </div>
     );
