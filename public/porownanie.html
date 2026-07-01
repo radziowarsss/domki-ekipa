@@ -3,163 +3,128 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🏆 ForRest vs Przyjezierze — dlaczego bierzemy Zalew Koronowski</title>
-<meta name="theme-color" content="#0b1220" />
+<title>📜 Ogłoszenie oficjalne: Brygada jedzie BEZ WAS</title>
+<meta name="theme-color" content="#160b12" />
+<meta property="og:title" content="Drogie Panie — jedziemy bez Was 💅✌️" />
+<meta property="og:description" content="Oficjalne ogłoszenie Brygady Trzech. Usiądźcie wygodnie — w tym akurat macie wprawę." />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --bg:#0b1220; --card:#0f172a; --line:#1e293b; --tx:#e2e8f0; --mut:#94a3b8; --teal:#2dd4bf; --sky:#38bdf8; --fuk:#e879f9; --amber:#fbbf24; --rose:#fb7185; --green:#34d399; }
+  :root { --bg:#160b12; --tx:#f5e9ef; --mut:#c99fb4; --line:#3a2230; --rose:#fb7185; --amber:#fbbf24; --pink:#f472b6; --teal:#2dd4bf; }
   body { background:
-      radial-gradient(1200px 600px at 20% -10%, rgba(45,212,191,.12), transparent),
-      radial-gradient(1000px 500px at 90% 0%, rgba(232,121,249,.10), transparent),
+      radial-gradient(1100px 560px at 15% -10%, rgba(244,63,94,.16), transparent),
+      radial-gradient(900px 500px at 95% 0%, rgba(251,191,36,.12), transparent),
+      radial-gradient(900px 700px at 50% 120%, rgba(244,114,182,.10), transparent),
       var(--bg);
-    color: var(--tx); font-family: system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.55;
-    padding: 0 16px 80px; }
-  .wrap { max-width: 920px; margin: 0 auto; }
-  a.back { display:inline-block; margin:18px 0 6px; color:var(--mut); text-decoration:none; font-size:14px; }
-  a.back:hover { color:var(--teal); }
-  .hero { text-align:center; padding: 26px 0 6px; }
-  .tag { display:inline-block; font-size:11px; font-weight:800; letter-spacing:.24em; text-transform:uppercase; color:#5eead4; border:1px solid var(--line); background:rgba(15,23,42,.6); padding:6px 14px; border-radius:999px; }
-  h1 { font-size: clamp(28px, 6vw, 46px); font-weight:900; line-height:1.05; margin:14px 0 8px;
-    background: linear-gradient(90deg,#99f6e4,#38bdf8,#e879f9); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  .sub { color:var(--mut); font-size:16px; max-width:640px; margin:0 auto; }
-  .vs { display:flex; align-items:stretch; gap:12px; margin:26px 0 10px; }
-  .team { flex:1; border:1px solid var(--line); border-radius:20px; padding:16px; background:linear-gradient(180deg,rgba(30,41,59,.6),rgba(15,23,42,.9)); }
-  .team.win { border-color: rgba(52,211,153,.5); box-shadow:0 0 0 1px rgba(52,211,153,.25), 0 10px 40px rgba(52,211,153,.08); }
-  .team.lose { opacity:.92; }
-  .team h2 { font-size:19px; }
-  .team .price { font-size:30px; font-weight:900; margin-top:4px; }
-  .team .loc { font-size:12px; color:var(--mut); margin-top:2px; }
-  .pill { display:inline-block; font-size:11px; font-weight:800; padding:4px 10px; border-radius:999px; margin-top:10px; }
-  .pill.g { background:rgba(52,211,153,.16); color:#6ee7b7; border:1px solid rgba(52,211,153,.4); }
-  .pill.r { background:rgba(251,113,133,.14); color:#fda4af; border:1px solid rgba(251,113,133,.4); }
-  .vsbadge { align-self:center; font-weight:900; font-size:20px; color:var(--mut); }
-  .bomb { border:1px solid rgba(251,191,36,.4); background:rgba(251,191,36,.08); border-radius:18px; padding:18px 20px; margin:22px 0; }
-  .bomb b { color:var(--amber); }
-  h3.section { font-size:22px; font-weight:900; margin:34px 0 14px; }
-  h3.section span { color:var(--teal); }
-  table { width:100%; border-collapse:separate; border-spacing:0; border:1px solid var(--line); border-radius:16px; overflow:hidden; font-size:14.5px; }
-  th, td { padding:12px 12px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
-  th { background:rgba(15,23,42,.9); font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--mut); }
-  td:first-child { font-weight:700; color:#cbd5e1; width:31%; }
-  tr:last-child td { border-bottom:0; }
-  .yes { color:var(--green); font-weight:700; }
-  .no { color:var(--rose); font-weight:700; }
-  .winrow { background:rgba(45,212,191,.05); }
-  .gallery { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
-  .col h4 { font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
-  .col.ff h4 { color:#6ee7b7; }
-  .col.pj h4 { color:#fda4af; }
-  figure { border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-bottom:10px; background:#0b1220; }
-  figure img { width:100%; height:190px; object-fit:cover; display:block; }
-  figcaption { font-size:12px; color:var(--mut); padding:8px 10px; }
-  ul.lopat { list-style:none; margin-top:6px; }
-  ul.lopat li { border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:10px; background:rgba(15,23,42,.5); }
-  ul.lopat li b { color:#5eead4; }
-  .honest { border:1px dashed var(--line); border-radius:14px; padding:14px 16px; margin:18px 0; color:var(--mut); font-size:14px; }
-  .honest b { color:#cbd5e1; }
-  .verdict { text-align:center; border:1px solid rgba(52,211,153,.5); border-radius:22px; padding:26px 20px; margin:34px 0 10px; background:linear-gradient(180deg,rgba(45,212,191,.1),rgba(15,23,42,.6)); }
-  .verdict h3 { font-size:24px; font-weight:900; }
-  .cta { display:inline-block; margin-top:14px; background:linear-gradient(90deg,#2dd4bf,#38bdf8); color:#042f2e; font-weight:900; text-decoration:none; padding:14px 26px; border-radius:14px; font-size:16px; }
-  .cta:hover { filter:brightness(1.07); }
-  .src { font-size:12px; color:#64748b; margin-top:26px; text-align:center; line-height:1.9; }
-  .src a { color:#64748b; }
-  @media (max-width:560px){ .gallery{grid-template-columns:1fr} td:first-child{width:40%} .vs{flex-direction:column} }
+    color: var(--tx); font-family: system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; line-height:1.6;
+    padding: 0 16px 90px; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  .hero { text-align:center; padding: 44px 0 8px; position:relative; }
+  .tag { display:inline-block; font-size:11px; font-weight:900; letter-spacing:.26em; text-transform:uppercase; color:#fda4af; border:1px solid var(--line); background:rgba(58,34,48,.5); padding:7px 16px; border-radius:999px; }
+  h1 { font-size: clamp(34px, 9vw, 68px); font-weight:900; line-height:.98; margin:16px 0 10px; letter-spacing:-.02em;
+    background: linear-gradient(90deg,#fda4af,#fbbf24,#f472b6); -webkit-background-clip:text; background-clip:text; color:transparent;
+    text-shadow: 0 4px 40px rgba(251,113,133,.15); }
+  .hero .sub { color:var(--mut); font-size:17px; max-width:600px; margin:0 auto; }
+  .stamp { display:inline-block; margin-top:18px; transform:rotate(-6deg); border:3px solid var(--rose); color:var(--rose);
+    font-weight:900; font-size: clamp(20px,5vw,30px); letter-spacing:.08em; padding:6px 18px; border-radius:10px; text-transform:uppercase;
+    box-shadow: inset 0 0 0 2px rgba(251,113,133,.25); }
+  .lead { font-size:18px; color:#f5e9ef; margin:30px 0 8px; border-left:3px solid var(--rose); padding-left:16px; }
+  h2 { font-size:26px; font-weight:900; margin:38px 0 12px; }
+  h2 .em { background:linear-gradient(90deg,#fda4af,#f472b6); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  p.big { font-size:16.5px; color:#ecd7e1; margin:10px 0; }
+  p.big b { color:#fecdd3; }
+  .card { border:1px solid var(--line); border-radius:18px; padding:20px 22px; margin:16px 0; background:linear-gradient(180deg,rgba(58,34,48,.35),rgba(22,11,18,.7)); }
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+  .box { border:1px solid var(--line); border-radius:16px; padding:16px 18px; }
+  .box.no { background:rgba(251,113,133,.06); border-color:rgba(251,113,133,.35); }
+  .box.yes { background:rgba(45,212,191,.06); border-color:rgba(45,212,191,.35); }
+  .box h3 { font-size:16px; margin-bottom:10px; }
+  .box.no h3 { color:#fda4af; }
+  .box.yes h3 { color:#5eead4; }
+  .box ul { list-style:none; }
+  .box li { font-size:14.5px; padding:7px 0; border-bottom:1px dashed rgba(255,255,255,.06); }
+  .box li:last-child { border-bottom:0; }
+  .thx { text-align:center; border:1px dashed var(--line); border-radius:18px; padding:24px 20px; margin:30px 0; background:rgba(251,191,36,.05); }
+  .thx .big { font-size:20px; font-weight:800; color:#fde68a; }
+  .manifest { text-align:center; border:1px solid rgba(251,113,133,.5); border-radius:22px; padding:30px 22px; margin:34px 0 14px;
+    background:linear-gradient(180deg,rgba(244,63,94,.12),rgba(22,11,18,.6)); }
+  .manifest p { font-size: clamp(19px,4.5vw,26px); font-weight:900; line-height:1.35; }
+  .manifest .kick { margin-top:12px; font-size:15px; font-weight:600; color:var(--mut); }
+  .sign { text-align:center; margin-top:26px; }
+  .sign .who { font-size:15px; color:#fecdd3; font-weight:800; }
+  .sign .team { display:inline-block; margin-top:8px; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--mut); border:1px solid var(--line); border-radius:999px; padding:6px 16px; }
+  .ps { text-align:center; color:#9b7488; font-size:13px; margin-top:22px; font-style:italic; }
+  a.back { display:inline-block; margin:20px 0 0; color:#7a5266; text-decoration:none; font-size:12px; }
+  a.back:hover { color:var(--rose); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="/">‹ wróć do listy chat</a>
 
   <div class="hero">
-    <span class="tag">Brygada decyduje · 3–5.07</span>
-    <h1>ForRest nad Zalewem<br>miażdży Przyjezierze</h1>
-    <p class="sub">Wzięliśmy oba ogłoszenia, przeczytaliśmy każde słowo, obejrzeliśmy każde zdjęcie. Werdykt jest jeden — i zaraz zrozumiesz dlaczego. Łopatologicznie.</p>
+    <span class="tag">Ogłoszenie oficjalne · Brygada Trzech</span>
+    <h1>DROGIE PANIE,<br>JEDZIEMY BEZ WAS 💅✌️</h1>
+    <p class="sub">Usiądźcie wygodnie. W tym akurat macie wprawę — siedzenie i niejechanie wychodzi Wam ostatnio celująco.</p>
+    <div class="stamp">Skład zamknięty</div>
   </div>
 
-  <div class="vs">
-    <div class="team win">
-      <h2>🏕️ ForRest Camp</h2>
-      <div class="price">450 zł<span style="font-size:14px;color:#94a3b8">/doba</span></div>
-      <div class="loc">📍 Nowy Jasiniec, Zalew Koronowski · ~1h od Torunia/Ino</div>
-      <span class="pill g">✅ ZWYCIĘZCA</span>
-    </div>
-    <div class="vsbadge">VS</div>
-    <div class="team lose">
-      <h2>🏚️ Przyjezierze</h2>
-      <div class="price">450 zł<span style="font-size:14px;color:#94a3b8">/doba w lipcu</span></div>
-      <div class="loc">📍 centrum Przyjezierza · ~45 min od Inowrocławia</div>
-      <span class="pill r">❌ odpada</span>
-    </div>
-  </div>
+  <p class="lead">To nie jest zaproszenie. To komunikat. Przeczytajcie do końca — chociaż raz coś dokończcie.</p>
 
-  <div class="bomb">
-    💣 <b>NAJWAŻNIEJSZE — obalamy mit o cenie.</b> Wygląda, że Przyjezierze jest tańsze (400 vs 450). NIE JEST.
-    W ich <b>własnym ogłoszeniu</b> stoi jak byk: <i>„W maju i czerwcu cena 400 zł, w lipcu i sierpniu 450"</i>.
-    Nasz wyjazd to <b>3–5 LIPCA</b>. Czyli w lipcu <b>obie kosztują DOKŁADNIE 450 zł/dobę</b> — tyle samo.
-    Tylko że za te same 450 zł dostajesz albo <b>prywatny taras nad wodą z balią i sauną</b>, albo <b>drewniany domek 4 minuty od publicznej plaży</b>. Koniec tematu.
-  </div>
+  <h2>Akt I: <span class="em">był plan</span></h2>
+  <p class="big">Był plan. Był piękny. Kocyk, jeziorko, motylki w brzuchu, wielka wyprawa. Przetrwał… ile? Dwa dni? Rozpadł się szybciej niż Wasza bateria na 20%, i cichej niż grupowy czat, kiedy trzeba w końcu <b>coś</b> ustalić.</p>
+  <p class="big">„Jutro dogadamy szczegóły" — klasyk gatunku. Te szczegóły do dziś krążą gdzieś w kosmosie razem z Waszą decyzją, o której godzinie wyjeżdżamy.</p>
 
-  <h3 class="section">⚔️ Punkt po punkcie — <span>kto z czym</span></h3>
-  <table>
-    <tr><th>Aspekt</th><th>🏕️ ForRest (Zalew)</th><th>🏚️ Przyjezierze</th></tr>
-    <tr class="winrow"><td>Cena w lipcu (wasz termin)</td><td class="yes">450 zł</td><td>450 zł <span style="color:#94a3b8">(nie 400!)</span></td></tr>
-    <tr class="winrow"><td>🔥 Gorąca balia</td><td class="yes">TAK — na tarasie nad wodą</td><td class="no">NIE MA</td></tr>
-    <tr class="winrow"><td>🧖 Sauna</td><td class="yes">TAK — osobny domek nad jeziorem</td><td class="no">NIE MA</td></tr>
-    <tr class="winrow"><td>🌊 Nad samą wodą</td><td class="yes">Prywatna linia brzegowa + pomost</td><td class="no">„do plaży 4 min spacerkiem" (publiczna)</td></tr>
-    <tr class="winrow"><td>❄️ Klimatyzacja (a jest LIPIEC)</td><td class="yes">TAK</td><td class="no">brak — drewniany domek letniskowy</td></tr>
-    <tr class="winrow"><td>📶 Internet</td><td class="yes">Starlink (szybki)</td><td class="no">brak informacji</td></tr>
-    <tr class="winrow"><td>🛏️ Standard i metraż</td><td class="yes">Nowoczesne, całoroczne, ~60 m²</td><td>drewniany, sezonowy, ciaśniej</td></tr>
-    <tr class="winrow"><td>🤫 Klimat</td><td class="yes">Kameralnie, bez tłumów, Bory Tucholskie</td><td>„centrum ośrodka", „na imprezę" = tłoczno</td></tr>
-    <tr class="winrow"><td>📸 Ile mają do pokazania</td><td class="yes">16 zdjęć</td><td>7 zdjęć</td></tr>
-    <tr class="winrow"><td>🎣 Woda od ręki</td><td class="yes">Pomosty, dostęp do wody, łódka</td><td>„możliwość łowienia ryb"</td></tr>
-    <tr><td>🚗 Dojazd z Inowrocławia</td><td>~1h</td><td class="yes">~45 min (ciut bliżej)</td></tr>
-  </table>
-  <p style="text-align:center;color:#94a3b8;font-size:14px;margin-top:12px">Wynik: <b style="color:#6ee7b7">ForRest 10</b> — <b style="color:#fda4af">Przyjezierze 1</b>. I to jedno to marne 15 minut auta.</p>
+  <h2>Akt II: <span class="em">brygada się nie smuci</span></h2>
+  <p class="big">I wiecie co? <b>Nie płaczemy.</b> Ani troszkę. Bo wyszło nam z tego coś, co statystycznie nazywa się <b>upgrade</b>.</p>
+  <p class="big">Zamiast dramy „kto z kim w pokoju" — mamy święty spokój. Zamiast czterdziestu minut czekania aż będziecie „zaraz gotowe" — mamy już wszystko odpalone i po pierwszej kolejce. Zamiast dwustu zdjęć zachodu słońca, zanim ktokolwiek usiądzie — po prostu siedzimy i patrzymy na ten zachód. Sami. Jak ludzie.</p>
 
-  <h3 class="section">📸 Zdjęcia — <span>dowód, nie gadka</span></h3>
-  <div class="gallery">
-    <div class="col ff">
-      <h4>🏕️ ForRest — tak wygląda 450 zł</h4>
-      <figure><img src="/porownanie/ff1.jpg" alt="Balia i sauna na tarasie nad jeziorem"><figcaption>Prywatny taras NAD WODĄ: gorąca balia (na drewno) + sauna, widok na jezioro. To jest wieczór załatwiony.</figcaption></figure>
-      <figure><img src="/porownanie/ff2.jpg" alt="Gość w bali z widokiem na jezioro"><figcaption>Siedzisz w bali, browar w łapie, przed nosem jezioro i marina. To będziesz Ty w sobotę.</figcaption></figure>
-      <figure><img src="/porownanie/ff3.jpg" alt="Sypialnia A-frame"><figcaption>Klimatyczne wnętrze A-frame, drewno, światło. Nowoczesny, zadbany domek.</figcaption></figure>
-      <figure><img src="/porownanie/ff4.jpg" alt="Jadalnia w środku"><figcaption>Miejsce na wspólny stół dla ekipy — jest gdzie usiąść i pobiesiadować.</figcaption></figure>
+  <div class="two">
+    <div class="box no">
+      <h3>❌ Czego NIE będzie (uff)</h3>
+      <ul>
+        <li>„Zaraz, tylko się ogarnę" × 40 minut</li>
+        <li>Głosowania nad każdą pierdołą przez godzinę</li>
+        <li>„Ała, komar" co trzy sekundy</li>
+        <li>Playlisty, przy której browar sam smutnieje</li>
+        <li>„A może jednak nie jedźmy" na 2 godziny przed</li>
+        <li>Trzech różnych „ostatecznych" planów dziennie</li>
+      </ul>
     </div>
-    <div class="col pj">
-      <h4>🏚️ Przyjezierze — tak wygląda 450 zł</h4>
-      <figure><img src="/porownanie/pj1.jpg" alt="Materace na poddaszu"><figcaption>Poddasze z materacami pod skosem. Podstawowo, ciasnawo, pościel z różnych bajek.</figcaption></figure>
-      <figure><img src="/porownanie/pj2.jpg" alt="Kuchnia z plakatami"><figcaption>Kuchnia w stylu „lata świetności minęły" — plakaty whisky i tablice rejestracyjne zamiast widoku na wodę.</figcaption></figure>
-      <figure><img src="/porownanie/pj3.jpg" alt="Mała łazienka"><figcaption>Mała, zwyczajna łazienka. Działa — i tyle. Zero „wow".</figcaption></figure>
-      <figure style="border-style:dashed;display:grid;place-items:center;height:190px;color:#64748b;font-size:13px;text-align:center;padding:10px">Brak zdjęcia bali.<br>Bo bali NIE MA. 🤷</figure>
+    <div class="box yes">
+      <h3>✅ Czego będzie WIĘCEJ</h3>
+      <ul>
+        <li>Decyzje w 4 sekundy: „jedziemy? — jedziemy."</li>
+        <li>Cisza. Cudowna, męska cisza.</li>
+        <li>Jezioro, spokój i zero dramy</li>
+        <li>Plan, który… uwaga… się <b>nie</b> rozpada</li>
+        <li>Miejsce w aucie (zajął je grill, przeprasza)</li>
+        <li>Legenda zamiast „ojej, a może jednak"</li>
+      </ul>
     </div>
   </div>
 
-  <h3 class="section">🧠 Po ludzku: <span>dlaczego to WYGRYWA na 1 nockę</span></h3>
-  <ul class="lopat">
-    <li><b>Jedziemy na JEDNĄ dobę.</b> Liczy się każda godzina chilu. W ForReście wpadasz, odpalasz balię, browar w łapę i siedzisz w gorącej wodzie nad jeziorem. W Przyjezierzu na 1 dobę robisz… co? Śpisz. Koniec.</li>
-    <li><b>Balia + sauna = całe SPA za darmo w cenie.</b> Osobno taki wieczór to setki złotych. Tu masz go w cenie noclegu. Przyjezierze nie ma ani jednego, ani drugiego.</li>
-    <li><b>Jest LIPIEC = upał.</b> ForRest ma klimę — śpisz jak człowiek. Przyjezierze to drewniany domek letniskowy bez klimy — w nocy pod skosem ugotujesz się jak pierogi.</li>
-    <li><b>Nad SAMĄ wodą, nie „4 minuty od plaży".</b> Z tarasu rzucasz wędkę albo skaczesz do wody. W Przyjezierzu taszczysz się z rzeczami na publiczną, zatłoczoną plażę.</li>
-    <li><b>Ta sama kasa, dwa różne światy.</b> 450 zł to 450 zł. Za te same pieniądze bierzesz prywatny pomost + balię + saunę + klimę + Starlink… albo domek z plakatami whisky. No weź.</li>
-  </ul>
+  <h2>Akt III: <span class="em">kto tu naprawdę stracił</span></h2>
+  <p class="big">Spójrzmy prawdzie w oczy. To Wy zaplanowałyście wyprawę. To Wy o niej gadałyście tygodniami. A skończyło się na tym, że <b>my ją zrobimy, a Wy ją przegapicie</b> — z powodów, które same do końca tygodnia zapomnicie.</p>
+  <p class="big">Wyjazd się odbędzie. Bez negocjacji, bez ankiety, bez „a co jeśli". Jedyne, co Wam zostało, to obserwować z daleka, jak trójka ogarów robi to, czego Wasza szóstka nie umiała dograć przez trzy podejścia.</p>
 
-  <div class="honest">
-    <b>Gramy fair — jeden plus Przyjezierza:</b> jest ciut bliżej Inowrocławia (~45 min vs ~1h). Ale to marne <b>~15 minut auta</b>. Nikt przy zdrowych zmysłach nie wybiera domku bez bali, bez sauny i bez klimy, żeby zaoszczędzić kwadrans w drodze. Zwłaszcza że z Torunia dojazd jest praktycznie taki sam.
+  <div class="thx">
+    <div class="big">🙏 A tak serio — dziękujemy.</div>
+    <p class="big" style="margin-top:8px">Naprawdę. Dzięki, że się wykruszyłyście w samą porę. Dzięki Wam ten wyjazd będzie <b>legendarny</b>, a nie kolejnym „może innym razem". Zrobiłyście brygadzie przysługę większą, niż myślicie. 💛</p>
   </div>
 
-  <div class="verdict">
-    <div style="font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#5eead4;font-weight:800">Werdykt brygady</div>
-    <h3>🏆 Bierzemy ForRest nad Zalewem Koronowskim.</h3>
-    <p class="sub" style="margin-top:8px">Za tę samą lipcową cenę: balia, sauna, klima, prywatny pomost i jezioro pod nosem. Dzwońcie, zanim ktoś inny to zaklepie.</p>
-    <a class="cta" href="https://www.olx.pl/d/oferta/domki-zalew-koronowski-sauna-bania-domki-jezioro-wynajem-nocleg-linia-brzegowa-kwatery-domki-letniskowe-wakacyjne-caloroczne-pomosty-wedkarskie-plaza-CID1816-IDDKYKh.html" target="_blank" rel="noopener">📞 Otwórz ofertę ForRest na OLX →</a>
+  <div class="manifest">
+    <p>Brygada nie czeka.<br>Brygada nie błaga.<br>Brygada jedzie.</p>
+    <div class="kick">Możecie pomachać z tarasu. Swojego. W domu. W kapciach.</div>
   </div>
 
-  <p class="src">
-    Źródła (kliknij, sprawdź sam):<br>
-    🏕️ <a href="https://www.olx.pl/d/oferta/domki-zalew-koronowski-sauna-bania-domki-jezioro-wynajem-nocleg-linia-brzegowa-kwatery-domki-letniskowe-wakacyjne-caloroczne-pomosty-wedkarskie-plaza-CID1816-IDDKYKh.html" target="_blank" rel="noopener">ForRest Camp — Zalew Koronowski (OLX)</a><br>
-    🏚️ <a href="https://www.olx.pl/d/oferta/na-wynajem-komfortowy-domek-letniskowy-w-przyjezierzu-CID1816-ID160DGd.html" target="_blank" rel="noopener">Domek letniskowy Przyjezierze (OLX)</a><br>
-    Zdjęcia i opisy pochodzą wprost z powyższych ogłoszeń OLX.
-  </p>
+  <div class="sign">
+    <div class="who">Z (umiarkowaną) miłością — Radzio, Lewy i Beścik.</div>
+    <span class="team">🍺 Brygada Trzech · skład ostateczny</span>
+  </div>
+
+  <p class="ps">PS: Nie, miejsca nie oddamy. PS2: Tak, będzie balia. PS3: Nie, nie zapytamy „a jesteście pewne?".</p>
+
+  <a class="back" href="/">‹ wróć (jak masz hasło 😏)</a>
+
 </div>
 </body>
 </html>

@@ -536,14 +536,14 @@ export default function App() {
           ))}
         </div>
 
-        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/10 to-fuchsia-500/10 p-4 hover:border-amber-400/70 transition">
+        <a href="/porownanie.html" className="group mt-4 block rounded-2xl border border-rose-500/40 bg-gradient-to-r from-rose-500/10 to-fuchsia-500/10 p-4 hover:border-rose-400/70 transition">
           <div className="flex items-center gap-3">
-            <span className="text-2xl shrink-0">🏆</span>
+            <span className="text-2xl shrink-0">📜</span>
             <div className="min-w-0 flex-1">
-              <div className="font-extrabold text-amber-200 leading-tight">Brygada typuje: ForRest nad Zalewem Koronowskim</div>
-              <div className="text-xs text-slate-300 mt-0.5">Łopatologiczne porównanie ze zdjęciami — czemu miażdży Przyjezierze w każdy możliwy sposób →</div>
+              <div className="font-extrabold text-rose-200 leading-tight">Ogłoszenie dla dziewczyn: jedziemy bez was 💅✌️</div>
+              <div className="text-xs text-slate-300 mt-0.5">Oficjalny manifest Brygady Trzech — kliknij, przeczytaj, wyślij →</div>
             </div>
-            <span className="text-slate-400 group-hover:text-amber-200 transition shrink-0 text-xl">›</span>
+            <span className="text-slate-400 group-hover:text-rose-200 transition shrink-0 text-xl">›</span>
           </div>
         </a>
 
