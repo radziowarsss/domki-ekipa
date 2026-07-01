@@ -17,6 +17,7 @@ const WOJ: [string, string][] = [
   ['warm-maz', 'warmińsko-mazurskie'],
   ['łódzkie', 'łódzkie'],
 ];
+const WOJ_LABEL: Record<string, string> = Object.fromEntries(WOJ.map(([v, l]) => [v, l]));
 
 const UPDATE_TYPES: [string, string][] = [
   ['biora', '✅ dzwoniłem — biorą na 1 noc'],
@@ -70,9 +71,8 @@ function OfferCard({
   onDelUpdate: (ts: number) => void;
 }) {
   const b = oneBadge(d.one);
-  const cover = d.jez ? 'from-sky-500/25 to-teal-600/25' : d.balia ? 'from-fuchsia-500/20 to-purple-600/25' : 'from-emerald-500/20 to-teal-600/20';
-  const coverEmoji = d.jez ? '🌊' : d.balia ? '🛁' : '🏕️';
   const priceMain = d.pn > 0 ? d.pn + ' zł' : String(d.price);
+  const mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((d.loc || d.r || '') + ', Polska');
   const priceExtra = d.pn > 0 && /[a-ząćęłńóśźż]/i.test(String(d.price).replace(/z[łl]/gi, '')) ? String(d.price) : '';
   const [open, setOpen] = useState(false);
   const [utype, setUtype] = useState('biora');
@@ -81,54 +81,65 @@ function OfferCard({
   const feed = [...updates].sort((a, x) => x.ts - a.ts);
 
   return (
-    <article className={'card-in group rounded-2xl border overflow-hidden flex flex-col bg-gradient-to-b from-slate-800/80 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/50 ring-1 ring-amber-600/30 hover:border-amber-500/70' : 'border-slate-700/80 hover:border-slate-600')}>
-      <div className={'relative h-24 bg-gradient-to-br ' + cover + ' flex items-center justify-center'}>
-        <span className="text-5xl opacity-90 drop-shadow-lg transition-transform duration-300 group-hover:scale-110">{coverEmoji}</span>
-        <div className="absolute top-2 right-2 rounded-full bg-slate-950/80 backdrop-blur px-3 py-1 text-sm font-black text-white border border-white/10 shadow-lg">
-          {priceMain}<span className="text-[10px] text-slate-300 font-medium"> /noc</span>
+    <article className={'card-in group rounded-2xl border p-4 flex flex-col gap-2.5 bg-gradient-to-b from-slate-800/70 to-slate-900/90 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-teal-500/10 ' + (d.feat ? 'border-amber-600/40 hover:border-amber-500/60' : 'border-slate-700/80 hover:border-slate-600')}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="font-bold text-[17px] leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
+          <div className="text-xs text-slate-400 mt-0.5">📍 {d.r} · {WOJ_LABEL[d.w] || d.w}</div>
         </div>
-        {d.feat ? <div className="absolute top-2 left-2 rounded-full bg-amber-400 text-amber-950 px-2.5 py-1 text-[11px] font-extrabold shadow">⭐ TOP</div> : null}
-        {availStatus ? <div className={'absolute bottom-2 left-2 rounded-full px-2.5 py-0.5 text-[11px] font-semibold border ' + (AVAIL_CLS[availStatus] || '')}>📅 {AVAIL_LABEL[availStatus] || availStatus}</div> : null}
+        <div className="text-right shrink-0">
+          <div className="text-xl font-black text-white leading-none whitespace-nowrap">{priceMain}</div>
+          <div className="text-[10px] text-slate-400 mt-1">za dobę</div>
+        </div>
       </div>
 
-      <div className="p-4 flex flex-col gap-2 flex-1">
-        <div>
-          <div className="font-bold text-lg leading-tight group-hover:text-teal-200 transition-colors">{d.n}</div>
-          <div className="text-xs text-slate-400">📍 {d.r} · {d.w}</div>
+      <div className="flex flex-wrap gap-1.5">
+        {d.feat ? <span className="text-[11px] font-bold px-2 py-0.5 rounded-full border bg-amber-400/15 text-amber-200 border-amber-400/40">⭐ TOP</span> : null}
+        <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
+        {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
+        {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
+        {availStatus ? <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + (AVAIL_CLS[availStatus] || '')}>📅 {AVAIL_LABEL[availStatus] || availStatus}</span> : null}
+      </div>
+
+      <div className="text-sm text-slate-300 space-y-1">
+        <div className="flex items-center gap-2">
+          <span className="min-w-0 truncate">🏠 {d.loc}</span>
+          <a href={mapUrl} target="_blank" rel="noopener" title="Pokaż na mapie" className="shrink-0 text-slate-500 hover:text-teal-300 transition">🗺️</a>
+        </div>
+        <div>👥 {d.cap}</div>
+        <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
+      </div>
+      {priceExtra ? <div className="text-xs text-amber-300/80">💸 {priceExtra}</div> : null}
+      {d.note ? <div className="text-xs text-slate-400 italic leading-snug">{d.note}</div> : null}
+
+      <div className="mt-auto pt-1 flex flex-col gap-2">
+        <div className="flex items-center gap-1.5 text-[11px]">
+          <span className="text-slate-500 shrink-0">3–5.07:</span>
+          {AVAIL.map(([k, l]) => (
+            <button key={k} onClick={() => onSetAvail(k)} className={'flex-1 px-1 py-1 rounded-lg border transition ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400 hover:border-slate-600')}>{l}</button>
+          ))}
         </div>
 
-        <div className="flex flex-wrap gap-1.5">
-          <span className={'text-[11px] font-semibold px-2 py-0.5 rounded-full border ' + b.c}>{b.t}</span>
-          {d.balia ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-fuchsia-400/15 text-fuchsia-200 border-fuchsia-400/40">🛁 balia/sauna</span> : null}
-          {d.jez ? <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full border bg-sky-400/15 text-sky-200 border-sky-400/40">🌊 nad jeziorem</span> : null}
-        </div>
-
-        <div className="text-sm text-slate-300 space-y-0.5">
-          <div>🏠 {d.loc}</div>
-          <div>👥 {d.cap}</div>
-          <div>🚗 Toruń {d.tT} · Inowrocław {d.tI}</div>
-        </div>
-        {priceExtra ? <div className="text-xs text-amber-300/80">💸 {priceExtra}</div> : null}
-        {d.note ? <div className="text-xs text-slate-400 italic">{d.note}</div> : null}
-
-        <div className="mt-auto pt-1">
-          <div className="flex items-center gap-1.5 text-[11px] mb-2">
-            <span className="text-slate-500">termin 3–5.07:</span>
-            {AVAIL.map(([k, l]) => (
-              <button key={k} onClick={() => onSetAvail(k)} className={'px-2 py-0.5 rounded-lg border transition ' + (availStatus === k ? (AVAIL_CLS[k] || '') : 'bg-slate-800 border-slate-700 text-slate-400')}>{l}</button>
-            ))}
+        <div className="flex gap-2">
+          <div className="flex-1 flex gap-2 min-w-0">
+            {d.tel ? (
+              <>
+                <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 min-w-0 text-center text-sm font-semibold py-2 rounded-xl bg-teal-400 text-teal-950 hover:brightness-105 transition truncate">📞 {d.tel}</a>
+                <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="shrink-0 text-sm px-2.5 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:border-slate-600 transition">{copied ? '✓' : '📋'}</button>
+                {d.link ? <a href={d.link} target="_blank" rel="noopener" title="Zobacz ofertę" className="shrink-0 text-sm px-2.5 py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗</a> : null}
+              </>
+            ) : d.link ? (
+              <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗 zobacz ofertę</a>
+            ) : (
+              <span className="flex-1 text-center text-xs text-slate-500 py-2 rounded-xl border border-dashed border-slate-700">kontakt: wrzuć w raporcie</span>
+            )}
           </div>
+          <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'shrink-0 text-sm font-semibold py-2 px-3 rounded-xl border transition ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300 hover:border-rose-500/50')}>❤️ {votes}</button>
+        </div>
 
-          <div className="flex gap-2 flex-wrap">
-            {d.tel ? <a href={'tel:' + d.tel.replace(/\s/g, '')} className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-teal-400 text-teal-950 hover:brightness-105 transition">📞 {d.tel}</a> : null}
-            {d.tel ? <button onClick={() => { void navigator.clipboard.writeText(d.tel); setCopied(true); setTimeout(() => setCopied(false), 1200); }} title="kopiuj numer" aria-label="Kopiuj telefon" className="text-sm px-2.5 py-2 rounded-xl bg-slate-800/70 border border-slate-700 text-slate-300 hover:border-slate-600 transition">{copied ? '✓' : '📋'}</button> : null}
-            {d.link ? <a href={d.link} target="_blank" rel="noopener" className="flex-1 text-center text-sm font-semibold py-2 rounded-xl bg-slate-700 text-slate-100 hover:bg-slate-600 transition">🔗 oferta</a> : null}
-            <button onClick={onVote} aria-label={'Głosuj na ' + d.n} className={'text-sm font-semibold py-2 px-3 rounded-xl border transition ' + (liked ? 'bg-rose-500/20 border-rose-400 text-rose-200' : 'bg-slate-800 border-slate-700 text-rose-300')}>❤️ {votes}</button>
-          </div>
-
-          <button onClick={() => setOpen((o) => !o)} className="mt-2 text-xs text-slate-400 hover:text-slate-200 text-left">
-            💬 raporty ekipy ({feed.length}) {open ? '▲' : '▼'}
-          </button>
+        <button onClick={() => setOpen((o) => !o)} className="text-xs text-slate-400 hover:text-slate-200 text-left">
+          💬 raporty ekipy ({feed.length}) {open ? '▲' : '▼'}
+        </button>
 
           {open && (
             <div className="mt-2 rounded-xl bg-slate-950/50 border border-slate-800 p-2 flex flex-col gap-2">
@@ -158,7 +169,6 @@ function OfferCard({
             </div>
           )}
         </div>
-      </div>
     </article>
   );
 }
@@ -612,7 +622,7 @@ export default function App() {
         </div>
       )}
 
-      <main className="max-w-6xl mx-auto px-5 py-6 grid gap-4 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
+      <main className="max-w-6xl mx-auto px-5 py-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {list.length === 0 && (
           <div className="col-span-full text-center text-slate-400 py-16 flex flex-col items-center gap-3">
             <div className="text-5xl">😕</div>
