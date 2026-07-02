@@ -83,9 +83,27 @@
   a.back { display:inline-block; margin:22px 0 0; color:#6f5947; text-decoration:none; font-size:12px; }
   a.back:hover { color:var(--orange); }
   @media (max-width:560px){ .two{grid-template-columns:1fr} }
+  /* ===== efekty i animacje ===== */
+  .wrap { position:relative; z-index:1; }
+  @keyframes shimmer { to { background-position:200% center; } }
+  h1 { background-size:200% auto; animation:shimmer 6s linear infinite; }
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .fill { transition:width 1.2s cubic-bezier(.2,.8,.2,1); }
+  .embers { position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .ember { position:absolute; bottom:-24px; border-radius:50%; background:radial-gradient(circle at 30% 30%,#fed7aa,#fb7185); filter:blur(.4px); opacity:0; animation:rise linear infinite; }
+  @keyframes rise { 0%{transform:translateY(0) translateX(0) scale(1); opacity:0} 12%{opacity:.7} 85%{opacity:.5} 100%{transform:translateY(-110vh) translateX(40px) scale(.4); opacity:0} }
+  #music-btn { position:fixed; right:14px; bottom:14px; z-index:50; border:1px solid var(--line); background:rgba(20,12,8,.88); color:#fdba74; font-weight:800; font-size:14px; padding:10px 16px; border-radius:999px; cursor:pointer; backdrop-filter:blur(6px); transition:transform .2s, background .2s; }
+  #music-btn.on { background:linear-gradient(90deg,#fb923c,#fb7185); color:#1a0e08; border-color:transparent; }
+  #music-btn:hover { transform:translateY(-2px); }
+  .music-hint { position:fixed; right:14px; bottom:58px; z-index:50; font-size:12px; color:#c4a790; background:rgba(20,12,8,.85); border:1px solid var(--line); padding:5px 10px; border-radius:10px; animation:pulseHint 1.6s ease-in-out infinite; }
+  @keyframes pulseHint { 0%,100%{opacity:.55} 50%{opacity:1} }
+  @media (prefers-reduced-motion: reduce) { .reveal{opacity:1;transform:none;transition:none} .ember{display:none} h1{animation:none} }
 </style>
 </head>
 <body>
+<div class="embers" aria-hidden="true"></div>
+<div id="yt-bg" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none"></div>
 <div class="wrap">
 
   <div class="hero">
@@ -205,5 +223,83 @@
   <a class="back" href="/">‹ wróć do listy chat</a>
 
 </div>
+
+<button id="music-btn" aria-label="Włącz muzykę">🔇 Muzyka</button>
+<div class="music-hint" id="music-hint">🔊 dotknij, by puścić kawałek</div>
+
+<script>
+(function () {
+  // ===== iskry =====
+  var box = document.querySelector('.embers');
+  if (box) {
+    for (var i = 0; i < 24; i++) {
+      var e = document.createElement('span');
+      e.className = 'ember';
+      var s = 3 + Math.random() * 6;
+      e.style.left = (Math.random() * 100) + '%';
+      e.style.width = s + 'px';
+      e.style.height = s + 'px';
+      e.style.animationDuration = (9 + Math.random() * 12) + 's';
+      e.style.animationDelay = (-Math.random() * 18) + 's';
+      box.appendChild(e);
+    }
+  }
+
+  // ===== paski wyniku: start od 0, dopełnienie przy scrollu =====
+  var fills = [].slice.call(document.querySelectorAll('.scard .fill'));
+  fills.forEach(function (f) { f.dataset.w = f.style.width || '0'; f.style.width = '0'; });
+  function fillBars() { fills.forEach(function (f) { f.style.width = f.dataset.w; }); }
+
+  // ===== wjazd sekcji przy scrollu =====
+  var targets = document.querySelectorAll('.wrap h2, .wrap .card, .wrap .two, .wrap .math, .wrap .stats, .wrap .award, .wrap .scard, .wrap .drop, .wrap .bust, .wrap .quote-mock, .wrap .score-head, .wrap p.lead');
+  [].forEach.call(targets, function (el) { el.classList.add('reveal'); });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          if (en.target.classList.contains('scard')) fillBars();
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.14 });
+    [].forEach.call(targets, function (el) { io.observe(el); });
+  } else {
+    [].forEach.call(targets, function (el) { el.classList.add('in'); });
+    fillBars();
+  }
+
+  // ===== muzyka z YouTube (autoplay wyciszony -> odmute przy 1. dotknięciu / z przycisku) =====
+  var YT_ID = 'NGr_496TmCg', player = null, ready = false, on = false, hooked = false;
+  function updateBtn() {
+    var b = document.getElementById('music-btn'); if (!b) return;
+    b.textContent = on ? '🔊 Muzyka' : '🔇 Muzyka';
+    b.classList.toggle('on', on);
+    var h = document.getElementById('music-hint'); if (h) h.style.display = on ? 'none' : '';
+  }
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player('yt-bg', {
+      videoId: YT_ID,
+      playerVars: { autoplay: 1, controls: 0, loop: 1, playlist: YT_ID, playsinline: 1, mute: 1, rel: 0 },
+      events: {
+        onReady: function (e) { ready = true; try { e.target.setVolume(38); e.target.playVideo(); if (on) e.target.unMute(); } catch (x) {} },
+        onStateChange: function (e) { if (e.data === 0) { try { e.target.playVideo(); } catch (x) {} } }
+      }
+    });
+  };
+  var tag = document.createElement('script'); tag.src = 'https://www.youtube.com/iframe_api'; document.head.appendChild(tag);
+  function musicOn() { on = true; try { if (ready) { player.unMute(); player.setVolume(38); player.playVideo(); } } catch (x) {} updateBtn(); }
+  function musicOff() { on = false; try { if (ready) player.mute(); } catch (x) {} updateBtn(); }
+  document.getElementById('music-btn').addEventListener('click', function () { on ? musicOff() : musicOn(); });
+  function firstGesture(ev) {
+    if (ev && ev.target && ev.target.closest && ev.target.closest('#music-btn')) return;
+    if (!on) musicOn();
+    if (ready) { document.removeEventListener('pointerdown', firstGesture); document.removeEventListener('keydown', firstGesture); document.removeEventListener('touchstart', firstGesture); }
+  }
+  document.addEventListener('pointerdown', firstGesture);
+  document.addEventListener('keydown', firstGesture);
+  document.addEventListener('touchstart', firstGesture);
+})();
+</script>
 </body>
 </html>
