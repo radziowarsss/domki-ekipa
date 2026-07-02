@@ -245,7 +245,7 @@
   @keyframes trophyGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(251,191,36,.55))} 50%{filter:drop-shadow(0 0 15px rgba(251,191,36,1))} }
 
   /* ===== preloader: filmowe płonące serce (silnik cząsteczkowy na canvas) ===== */
-  .preloader { position:fixed; inset:0; z-index:200; overflow:hidden; background:#050302; animation:preSafety 11.2s forwards; }
+  .preloader { position:fixed; inset:0; z-index:200; overflow:hidden; background:#050302; animation:preSafety 26s forwards; }
   @keyframes preSafety { 0%,99%{visibility:visible} 100%{visibility:hidden; pointer-events:none} }
   .preloader.ending { opacity:0; transition:opacity .6s ease; }
   .pl-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
@@ -265,6 +265,28 @@
     filter:drop-shadow(0 6px 36px rgba(251,146,60,.9)) drop-shadow(0 2px 10px rgba(244,63,94,.65)); }
   .pl-tag { margin-top:16px; font-family:var(--f-mono); font-weight:700; font-size:clamp(11px,2.6vw,15px); letter-spacing:.44em; text-transform:uppercase;
     color:#fed7aa; text-shadow:0 0 18px rgba(251,146,60,.75); }
+  /* narracyjne karty (kinetyczna typografia opowieści) */
+  .pl-cards { position:absolute; inset:0; z-index:5; pointer-events:none; }
+  .pl-card { position:absolute; left:50%; top:70%; transform:translate(-50%,-50%); width:min(92vw,900px); text-align:center; opacity:0; will-change:opacity, transform; }
+  .pl-card::before { content:""; position:absolute; inset:-26px -40px; z-index:-1; background:radial-gradient(58% 130% at 50% 50%, rgba(5,3,2,.62), transparent 74%); }
+  .pl-card .k { font-family:var(--f-disp); font-weight:800; text-transform:uppercase; line-height:.96; font-size:clamp(28px,6.2vw,72px); letter-spacing:.004em;
+    color:transparent; background:linear-gradient(180deg,#fff3c7 6%,#fdba74 52%,#fb7185); -webkit-background-clip:text; background-clip:text;
+    filter:drop-shadow(0 6px 30px rgba(251,146,60,.8)) drop-shadow(0 2px 8px rgba(244,63,94,.55)); }
+  .pl-card .s { margin-top:14px; font-family:var(--f-mono); font-weight:700; font-size:clamp(11px,2.3vw,14px); letter-spacing:.32em; text-transform:uppercase; color:#fed7aa; text-shadow:0 0 14px rgba(251,146,60,.6); }
+  /* emocjonalna, kinetyczna narracja — cała historia */
+  .pl-story { position:absolute; inset:0; z-index:5; pointer-events:none; }
+  .pl-beat { position:absolute; left:50%; top:72%; width:min(92vw,1000px); transform:translate(-50%,-50%); text-align:center; opacity:0; will-change:opacity, transform, filter; }
+  .pl-beat.big, .pl-beat.huge, .pl-beat.quote { top:50%; }
+  .pl-beat::before { content:""; position:absolute; inset:-32px -64px; z-index:-1; background:radial-gradient(60% 132% at 50% 50%, rgba(5,3,2,.62), transparent 76%); }
+  .pl-beat .l { font-family:var(--f-disp); font-weight:800; text-transform:uppercase; line-height:.98; letter-spacing:.008em;
+    color:transparent; background:linear-gradient(180deg,#fff6e6 12%,#fdc98a 55%,#fb7185); -webkit-background-clip:text; background-clip:text;
+    filter:drop-shadow(0 6px 30px rgba(251,146,60,.5)); }
+  .pl-beat.small .l { font-family:var(--f-mono); font-weight:700; font-size:clamp(18px,3.2vw,30px); letter-spacing:.2em; background:none; -webkit-text-fill-color:#e8ccb4; color:#e8ccb4; filter:none; }
+  .pl-beat.sub .l { font-family:var(--f-body); font-weight:700; text-transform:none; font-size:clamp(15px,2.6vw,23px); letter-spacing:.02em; background:none; -webkit-text-fill-color:#fed7aa; color:#fed7aa; filter:none; text-shadow:0 0 14px rgba(251,146,60,.5); }
+  .pl-beat.big .l { font-size:clamp(34px,7.2vw,92px); }
+  .pl-beat.huge .l { font-size:clamp(46px,11.5vw,148px); }
+  .pl-beat.quote .l { font-style:normal; font-size:clamp(30px,6.6vw,84px); }
+  .pl-beat em { font-style:normal; color:transparent; background:linear-gradient(180deg,#fff3c7,#fb7185); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
   .pl-skip { position:absolute; bottom:calc(13.5vh + 22px); left:50%; transform:translateX(-50%); z-index:5; font-family:var(--f-body); font-size:12px;
     letter-spacing:.12em; text-transform:uppercase; color:#c8ac93; opacity:0; transition:opacity .6s ease; }
   .preloader.bars .pl-skip { opacity:.5; }
@@ -371,6 +393,7 @@
   <div class="pl-grain"></div>
   <div class="pl-bar top"></div>
   <div class="pl-bar bot"></div>
+  <div class="pl-story" aria-hidden="true"></div>
   <div class="pl-title"><div class="pl-word">DO AKT</div><div class="pl-tag">Sprawa zamknięta</div></div>
   <div class="pl-skip">dotknij / przewiń, aby pominąć</div>
 </div>
@@ -744,17 +767,73 @@
   }
 
   // ===== preloader: filmowe płonące serce — silnik cząsteczkowy na canvas =====
-  var pl = document.querySelector('.preloader');
-  if (pl) {
-    if (reduce) { pl.remove(); pl = null; }
-    else {
+  var plNode0 = document.querySelector('.preloader');
+  var PL_HTML = plNode0 ? plNode0.outerHTML : null;
+
+  if (reduce) {
+    if (plNode0) plNode0.remove();
+  } else if (PL_HTML) {
+    // stabilny start: wyłącz przywracanie pozycji scrolla (żeby scroll-restore nie pominął intro)
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+
+    var introRunning = false, replayBtn = null;
+    function makeReplayBtn() {
+      if (replayBtn) return;
+      replayBtn = document.createElement('button');
+      replayBtn.id = 'intro-replay'; replayBtn.type = 'button';
+      replayBtn.setAttribute('aria-label', 'Uruchom intro ponownie');
+      replayBtn.innerHTML = '<span style="filter:drop-shadow(0 0 6px rgba(251,146,60,.9))">🔥</span> Intro';
+      replayBtn.style.cssText = 'position:fixed;left:16px;bottom:16px;z-index:50;display:inline-flex;align-items:center;gap:7px;' +
+        'border:1px solid var(--line-2);background:linear-gradient(180deg,rgba(40,24,14,.9),rgba(20,12,8,.9));color:#fdba74;' +
+        'font-family:var(--f-body);font-weight:800;font-size:14px;letter-spacing:.02em;padding:11px 16px;border-radius:999px;cursor:pointer;' +
+        '-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:var(--inner),0 10px 30px -14px rgba(0,0,0,.9);' +
+        'opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .4s ease,transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .25s;';
+      replayBtn.addEventListener('click', function () { runIntro(true); });
+      replayBtn.addEventListener('pointerenter', function () { replayBtn.style.boxShadow = 'var(--inner),0 14px 34px -14px rgba(251,146,60,.8)'; });
+      replayBtn.addEventListener('pointerleave', function () { replayBtn.style.boxShadow = 'var(--inner),0 10px 30px -14px rgba(0,0,0,.9)'; });
+      document.body.appendChild(replayBtn);
+    }
+    function showReplayBtn() { makeReplayBtn(); requestAnimationFrame(function () { replayBtn.style.opacity = '1'; replayBtn.style.transform = 'none'; replayBtn.style.pointerEvents = 'auto'; }); }
+    function hideReplayBtn() { if (replayBtn) { replayBtn.style.opacity = '0'; replayBtn.style.transform = 'translateY(10px)'; replayBtn.style.pointerEvents = 'none'; } }
+
+    function runIntro(isReplay) {
+      if (introRunning) return;
+      introRunning = true;
+      hideReplayBtn();
+      var ex0 = document.querySelector('.preloader'); if (ex0) ex0.remove();
+      if (!isReplay && window.scrollY > 4) window.scrollTo(0, 0);
+      document.body.insertAdjacentHTML('afterbegin', PL_HTML);
+      var pl = document.querySelector('.preloader');
       var plCanvas = pl.querySelector('.pl-canvas');
       var plTitle  = pl.querySelector('.pl-title');
-      var g2d = plCanvas.getContext('2d');
+      function envlp(t, a, b, f) { if (t < a || t > b) return 0; return Math.max(0, Math.min(1, Math.min((t - a) / f, (b - t) / f))); }
+      var STORY = [
+        { a: 0.5, b: 2.2, cls: 'small', html: 'Historia prawdziwa.' },
+        { a: 2.7, b: 4.3, cls: 'big',   html: 'Włożyłem w to <em>serce</em>.' },
+        { a: 4.7, b: 6.9, cls: 'sub',   html: '20 godzin. 50 telefonów. Dla Was.' },
+        { a: 7.3, b: 8.6, cls: 'small', html: 'A w nagrodę?' },
+        { a: 8.95, b: 11.2, cls: 'quote', html: '„Jebać domki,<br>jedźmy gdzie wygodniej.”' },
+        { a: 11.5, b: 12.5, cls: 'small', html: 'Cała wojna?' },
+        { a: 12.9, b: 15.3, cls: 'huge',  html: 'O <em>25 minut</em>.' },
+        { a: 15.5, b: 16.3, cls: 'big',   html: 'Była różnica.' },
+        { a: 16.5, b: 17.8, cls: 'huge',   html: '<em>Ogromna.</em>' },
+        { a: 18.1, b: 20.0, cls: 'sub',    html: 'Zamieniłyście ją na 50 zł i fotel pasażera.' }
+      ];
+      var storyBox = pl.querySelector('.pl-story');
+      var beatEls = STORY.map(function (bt) {
+        var d = document.createElement('div'); d.className = 'pl-beat ' + bt.cls;
+        d.innerHTML = '<div class="l">' + bt.html + '</div>';
+        storyBox.appendChild(d); return d;
+      });
+      var vctx = plCanvas.getContext('2d');
+      var sceneCanvas = document.createElement('canvas'), g2d = sceneCanvas.getContext('2d');
+      var bloomCanvas = document.createElement('canvas'), bctx = bloomCanvas.getContext('2d');
       var W = 0, H = 0, cx = 0, cy = 0, sc = 1;
       function resize() {
         W = innerWidth; H = innerHeight;
         plCanvas.width = W; plCanvas.height = H;
+        sceneCanvas.width = W; sceneCanvas.height = H;
+        bloomCanvas.width = Math.max(1, W >> 2); bloomCanvas.height = Math.max(1, H >> 2);
       }
       resize();
       window.addEventListener('resize', resize, { passive: true });
@@ -788,7 +867,86 @@
         p.closePath(); return p;
       }
       function baseScale() { return Math.min(W, H) / 48; }
-      // pęknięcia w układzie serca (jednostki wzoru), świecą po zapłonie
+      // --- feniks rysowany jako świetlista sylwetka (skrzydła machają wg 'flap') ---
+      // --- feniks: filmowa sylwetka wypełniona wolumetrycznym ogniem (jak płonące serce) ---
+      function phoenixSil(u, X, Y, flap) {
+        var p = new Path2D();
+        // korpus
+        p.moveTo(X, Y - 11 * u);
+        p.bezierCurveTo(X + 2.6 * u, Y - 8 * u, X + 2.2 * u, Y + 2 * u, X + 1.2 * u, Y + 7 * u);
+        p.bezierCurveTo(X + 0.6 * u, Y + 9 * u, X - 0.6 * u, Y + 9 * u, X - 1.2 * u, Y + 7 * u);
+        p.bezierCurveTo(X - 2.2 * u, Y + 2 * u, X - 2.6 * u, Y - 8 * u, X, Y - 11 * u);
+        // głowa
+        p.moveTo(X + 2.4 * u, Y - 11 * u);
+        p.bezierCurveTo(X + 2.4 * u, Y - 13.6 * u, X - 2.4 * u, Y - 13.6 * u, X - 2.4 * u, Y - 11 * u);
+        p.bezierCurveTo(X - 1.2 * u, Y - 9.4 * u, X + 1.2 * u, Y - 9.4 * u, X + 2.4 * u, Y - 11 * u);
+        // skrzydła (wypełnione airfoile, końce unoszą się z 'flap')
+        for (var w = -1; w <= 1; w += 2) {
+          var tipX = X + w * 17 * u, tipY = Y - 6 * u - flap * 8 * u;
+          p.moveTo(X + w * 1.4 * u, Y - 6 * u);
+          p.bezierCurveTo(X + w * 8 * u, Y - 11 * u - flap * 6 * u, X + w * 14 * u, Y - 9 * u - flap * 7 * u, tipX, tipY);
+          p.bezierCurveTo(X + w * 13 * u, Y - 1 * u - flap * 3 * u, X + w * 7 * u, Y + 4 * u, X + w * 2 * u, Y + 3 * u);
+          p.closePath();
+        }
+        // ogon (wachlarz)
+        p.moveTo(X - 1.4 * u, Y + 5 * u);
+        p.bezierCurveTo(X - 5 * u, Y + 16 * u, X - 3 * u, Y + 22 * u, X, Y + 21 * u);
+        p.bezierCurveTo(X + 3 * u, Y + 22 * u, X + 5 * u, Y + 16 * u, X + 1.4 * u, Y + 5 * u);
+        p.closePath();
+        return p;
+      }
+      function emitPhoenix(path, X, Y, u, n) {
+        var got = 0, tries = 0, lim = n * 6;
+        while (got < n && tries < lim && parts.length < CAP) {
+          tries++;
+          var rx = X + (Math.random() * 2 - 1) * 17 * u, ry = Y + (-13 + Math.random() * 35) * u;
+          if (g2d.isPointInPath(path, rx, ry)) {
+            got++;
+            parts.push({ x: rx, y: ry, vx: (rx - X) * 0.008 + (Math.random() - .5) * 0.7, vy: -0.3 - Math.random() * 0.9,
+              size: 8 + Math.random() * 12, life: 0, max: 16 + Math.random() * 16 });
+          }
+        }
+      }
+      // --- SET-PIECE: zegar (włożone godziny) — świecąca tarcza, wirujące wskazówki ---
+      function drawClock(prog, alpha) {
+        var R = sc * 12;
+        g2d.save(); g2d.globalCompositeOperation = 'lighter'; g2d.translate(cx, cy);
+        g2d.shadowBlur = 12; g2d.shadowColor = 'rgba(255,140,60,' + alpha + ')';
+        g2d.strokeStyle = 'rgba(255,186,96,' + alpha + ')'; g2d.lineWidth = 2.4;
+        g2d.beginPath(); g2d.arc(0, 0, R, 0, Math.PI * 2); g2d.stroke();
+        g2d.globalAlpha = alpha * 0.4; g2d.beginPath(); g2d.arc(0, 0, R * 0.9, 0, Math.PI * 2); g2d.stroke(); g2d.globalAlpha = 1;
+        for (var k = 0; k < 12; k++) {
+          var a = k / 12 * Math.PI * 2, r1 = R * (k % 3 ? 0.84 : 0.78), r2 = R * 0.98;
+          g2d.globalAlpha = alpha * (k % 3 ? 0.5 : 0.95); g2d.lineWidth = k % 3 ? 1.4 : 2.4;
+          g2d.beginPath(); g2d.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); g2d.lineTo(Math.cos(a) * r2, Math.sin(a) * r2); g2d.stroke();
+        }
+        g2d.globalAlpha = 1; g2d.lineCap = 'round';
+        var spin = prog * Math.PI * 2 * 7;
+        g2d.strokeStyle = 'rgba(255,242,206,' + alpha + ')';
+        g2d.lineWidth = 3.2; g2d.beginPath(); g2d.moveTo(0, 0); g2d.lineTo(Math.cos(spin * 0.6 - Math.PI / 2) * R * 0.5, Math.sin(spin * 0.6 - Math.PI / 2) * R * 0.5); g2d.stroke();
+        g2d.lineWidth = 2; g2d.beginPath(); g2d.moveTo(0, 0); g2d.lineTo(Math.cos(spin - Math.PI / 2) * R * 0.8, Math.sin(spin - Math.PI / 2) * R * 0.8); g2d.stroke();
+        g2d.beginPath(); g2d.arc(0, 0, 3.2, 0, Math.PI * 2); g2d.fillStyle = 'rgba(255,246,214,' + alpha + ')'; g2d.fill();
+        g2d.shadowBlur = 0; g2d.lineCap = 'butt'; g2d.restore();
+      }
+      // --- SET-PIECE: rozwidlenie dróg (wygoda vs 25 minut do lepszego świata) ---
+      function drawFork(prog, alpha) {
+        var sX = cx, sY = cy + sc * 13, aX = cx - sc * 12, aY = cy - sc * 5, bX = cx + sc * 12, bY = cy - sc * 10;
+        g2d.save(); g2d.globalCompositeOperation = 'lighter'; g2d.lineCap = 'round';
+        g2d.shadowBlur = 8; g2d.shadowColor = 'rgba(170,170,170,' + alpha + ')';
+        g2d.strokeStyle = 'rgba(190,184,174,' + (alpha * 0.5).toFixed(3) + ')'; g2d.lineWidth = 2.2;
+        g2d.beginPath(); g2d.moveTo(sX, sY); g2d.quadraticCurveTo(cx - sc * 9, cy + sc * 3, aX, aY); g2d.stroke();
+        g2d.globalAlpha = alpha * 0.6; g2d.beginPath(); g2d.arc(aX, aY, sc * 1.2, 0, Math.PI * 2); g2d.fillStyle = 'rgba(150,146,140,1)'; g2d.fill(); g2d.globalAlpha = 1;
+        g2d.shadowColor = 'rgba(255,150,60,' + alpha + ')'; g2d.strokeStyle = 'rgba(255,188,98,' + alpha + ')'; g2d.lineWidth = 2.8;
+        g2d.beginPath(); g2d.moveTo(sX, sY); g2d.bezierCurveTo(cx + sc * 3, cy + sc * 5, cx + sc * 15, cy + sc * 2, bX, bY); g2d.stroke();
+        g2d.save(); g2d.translate(bX, bY);
+        for (var r = 0; r < 12; r++) { g2d.rotate(Math.PI * 2 / 12); var rl = sc * (3 + 2 * Math.abs(Math.sin(prog * 5 + r))); g2d.strokeStyle = 'rgba(255,210,140,' + (alpha * 0.8).toFixed(3) + ')'; g2d.lineWidth = 1.5; g2d.beginPath(); g2d.moveTo(0, -sc * 2.4); g2d.lineTo(0, -sc * 2.4 - rl); g2d.stroke(); }
+        var sg = g2d.createRadialGradient(0, 0, 0, 0, 0, sc * 3.2); sg.addColorStop(0, 'rgba(255,244,206,' + alpha + ')'); sg.addColorStop(1, 'rgba(255,180,90,0)');
+        g2d.fillStyle = sg; g2d.beginPath(); g2d.arc(0, 0, sc * 3.2, 0, Math.PI * 2); g2d.fill(); g2d.restore();
+        var tp = Math.min(1, prog * 1.2), u2 = 1 - tp;
+        var pax = u2 * u2 * sX + 2 * u2 * tp * (cx - sc * 9) + tp * tp * aX, pay = u2 * u2 * sY + 2 * u2 * tp * (cy + sc * 3) + tp * tp * aY;
+        g2d.fillStyle = 'rgba(220,214,204,' + alpha + ')'; g2d.beginPath(); g2d.arc(pax, pay, sc * 0.9, 0, Math.PI * 2); g2d.fill();
+        g2d.shadowBlur = 0; g2d.lineCap = 'butt'; g2d.restore();
+      }
       var CRACKS = [
         [[0, 6], [-2, 1], [3, -4], [-1, -9], [2, -14]],
         [[0, 1], [-6, -3], [-5, -9]],
@@ -797,7 +955,7 @@
       ];
 
       // --- cząstki ognia (cap ~600) ---
-      var CAP = 600, parts = [], sparks = [];
+      var CAP = 700, parts = [], sparks = [];
       function spawnFire(px, py, vx, vy, size) {
         if (parts.length >= CAP) return;
         parts.push({ x: px, y: py, vx: vx, vy: vy, size: size, life: 0, max: 42 + Math.random() * 46 });
@@ -819,18 +977,20 @@
 
       // --- stan / oś czasu (~8 s, pomijalne) ---
       var start = performance.now(), raf = 0, killed = false;
-      var shake = 0, flash = 0, ignite = 0, heartIn = 0, titleP = 0;
+      var shake = 0, flash = 0, ignite = 0, heartIn = 0, titleP = 0, burstAmt = 0, phxBorn = false, titleBorn = false;
       var comet = null, cometFired = false, exploded = false, sec1 = false, sec2 = false, sec3 = false;
       var rings = [], shards = [], chargeP = 0, heartAlive = 1;
-      var COMET_T = 0.8, COMET_DUR = 0.5, CHARGE_T = 5.3, EXPLODE_T = 6.05, TITLE_T = 6.6, END_T = 9.9;
+      var COMET_T = 8.7, COMET_DUR = 0.5, CHARGE_T = 16.3, EXPLODE_T = 17.9, PHX_T = 19.6, PHX_DUR = 2.8, TITLE_T = 22.0, END_T = 24.4;
+      var CLOCK_A = 4.4, CLOCK_B = 7.0, FORK_A = 12.8, FORK_B = 15.5;
       var PAL = ['#fff6d0', '#fcd34d', '#fb923c', '#f43f5e', '#ffe9c7'];
+      var introPhx = false;
 
       function launchComet() {
         comet = { sx: W * 0.14, sy: -H * 0.14, ex: W / 2, ey: H * 0.46, x: 0, y: 0, dx: 0, dy: 0 };
         comet.x = comet.sx; comet.y = comet.sy;
       }
       function impact() {
-        shake = 1; flash = 1; ignite = Math.max(ignite, 0.06); ring(0.45);
+        shake = 1; flash = 1; ignite = Math.max(ignite, 0.06); ring(0.45); burstAmt = Math.max(burstAmt, 1);
         for (var i = 0; i < 90; i++) {
           var a = Math.random() * Math.PI * 2, sp = 2 + Math.random() * 7.5;
           spawnFire(cx + (Math.random() - .5) * 22 * sc, cy + (Math.random() - .5) * 12 * sc,
@@ -860,7 +1020,7 @@
         }
       }
       function explode() {
-        exploded = true; shake = 1.5; flash = 1.5;
+        exploded = true; shake = 1.5; flash = 1.5; burstAmt = 1.3;
         ring(1.15); ring(0.7); spawnShards(); bigBurst(190, 280);
       }
 
@@ -872,9 +1032,40 @@
         var beat = 1 + Math.sin(t * (ignite > 0.2 ? 5.4 : 3.0)) * (0.03 + 0.055 * ignite);
         sc *= beat;
 
-        // wyzwalacze osi czasu — szybszy start, dłuższy dramatyczny finał
+        // ==== NARRACJA: pełnometrażowe intro oparte na historii ====
         if (t > 0.1) pl.classList.add('bars');
-        heartIn = Math.min(1, t / 0.7);
+
+        // AKT I — NARODZINY: wir iskier zbiega się do środka i zapala serce
+        var phoenixDraw = null;
+        // atmosfera: ciągły, delikatny dryf żaru (głębia) przez cały film
+        if (parts.length < CAP - 40 && Math.random() < 0.5) {
+          parts.push({ x: Math.random() * W, y: H + 8, vx: (Math.random() - .5) * 0.4, vy: -0.5 - Math.random() * 0.9, size: 3 + Math.random() * 5, life: 0, max: 60 + Math.random() * 60 });
+        }
+        if (t >= 0.3 && t < 2.9) {
+          var bp = Math.max(0, Math.min(1, (t - 0.3) / 2.2)), spawnK = Math.round((1 - bp) * 5) + 1;
+          for (var bi = 0; bi < spawnK && parts.length < CAP; bi++) {
+            var ba = Math.random() * Math.PI * 2, bR = (0.06 + 0.4 * (1 - bp)) * Math.min(W, H);
+            var bpx = cx + Math.cos(ba) * bR, bpy = cy + Math.sin(ba) * bR, inw = 2.4 + Math.random() * 2.4;
+            parts.push({ x: bpx, y: bpy, vx: -Math.cos(ba) * inw - Math.sin(ba) * 1.6, vy: -Math.sin(ba) * inw + Math.cos(ba) * 1.6,
+              size: 5 + Math.random() * 7, life: 0, max: 20 + Math.random() * 16 });
+          }
+        }
+        // serce materializuje się w miarę zbiegania iskier
+        heartIn = Math.max(0, Math.min(1, (t - 1.7) / 1.0));
+        // widoczność serca — wygaszone podczas scen (zegar / rozwidlenie), spięcie żarem
+        var heartVis = (1 - 0.92 * envlp(t, CLOCK_A + 0.15, CLOCK_B - 0.15, 0.55)) * (1 - 0.92 * envlp(t, FORK_A + 0.15, FORK_B - 0.15, 0.55));
+        // żar wokół zegara + „telefony” (pingi)
+        if (t >= CLOCK_A && t < CLOCK_B) {
+          if (parts.length < CAP && Math.random() < 0.7) { var ca2 = Math.random() * Math.PI * 2, cr = sc * 12; parts.push({ x: cx + Math.cos(ca2) * cr, y: cy + Math.sin(ca2) * cr, vx: -Math.sin(ca2) * 0.8, vy: Math.cos(ca2) * 0.8 - 0.3, size: 3 + Math.random() * 4, life: 0, max: 22 + Math.random() * 16 }); }
+          if (Math.random() < 0.22) { var pa2 = Math.random() * Math.PI * 2, pr = sc * (13 + Math.random() * 4); sparks.push({ x: cx + Math.cos(pa2) * pr, y: cy + Math.sin(pa2) * pr, vx: 0, vy: 0, life: 0, max: 16, size: 2.6, col: '#fff6d0' }); }
+        }
+        // opadający popiół po roztrzaskaniu (żałoba) — spięcie do odrodzenia
+        if (t > EXPLODE_T + 0.3 && t < EXPLODE_T + 2.5 && Math.random() < 0.75) {
+          sparks.push({ x: Math.random() * W, y: -10, vx: (Math.random() - .5) * 0.5, vy: 0.3 + Math.random() * 0.8, life: 0, max: 120 + Math.random() * 80, size: 1.2 + Math.random() * 2.2, col: Math.random() < 0.5 ? '#7a4a2a' : '#c98a4a' });
+        }
+        // ODDECH: chwila ciszy tuż przed uderzeniem (kontrast dramaturgiczny)
+        var calm = (t > 7.3 && t < COMET_T) ? Math.min(1, (t - 7.3) / 0.6) * Math.min(1, (COMET_T - t) / 0.4) : 0;
+
         if (t >= COMET_T && !cometFired) { cometFired = true; launchComet(); }
         if (comet) {
           var cp = Math.min(1, (t - COMET_T) / COMET_DUR), e = cp * cp; // przyspieszenie
@@ -884,7 +1075,11 @@
           comet.dx = ddx / dl; comet.dy = ddy / dl;
           if (cp >= 1) { comet = null; impact(); }
         }
-        if (cometFired && !comet && !exploded) ignite = Math.min(1, ignite + 0.011);
+        // AKT I: serce ciepłe od włożonej roboty → AKT II: zdrada rozpala pożar
+        if (!cometFired) {
+          if (heartIn >= 1) ignite = Math.min(0.34, ignite + 0.0038);
+          if (calm > 0) ignite = Math.min(ignite, 0.34 * (1 - 0.78 * calm));   // wstrzymany oddech
+        } else if (!comet && !exploded) ignite = Math.min(1, ignite + 0.013);
         // faza ładowania: implozja iskier do serca, rozgrzanie do białości
         if (t >= CHARGE_T && t < EXPLODE_T) {
           chargeP = (t - CHARGE_T) / (EXPLODE_T - CHARGE_T); ignite = 1;
@@ -904,14 +1099,39 @@
           if (!sec2 && t >= EXPLODE_T + 0.9) { sec2 = true; shake = Math.max(shake, 0.8); flash = Math.max(flash, 0.7); ring(0.65); bigBurst(80, 100); }
           if (!sec3 && t >= EXPLODE_T + 1.5) { sec3 = true; shake = Math.max(shake, 0.6); flash = Math.max(flash, 0.55); ring(0.5); bigBurst(60, 80); }
         }
+        // AKT IV: feniks odradza się z popiołu — wolumetryczny ognisty ptak wzlatuje
+        if (t >= PHX_T && t < PHX_T + PHX_DUR) {
+          if (!phxBorn) { phxBorn = true; flash = Math.max(flash, 1.1); burstAmt = Math.max(burstAmt, 0.9); }
+          var php = (t - PHX_T) / PHX_DUR;
+          var flap = Math.sin(t * 6.2) * (php < 0.62 ? 1 : Math.max(0, (1 - php) / 0.38));
+          var pu = sc * (0.78 + 0.32 * php);
+          var pY = cy - php * H * 0.14;
+          var pOut = php < 0.85 ? Math.min(1, php / 0.16) : Math.max(0, (1 - php) / 0.15);
+          var ppath = phoenixSil(pu, cx, pY, flap);
+          emitPhoenix(ppath, cx, pY, pu, 64);
+          phoenixDraw = { path: ppath, X: cx, Y: pY, u: pu, alpha: 0.55 * pOut + 0.1 };
+          for (var w3 = -1; w3 <= 1 && parts.length < CAP; w3 += 2) {
+            var wtx = cx + w3 * 17 * pu, wty = pY - 6 * pu - flap * 8 * pu;
+            sparks.push({ x: wtx, y: wty, vx: w3 * (0.6 + Math.random() * 1.2), vy: -0.4 - Math.random() * 1.4, life: 0, max: 50 + Math.random() * 50, size: 1.4 + Math.random() * 2.4, col: PAL[(Math.random() * PAL.length) | 0] });
+          }
+        }
+        // AKT V — TYTUŁ z żaru: iskry zbiegają się i rozpalają napis
+        if (t >= TITLE_T - 0.5 && t < TITLE_T + 1.1) {
+          var tep = Math.max(0, Math.min(1, (t - (TITLE_T - 0.5)) / 1.5));
+          if (!titleBorn && t >= TITLE_T) { titleBorn = true; flash = Math.max(flash, 0.7); burstAmt = Math.max(burstAmt, 0.5); }
+          for (var vi = 0; vi < 4 && parts.length < CAP; vi++) {
+            var va = Math.random() * Math.PI * 2, vR = (0.05 + 0.34 * (1 - tep)) * Math.min(W, H);
+            parts.push({ x: cx + Math.cos(va) * vR, y: cy + Math.sin(va) * vR, vx: -Math.cos(va) * (3 + Math.random() * 3), vy: -Math.sin(va) * (3 + Math.random() * 3), size: 4 + Math.random() * 5, life: 0, max: 18 + Math.random() * 14 });
+          }
+        }
         if (t >= END_T) { killPl(); return; }
 
         // wygaszenia
-        shake *= 0.9; flash *= 0.9;
+        shake *= 0.9; flash *= 0.9; burstAmt *= 0.86;
 
         // budujemy ścieżkę serca; test isPointInPath przy CTM = tożsamość
         var hp = heartPath(sc, cx, cy);
-        if (heartIn >= 1) emitFromHeart(hp, cx, cy, sc, Math.round(2 + ignite * 11), 0.6 + ignite * 1.3);
+        if (heartIn >= 1 && heartVis > 0.5) emitFromHeart(hp, cx, cy, sc, Math.round(2 + ignite * 11), 0.6 + ignite * 1.3);
 
         // fizyka cząstek
         for (var i = parts.length - 1; i >= 0; i--) {
@@ -931,7 +1151,7 @@
         // ==== RYSOWANIE ====
         // „smugi": półprzezroczysty clear co klatkę
         g2d.globalCompositeOperation = 'source-over';
-        g2d.fillStyle = 'rgba(6,4,3,' + (exploded ? 0.15 : 0.26) + ')';
+        g2d.fillStyle = 'rgba(6,4,3,' + (phoenixDraw ? 0.34 : (exploded ? 0.15 : 0.26)) + ')';
         g2d.fillRect(0, 0, W, H);
 
         var sx = (Math.random() - .5) * 24 * shake, sy = (Math.random() - .5) * 24 * shake;
@@ -949,9 +1169,9 @@
         }
 
         // korpus serca — żarzący rdzeń
-        if (heartIn > 0.01 && heartAlive > 0.01) {
+        if (heartIn > 0.01 && heartAlive > 0.01 && heartVis > 0.02) {
           g2d.globalCompositeOperation = 'source-over';
-          g2d.globalAlpha = heartIn * heartAlive;
+          g2d.globalAlpha = heartIn * heartAlive * heartVis;
           var core = g2d.createRadialGradient(cx, cy + 3 * sc, 2, cx, cy, 16 * sc);
           core.addColorStop(0, 'rgba(' + (120 + ignite * 135) + ',' + (22 + ignite * 118) + ',22,1)');
           core.addColorStop(0.55, 'rgba(' + (92 + ignite * 70) + ',22,26,1)');
@@ -970,14 +1190,14 @@
           // rim light
           g2d.globalCompositeOperation = 'lighter';
           g2d.lineWidth = 2.2 + chargeP * 2;
-          g2d.strokeStyle = 'rgba(255,' + Math.round(150 + ignite * 60 + chargeP * 40) + ',92,' + ((0.45 * heartIn + 0.42 * ignite) * heartAlive).toFixed(3) + ')';
+          g2d.strokeStyle = 'rgba(255,' + Math.round(150 + ignite * 60 + chargeP * 40) + ',92,' + ((0.45 * heartIn + 0.42 * ignite) * heartAlive * heartVis).toFixed(3) + ')';
           g2d.shadowBlur = 22 + ignite * 26 + chargeP * 30; g2d.shadowColor = 'rgba(255,128,50,' + (0.6 + 0.4 * ignite).toFixed(3) + ')';
           g2d.stroke(hp);
           g2d.shadowBlur = 0;
         }
 
-        // pęknięcia świecące
-        if (ignite > 0.06 && !exploded) {
+        // pęknięcia świecące — dopiero gdy zdrada rozpali serce
+        if (ignite > 0.42 && !exploded) {
           var cg = (0.55 + 0.45 * Math.sin(t * 7)) * ignite;
           g2d.globalCompositeOperation = 'lighter';
           g2d.strokeStyle = 'rgba(255,240,190,' + cg.toFixed(3) + ')';
@@ -994,6 +1214,12 @@
           g2d.shadowBlur = 0;
         }
 
+        // SET-PIECE'y w miejscu serca: zegar (włożone godziny) i rozwidlenie dróg (25 minut)
+        var clockA = envlp(t, CLOCK_A, CLOCK_B, 0.5);
+        if (clockA > 0.01) drawClock((t - CLOCK_A) / (CLOCK_B - CLOCK_A), clockA);
+        var forkA = envlp(t, FORK_A, FORK_B, 0.55);
+        if (forkA > 0.01) drawFork((t - FORK_A) / (FORK_B - FORK_A), forkA);
+
         // cząstki ognia (drawImage, lighter)
         g2d.globalCompositeOperation = 'lighter';
         for (var d = 0; d < parts.length; d++) {
@@ -1002,6 +1228,15 @@
           var sz = pp.size * (1 + k * 0.5);
           g2d.globalAlpha = (1 - k) * 0.92;
           g2d.drawImage(SP[idx], pp.x - sz / 2, pp.y - sz / 2, sz, sz);
+        }
+        // feniks — masa/blask ciała pod ogniem (sylwetka)
+        if (phoenixDraw) {
+          g2d.globalCompositeOperation = 'lighter';
+          var pgr = g2d.createLinearGradient(phoenixDraw.X, phoenixDraw.Y - 13 * phoenixDraw.u, phoenixDraw.X, phoenixDraw.Y + 22 * phoenixDraw.u);
+          pgr.addColorStop(0, 'rgba(255,240,200,' + (0.19 * phoenixDraw.alpha).toFixed(3) + ')');
+          pgr.addColorStop(0.5, 'rgba(255,150,70,' + (0.13 * phoenixDraw.alpha).toFixed(3) + ')');
+          pgr.addColorStop(1, 'rgba(230,60,60,0)');
+          g2d.fillStyle = pgr; g2d.fill(phoenixDraw.path);
         }
         // deszcz iskier
         for (var e2 = 0; e2 < sparks.length; e2++) {
@@ -1064,12 +1299,77 @@
 
         g2d.restore();
 
+        // ==== KOMPOZYCJA FILMOWA: kamera (dolly) + bloom + zoom-blur + promienie + flary ====
+        var cam = (t < EXPLODE_T) ? (1.0 + Math.min(1, t / EXPLODE_T) * 0.10) : (1.10 - Math.min(1, (t - EXPLODE_T) / 3.2) * 0.12);
+        vctx.setTransform(1, 0, 0, 1, 0, 0);
+        vctx.globalCompositeOperation = 'source-over'; vctx.globalAlpha = 1;
+        vctx.fillStyle = '#050302'; vctx.fillRect(0, 0, W, H);
+        vctx.save();
+        vctx.translate(W / 2, H / 2); vctx.scale(cam, cam); vctx.translate(-W / 2, -H / 2);
+        vctx.drawImage(sceneCanvas, 0, 0);
+        if (burstAmt > 0.02) {
+          vctx.globalCompositeOperation = 'lighter';
+          for (var zb = 1; zb <= 3; zb++) {
+            var zs = 1 + zb * 0.03 * burstAmt;
+            vctx.globalAlpha = burstAmt * 0.2 * (1 - zb / 4);
+            vctx.save(); vctx.translate(cx, cy); vctx.scale(zs, zs); vctx.translate(-cx, -cy); vctx.drawImage(sceneCanvas, 0, 0); vctx.restore();
+          }
+          vctx.globalAlpha = 1;
+        }
+        vctx.restore();
+        // bloom: downsample -> blur -> additywny upscale
+        bctx.setTransform(1, 0, 0, 1, 0, 0);
+        bctx.clearRect(0, 0, bloomCanvas.width, bloomCanvas.height);
+        bctx.globalCompositeOperation = 'source-over'; bctx.filter = 'blur(1.2px)';
+        bctx.drawImage(sceneCanvas, 0, 0, bloomCanvas.width, bloomCanvas.height);
+        bctx.filter = 'none';
+        vctx.globalCompositeOperation = 'lighter'; vctx.globalAlpha = 0.72;
+        vctx.save(); vctx.translate(W / 2, H / 2); vctx.scale(cam, cam); vctx.translate(-W / 2, -H / 2);
+        vctx.drawImage(bloomCanvas, 0, 0, W, H);
+        vctx.restore(); vctx.globalAlpha = 1;
+        // promienie światła (god rays) przy wysokiej intensywności / feniksie
+        var rayI = Math.max(ignite * 0.4, phoenixDraw ? 0.55 : 0) - (exploded && !phoenixDraw ? 0.2 : 0);
+        if (rayI > 0.06) {
+          var ryy = phoenixDraw ? phoenixDraw.Y : cy, big = Math.max(W, H);
+          vctx.save(); vctx.globalCompositeOperation = 'lighter'; vctx.translate(cx, ryy); vctx.rotate(t * 0.16);
+          for (var gr2 = 0; gr2 < 7; gr2++) {
+            vctx.rotate(Math.PI * 2 / 7);
+            var rgd = vctx.createLinearGradient(0, 0, 0, -big);
+            rgd.addColorStop(0, 'rgba(255,190,110,' + (0.05 * rayI).toFixed(3) + ')');
+            rgd.addColorStop(1, 'rgba(255,190,110,0)');
+            vctx.fillStyle = rgd; vctx.beginPath(); vctx.moveTo(-16, 0); vctx.lineTo(16, 0); vctx.lineTo(70, -big); vctx.lineTo(-70, -big); vctx.closePath(); vctx.fill();
+          }
+          vctx.restore();
+        }
+        // anamorficzna flara pozioma + delikatny pion przy błysku
+        if (flash > 0.05) {
+          var fyy = phoenixDraw ? phoenixDraw.Y : cy;
+          vctx.globalCompositeOperation = 'lighter';
+          var lgH = vctx.createLinearGradient(0, fyy, W, fyy);
+          lgH.addColorStop(0, 'rgba(255,190,130,0)'); lgH.addColorStop(0.5, 'rgba(255,225,185,' + Math.min(0.7, 0.6 * flash).toFixed(3) + ')'); lgH.addColorStop(1, 'rgba(255,190,130,0)');
+          vctx.fillStyle = lgH; vctx.fillRect(0, fyy - 2.4, W, 5);
+          var lgV = vctx.createLinearGradient(cx, 0, cx, H);
+          lgV.addColorStop(0, 'rgba(255,210,170,0)'); lgV.addColorStop(0.5, 'rgba(255,225,190,' + (0.28 * flash).toFixed(3) + ')'); lgV.addColorStop(1, 'rgba(255,210,170,0)');
+          vctx.fillStyle = lgV; vctx.fillRect(cx - 1.4, 0, 3, H);
+        }
+        if (flash > 0.6) { vctx.globalCompositeOperation = 'lighter'; vctx.globalAlpha = Math.min(0.85, (flash - 0.6) * 1.7); vctx.fillStyle = '#fff4e2'; vctx.fillRect(0, 0, W, H); vctx.globalAlpha = 1; }
+        vctx.globalCompositeOperation = 'source-over'; vctx.globalAlpha = 1;
+
         // tytuł wyłania się z ognia
         if (t >= TITLE_T) {
           titleP = Math.min(1, (t - TITLE_T) / 1.1);
           var te = 1 - Math.pow(1 - titleP, 3);
           plTitle.style.opacity = te.toFixed(3);
           plTitle.style.transform = 'translate(' + sx.toFixed(1) + 'px,' + ((1 - te) * 34 + sy).toFixed(1) + 'px) scale(' + (0.92 + 0.08 * te).toFixed(3) + ')';
+        }
+
+        // narracyjna, emocjonalna typografia — cała historia zsynchronizowana z ogniem
+        for (var kb = 0; kb < beatEls.length; kb++) {
+          var Bt = STORY[kb], ov = envlp(t, Bt.a, Bt.b, 0.5), ce = ov * ov * (3 - 2 * ov);
+          beatEls[kb].style.opacity = ce.toFixed(3);
+          var bsc = (Bt.cls === 'huge') ? (0.86 + 0.14 * ce) : 1;
+          beatEls[kb].style.transform = 'translate(-50%,calc(-50% + ' + ((1 - ce) * 16).toFixed(1) + 'px)) scale(' + bsc.toFixed(3) + ')';
+          beatEls[kb].style.filter = 'blur(' + ((1 - ce) * 6).toFixed(2) + 'px)';
         }
 
         raf = requestAnimationFrame(frame);
@@ -1079,14 +1379,33 @@
         if (killed) return; killed = true;
         cancelAnimationFrame(raf);
         window.removeEventListener('resize', resize);
-        var n = pl; pl = null; n.classList.add('ending');
+        cleanupSkip();
+        introRunning = false;
+        var n = pl; n.classList.add('ending');
         setTimeout(function () { if (n && n.parentNode) n.parentNode.removeChild(n); }, 620);
+        showReplayBtn();
       }
 
+      // pomijanie: klik zawsze; intencjonalny gest (wheel/touch/klawisz) dopiero po krótkiej łasce,
+      // żeby przywrócony scroll przy odświeżeniu nie pominął intro
       pl.addEventListener('click', killPl);
-      window.addEventListener('scroll', function () { killPl(); }, { once: true, passive: true });
+      var skipArmed = false;
+      var armTimer = setTimeout(function () { skipArmed = true; }, 500);
+      function onIntent() { if (skipArmed) killPl(); }
+      function cleanupSkip() {
+        clearTimeout(armTimer);
+        window.removeEventListener('wheel', onIntent);
+        window.removeEventListener('touchmove', onIntent);
+        window.removeEventListener('keydown', onIntent);
+      }
+      window.addEventListener('wheel', onIntent, { passive: true });
+      window.addEventListener('touchmove', onIntent, { passive: true });
+      window.addEventListener('keydown', onIntent);
+
       raf = requestAnimationFrame(frame);
     }
+
+    runIntro();
   }
 
   // ===== 3D tilt kart + glare za kursorem =====
