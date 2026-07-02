@@ -244,85 +244,31 @@
   @keyframes emberBeat { 0%,100%{transform:scale(1)} 45%{transform:scale(1.18) rotate(-3deg)} 70%{transform:scale(1.06)} }
   @keyframes trophyGlow { 0%,100%{filter:drop-shadow(0 0 4px rgba(251,191,36,.55))} 50%{filter:drop-shadow(0 0 15px rgba(251,191,36,1))} }
 
-  /* ===== preloader: płonące serce ===== */
-  .preloader { position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#050302;
-    animation:preSafety 9s forwards;
-    --heart:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 86 C50 86 10 58 10 32 C10 16 24 10 35 16 C43 20 47 27 50 33 C53 27 57 20 65 16 C76 10 90 16 90 32 C90 58 50 86 50 86 Z' fill='%23000'/%3E%3C/svg%3E");
-    --ekg:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='40'%3E%3Cpath d='M0 20 H66 L74 20 L80 6 L88 34 L94 20 H200' fill='none' stroke='%23fb7185' stroke-width='2'/%3E%3C/svg%3E");
-    --ekgflat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='40'%3E%3Cpath d='M0 20 H200' fill='none' stroke='%23c8ac93' stroke-width='2'/%3E%3C/svg%3E"); }
+  /* ===== preloader: filmowe płonące serce (silnik cząsteczkowy na canvas) ===== */
+  .preloader { position:fixed; inset:0; z-index:200; overflow:hidden; background:#050302; animation:preSafety 11.2s forwards; }
   @keyframes preSafety { 0%,99%{visibility:visible} 100%{visibility:hidden; pointer-events:none} }
-  .preloader.ending { opacity:0; transform:scale(1.05); transition:opacity .55s ease, transform .55s ease; }
-  .pl-sky { position:absolute; inset:0; opacity:.2; transition:opacity 1.4s ease;
-    background:radial-gradient(60% 55% at 50% 52%, #24100c, #050302 72%); }
-  .preloader.a3 .pl-sky { opacity:.75; } .preloader.a4 .pl-sky, .preloader.a5 .pl-sky { opacity:1; }
-  .preloader.aend .pl-sky { opacity:.5; transition:opacity .8s ease; }
-  .pl-stage { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-  .preloader.shake .pl-stage { animation:plShake .5s ease; }
-  /* heart */
-  .pl-heart { position:relative; width:44vmin; height:44vmin; -webkit-mask:var(--heart) center/contain no-repeat; mask:var(--heart) center/contain no-repeat;
-    filter:drop-shadow(0 0 34px rgba(251,113,133,.5)); opacity:0; transform:scale(.6); transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
-  .preloader.a1 .pl-heart, .preloader.a2 .pl-heart { opacity:1; transform:scale(1); animation:heartbeat 1.05s ease-in-out .8s infinite; }
-  .preloader.a3 .pl-heart, .preloader.a4 .pl-heart, .preloader.a5 .pl-heart { opacity:1; animation:heartbeat .78s ease-in-out infinite;
-    filter:drop-shadow(0 0 60px rgba(251,146,60,.85)) saturate(1.35) brightness(1.18); }
-  .preloader.aend .pl-heart { animation:none; opacity:0; transform:scale(1.18); filter:drop-shadow(0 0 90px rgba(251,146,60,.9)) brightness(1.7); transition:opacity 1s ease, transform 1s ease, filter .8s ease; }
-  .pl-heart-base { position:absolute; inset:0; background:radial-gradient(circle at 50% 42%, #7f1d1d, #4c0519 72%); }
-  .pl-heart-fire { position:absolute; left:-4%; right:-4%; bottom:0; height:112%; mix-blend-mode:screen; transform:translateY(100%); transition:transform 1.9s cubic-bezier(.3,.7,.3,1);
-    background:linear-gradient(0deg, #fff6d0, #fcd34d 20%, #fb923c 46%, #f43f5e 72%, transparent 96%); }
-  .preloader.a2 .pl-heart-fire { transform:translateY(64%); }
-  .preloader.a3 .pl-heart-fire, .preloader.a4 .pl-heart-fire, .preloader.a5 .pl-heart-fire { transform:translateY(0%); animation:heartFlick 1.6s ease-in-out infinite 1.9s; }
-  .preloader.aend .pl-heart-fire { transform:translateY(-10%); }
-  .pl-heart-glow { position:absolute; inset:0; opacity:0; transition:opacity 1s ease; background:radial-gradient(circle at 50% 58%, rgba(255,240,200,.85), transparent 60%); mix-blend-mode:screen; }
-  .preloader.a3 .pl-heart-glow, .preloader.a4 .pl-heart-glow, .preloader.a5 .pl-heart-glow { opacity:.85; }
-  /* języki ognia liżące serce */
-  .pl-flames { position:absolute; top:44%; left:50%; width:46vmin; height:46vmin; margin:-27vmin 0 0 -23vmin; pointer-events:none; opacity:0; transition:opacity .7s ease; z-index:2; }
-  .preloader.a2 .pl-flames { opacity:.55; } .preloader.a3 .pl-flames, .preloader.a4 .pl-flames, .preloader.a5 .pl-flames { opacity:1; }
-  .preloader.aend .pl-flames { opacity:0; transition:opacity .5s ease; }
-  .pl-flames span { position:absolute; bottom:8%; width:10vmin; height:24vmin; margin-left:-5vmin; transform-origin:50% 100%; mix-blend-mode:screen; filter:blur(5px);
-    border-radius:50% 50% 46% 44% / 66% 62% 40% 36%; background:radial-gradient(50% 62% at 50% 82%, #fff6d0, #fcd34d 28%, #fb923c 56%, #f43f5e 78%, transparent 88%); animation:lick 1.4s ease-in-out infinite; }
-  .pl-flames span:nth-child(1){ left:14%; height:16vmin; animation-delay:-.2s; }
-  .pl-flames span:nth-child(2){ left:26%; height:26vmin; animation-delay:-.9s; }
-  .pl-flames span:nth-child(3){ left:38%; height:32vmin; animation-delay:-.45s; }
-  .pl-flames span:nth-child(4){ left:50%; height:38vmin; width:12vmin; margin-left:-6vmin; animation-delay:-1.2s; }
-  .pl-flames span:nth-child(5){ left:62%; height:31vmin; animation-delay:-.6s; }
-  .pl-flames span:nth-child(6){ left:74%; height:24vmin; animation-delay:-1.05s; }
-  .pl-flames span:nth-child(7){ left:86%; height:16vmin; animation-delay:-.35s; }
-  /* pęknięcia serca (świecą) */
-  .pl-crack { position:absolute; inset:0; opacity:0; mix-blend-mode:screen; pointer-events:none; filter:drop-shadow(0 0 6px rgba(251,146,60,.95));
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23fff3c7' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M50 26 L47 42 L55 52 L49 64 L52 78'/%3E%3Cpath d='M50 40 L38 50 L43 63'/%3E%3Cpath d='M52 48 L64 55 L59 68'/%3E%3Cpath d='M47 42 L34 40'/%3E%3C/g%3E%3C/svg%3E") center/84% no-repeat; }
-  .preloader.a4 .pl-crack, .preloader.a5 .pl-crack { opacity:.9; animation:crackGlow 1.1s ease-in-out infinite; }
-  .preloader.aend .pl-crack { opacity:0; }
-  .pl-ring { position:absolute; top:44%; left:50%; width:30vmin; height:30vmin; margin:-15vmin 0 0 -15vmin; border-radius:50%; border:2px solid rgba(251,113,133,.85);
-    box-shadow:0 0 34px rgba(251,113,133,.6); mix-blend-mode:screen; opacity:0; transform:scale(.2); }
-  .pl-ring.go { animation:plRing .9s ease-out; }
-  .pl-word { position:relative; z-index:3; margin-top:4vmin; font-family:var(--f-disp); font-weight:800; font-size:clamp(40px,11vw,110px); letter-spacing:.05em; text-transform:uppercase; line-height:.9;
-    color:transparent; background:linear-gradient(180deg,#fff3c7,#fb923c); -webkit-background-clip:text; background-clip:text;
-    filter:drop-shadow(0 8px 40px rgba(251,146,60,.7)); opacity:0; transform:translateY(16px) scale(.9); transition:opacity .7s ease, transform .7s cubic-bezier(.2,1.1,.25,1); }
-  .preloader.a4 .pl-word, .preloader.a5 .pl-word { opacity:1; transform:none; }
-  .preloader.aend .pl-word { opacity:0; transform:translateY(-54px) scale(1.12); filter:blur(9px); transition:opacity 1s ease-in, transform 1s ease-in; }
-  .pl-tag { margin-top:14px; font-family:var(--f-mono); font-weight:700; font-size:clamp(11px,2.6vw,15px); letter-spacing:.42em; text-transform:uppercase; color:#fdba74;
-    opacity:0; transform:translateY(8px); transition:opacity .6s ease .15s, transform .6s ease .15s; text-shadow:0 0 14px rgba(251,146,60,.6); }
-  .preloader.a4 .pl-tag, .preloader.a5 .pl-tag { opacity:.92; transform:none; }
-  .preloader.aend .pl-tag { opacity:0; transition:opacity .5s ease; }
-  .pl-ekg { position:absolute; bottom:-12vmin; left:50%; transform:translateX(-50%); width:min(66vw,380px); height:40px; opacity:0; transition:opacity .6s ease;
-    background:var(--ekg) repeat-x left center / 200px 40px; }
-  .preloader.a1 .pl-ekg, .preloader.a2 .pl-ekg, .preloader.a3 .pl-ekg, .preloader.a4 .pl-ekg, .preloader.a5 .pl-ekg { opacity:.85; animation:ekgScroll 1.05s linear infinite; }
-  .preloader.aend .pl-ekg { animation:none; background:var(--ekgflat) repeat-x left center / 200px 40px; opacity:.35; }
-  .pl-embers { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
-  .pl-embers span { position:absolute; border-radius:50%; mix-blend-mode:screen; background:radial-gradient(circle at 30% 30%,#fff6e0,#fb923c 55%,#fb7185); box-shadow:0 0 10px rgba(251,146,60,.8); }
-  .pl-flash { position:absolute; inset:0; pointer-events:none; opacity:0; mix-blend-mode:screen;
-    background:radial-gradient(56% 56% at 50% 46%, rgba(255,240,210,.9), rgba(251,113,133,.4) 40%, transparent 72%); }
-  .pl-flash.go { animation:plFlash .5s ease-out; }
-  .pl-skip { position:absolute; bottom:26px; left:50%; transform:translateX(-50%); font-family:var(--f-body); font-size:12px; letter-spacing:.12em; text-transform:uppercase;
-    color:#c8ac93; opacity:0; transition:opacity .6s ease; }
-  .preloader.a2 .pl-skip, .preloader.a3 .pl-skip, .preloader.a4 .pl-skip, .preloader.a5 .pl-skip { opacity:.55; } .preloader.aend .pl-skip { opacity:0; }
-  @keyframes heartbeat { 0%,100%{transform:scale(1)} 14%{transform:scale(1.12)} 28%{transform:scale(1)} 42%{transform:scale(1.07)} 56%{transform:scale(1)} }
-  @keyframes heartFlick { 0%,100%{opacity:.92} 50%{opacity:1; filter:brightness(1.15)} }
-  @keyframes lick { 0%,100%{ transform:translateY(0) scaleY(1) scaleX(1); opacity:.72 } 28%{ transform:translateY(-7%) scaleY(1.28) scaleX(.88); opacity:.98 } 58%{ transform:translateY(-2%) scaleY(.9) scaleX(1.1); opacity:.8 } 78%{ transform:translateY(-4%) scaleY(1.12) scaleX(.96); opacity:.9 } }
-  @keyframes crackGlow { 0%,100%{opacity:.5} 50%{opacity:1} }
-  @keyframes plShake { 0%,100%{transform:translate(0,0)} 15%{transform:translate(-6px,3px)} 30%{transform:translate(6px,-3px)} 45%{transform:translate(-5px,2px)} 60%{transform:translate(5px,-2px)} 80%{transform:translate(-3px,1px)} }
-  @keyframes plRing { 0%{opacity:.9; transform:scale(.2)} 100%{opacity:0; transform:scale(2.7)} }
-  @keyframes plFlash { 0%{opacity:0} 18%{opacity:1} 100%{opacity:0} }
-  @keyframes ekgScroll { to { background-position-x:-200px; } }
+  .preloader.ending { opacity:0; transition:opacity .6s ease; }
+  .pl-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; z-index:1; }
+  .pl-vign { position:absolute; inset:0; pointer-events:none; z-index:2;
+    background:radial-gradient(125% 96% at 50% 45%, transparent 38%, rgba(0,0,0,.5) 72%, rgba(0,0,0,.92) 100%); }
+  .pl-grain { position:absolute; inset:0; pointer-events:none; z-index:3; opacity:.06; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:170px 170px; animation:grain 6s steps(5) infinite; }
+  .pl-bar { position:absolute; left:0; right:0; height:13.5vh; background:#000; z-index:4; box-shadow:0 0 44px rgba(0,0,0,.85); }
+  .pl-bar.top { top:0; transform:translateY(-101%); transition:transform 1.05s cubic-bezier(.76,0,.24,1); }
+  .pl-bar.bot { bottom:0; transform:translateY(101%); transition:transform 1.05s cubic-bezier(.76,0,.24,1); }
+  .preloader.bars .pl-bar.top, .preloader.bars .pl-bar.bot { transform:none; }
+  .pl-title { position:absolute; inset:0; z-index:5; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+    opacity:0; pointer-events:none; will-change:opacity, transform; }
+  .pl-word { font-family:var(--f-disp); font-weight:800; font-size:clamp(48px,13vw,132px); line-height:.86; letter-spacing:.03em; text-transform:uppercase;
+    color:transparent; background:linear-gradient(180deg,#fff3c7 6%,#fdba74 48%,#fb7185); -webkit-background-clip:text; background-clip:text;
+    filter:drop-shadow(0 6px 36px rgba(251,146,60,.9)) drop-shadow(0 2px 10px rgba(244,63,94,.65)); }
+  .pl-tag { margin-top:16px; font-family:var(--f-mono); font-weight:700; font-size:clamp(11px,2.6vw,15px); letter-spacing:.44em; text-transform:uppercase;
+    color:#fed7aa; text-shadow:0 0 18px rgba(251,146,60,.75); }
+  .pl-skip { position:absolute; bottom:calc(13.5vh + 22px); left:50%; transform:translateX(-50%); z-index:5; font-family:var(--f-body); font-size:12px;
+    letter-spacing:.12em; text-transform:uppercase; color:#c8ac93; opacity:0; transition:opacity .6s ease; }
+  .preloader.bars .pl-skip { opacity:.5; }
+  .preloader.ending .pl-skip { opacity:0; }
 
   /* ===== impact flash + fala uderzeniowa ===== */
   .impact { position:fixed; inset:0; z-index:190; pointer-events:none; opacity:0; mix-blend-mode:screen;
@@ -420,17 +366,12 @@
 </head>
 <body>
 <div class="preloader" aria-hidden="true">
-  <div class="pl-sky"></div>
-  <div class="pl-embers"></div>
-  <div class="pl-stage">
-    <div class="pl-heart"><div class="pl-heart-base"></div><div class="pl-heart-fire"></div><div class="pl-heart-glow"></div><div class="pl-crack"></div></div>
-    <div class="pl-flames"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-    <div class="pl-ring"></div>
-    <div class="pl-word">DO AKT</div>
-    <div class="pl-tag">Sprawa zamknięta</div>
-    <div class="pl-ekg"></div>
-  </div>
-  <div class="pl-flash"></div>
+  <canvas class="pl-canvas"></canvas>
+  <div class="pl-vign"></div>
+  <div class="pl-grain"></div>
+  <div class="pl-bar top"></div>
+  <div class="pl-bar bot"></div>
+  <div class="pl-title"><div class="pl-word">DO AKT</div><div class="pl-tag">Sprawa zamknięta</div></div>
   <div class="pl-skip">dotknij / przewiń, aby pominąć</div>
 </div>
 <div class="impact" aria-hidden="true"></div>
@@ -802,84 +743,349 @@
     hs[hi].appendChild(num);
   }
 
-  // ===== preloader: płonące serce (timeline) =====
+  // ===== preloader: filmowe płonące serce — silnik cząsteczkowy na canvas =====
   var pl = document.querySelector('.preloader');
   if (pl) {
     if (reduce) { pl.remove(); pl = null; }
     else {
-      var killed = false, timers = [], emberInt = null;
-      var flashEl = pl.querySelector('.pl-flash'), ring = pl.querySelector('.pl-ring'), embersBox = pl.querySelector('.pl-embers');
-      function T(ms, fn) { timers.push(setTimeout(fn, ms)); }
-      function flash() { if (!flashEl) return; flashEl.classList.remove('go'); void flashEl.offsetWidth; flashEl.classList.add('go'); }
-      function ringPop() { if (!ring) return; ring.classList.remove('go'); void ring.offsetWidth; ring.classList.add('go'); }
-      function mkE(sz) { var s = document.createElement('span'); s.style.width = sz + 'px'; s.style.height = sz + 'px'; s.style.marginLeft = (-sz / 2) + 'px'; s.style.marginTop = (-sz / 2) + 'px'; return s; }
-      function ambient() {
-        if (killed || !embersBox) return;
-        var sz = 3 + Math.random() * 6, s = mkE(sz);
-        s.style.left = (Math.random() * 100) + '%'; s.style.top = '102%'; s.style.opacity = '0.9';
-        var dur = 2 + Math.random() * 2.4;
-        s.style.transition = 'transform ' + dur + 's linear, opacity ' + dur + 's ease';
-        embersBox.appendChild(s);
-        requestAnimationFrame(function () { s.style.transform = 'translate(' + (Math.random() * 80 - 40) + 'px,-' + (60 + Math.random() * 60) + 'vh) scale(.3)'; s.style.opacity = '0'; });
-        setTimeout(function () { s.remove(); }, dur * 1000 + 120);
+      var plCanvas = pl.querySelector('.pl-canvas');
+      var plTitle  = pl.querySelector('.pl-title');
+      var g2d = plCanvas.getContext('2d');
+      var W = 0, H = 0, cx = 0, cy = 0, sc = 1;
+      function resize() {
+        W = innerWidth; H = innerHeight;
+        plCanvas.width = W; plCanvas.height = H;
       }
-      function burst(n, up) {
-        if (!embersBox) return;
-        var cx = innerWidth / 2, cy = innerHeight * 0.44;
-        for (var i = 0; i < n; i++) {
-          var sz = 4 + Math.random() * 7, s = mkE(sz);
-          s.style.left = up ? ((Math.random() * 100) + '%') : (cx + 'px');
-          s.style.top = up ? '46%' : (cy + 'px'); s.style.opacity = '0.95';
-          var dur = up ? (1.7 + Math.random() * 1.6) : (0.8 + Math.random() * 0.7), tf;
-          if (up) { tf = 'translate(' + (Math.random() * 90 - 45) + 'px,-' + (55 + Math.random() * 70) + 'vh) scale(.3)'; }
-          else { var a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 200; tf = 'translate(' + (Math.cos(a) * d).toFixed(0) + 'px,' + (Math.sin(a) * d).toFixed(0) + 'px) scale(.3)'; }
-          s.style.transition = 'transform ' + dur + 's cubic-bezier(.1,.7,.3,1), opacity ' + dur + 's ease';
-          embersBox.appendChild(s);
-          (function (el, tf2, d2) { requestAnimationFrame(function () { el.style.transform = tf2; el.style.opacity = '0'; }); setTimeout(function () { el.remove(); }, d2 * 1000 + 120); })(s, tf, dur);
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      // --- PRE-renderowane sprity (5 kolorów: biało-żółty -> pomarańcz -> czerwień -> ciemny) ---
+      function makeSprite(stops) {
+        var S = 64, c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d');
+        var grd = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+        for (var i = 0; i < stops.length; i++) grd.addColorStop(stops[i][0], stops[i][1]);
+        g.fillStyle = grd; g.beginPath(); g.arc(S / 2, S / 2, S / 2, 0, Math.PI * 2); g.fill();
+        return c;
+      }
+      var SP = [
+        makeSprite([[0, 'rgba(255,255,250,1)'], [.35, 'rgba(255,245,205,.75)'], [1, 'rgba(255,240,180,0)']]),  // biało-żółty rdzeń
+        makeSprite([[0, 'rgba(255,233,150,1)'], [.4, 'rgba(255,192,92,.6)'], [1, 'rgba(255,170,60,0)']]),       // żółty
+        makeSprite([[0, 'rgba(255,150,62,.95)'], [.45, 'rgba(242,96,34,.5)'], [1, 'rgba(230,70,20,0)']]),       // pomarańcz
+        makeSprite([[0, 'rgba(222,56,46,.9)'], [.5, 'rgba(150,26,22,.4)'], [1, 'rgba(120,16,16,0)']]),          // czerwień
+        makeSprite([[0, 'rgba(74,24,18,.7)'], [.6, 'rgba(34,12,10,.32)'], [1, 'rgba(10,4,4,0)']])               // ciemny dym
+      ];
+
+      // --- serce parametryczne: x=16sin³t, y=13cos t−5cos2t−2cos3t−cos4t ---
+      function heartPath(scale, ox, oy) {
+        var p = new Path2D();
+        for (var t = 0; t <= Math.PI * 2 + 0.03; t += 0.03) {
+          var x = 16 * Math.pow(Math.sin(t), 3);
+          var y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+          var px = ox + x * scale, py = oy - y * scale;
+          if (t === 0) p.moveTo(px, py); else p.lineTo(px, py);
+        }
+        p.closePath(); return p;
+      }
+      function baseScale() { return Math.min(W, H) / 48; }
+      // pęknięcia w układzie serca (jednostki wzoru), świecą po zapłonie
+      var CRACKS = [
+        [[0, 6], [-2, 1], [3, -4], [-1, -9], [2, -14]],
+        [[0, 1], [-6, -3], [-5, -9]],
+        [[2, -3], [8, -6], [6, -12]],
+        [[-2, 1], [-9, 2]]
+      ];
+
+      // --- cząstki ognia (cap ~600) ---
+      var CAP = 600, parts = [], sparks = [];
+      function spawnFire(px, py, vx, vy, size) {
+        if (parts.length >= CAP) return;
+        parts.push({ x: px, y: py, vx: vx, vy: vy, size: size, life: 0, max: 42 + Math.random() * 46 });
+      }
+      // emisja z WNĘTRZA serca — próbkowanie isPointInPath (CTM = tożsamość podczas testu)
+      function emitFromHeart(path, ox, oy, scale, n, power) {
+        var got = 0, tries = 0, lim = n * 7;
+        while (got < n && tries < lim) {
+          tries++;
+          var rx = ox + (Math.random() * 2 - 1) * 16 * scale;
+          var ry = oy - (Math.random() * 30 - 13) * scale;
+          if (g2d.isPointInPath(path, rx, ry)) {
+            got++;
+            var spread = (rx - ox) / (16 * scale);
+            spawnFire(rx, ry, spread * 0.4 + (Math.random() - .5) * 0.7, -(1.1 + Math.random() * 2.3) * power, 9 + Math.random() * 15);
+          }
         }
       }
-      var heartInt = null;
-      function comet(then){
-        if(!embersBox){ if(then)then(); return; }
-        var cx=innerWidth/2, sX=cx-innerWidth*0.17, sY=-innerHeight*0.22, eY=innerHeight*0.30;
-        var c=document.createElement('div');
-        c.style.cssText='position:absolute;left:0;top:0;pointer-events:none;transform:translate('+sX+'px,'+sY+'px) rotate(34deg);will-change:transform;';
-        var tail=document.createElement('span');
-        tail.style.cssText='position:absolute;left:-4px;top:-200px;width:8px;height:200px;border-radius:4px;filter:blur(2px);background:linear-gradient(180deg,transparent,rgba(251,113,133,.22) 28%,rgba(251,146,60,.95));';
-        var head=document.createElement('span');
-        head.style.cssText='position:absolute;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff,#ffe9c7 38%,#fb923c 82%);box-shadow:0 0 28px 10px rgba(251,146,60,.95),0 0 64px 22px rgba(251,113,133,.55);';
-        c.appendChild(tail); c.appendChild(head); embersBox.appendChild(c);
-        c.style.transition='transform .58s cubic-bezier(.55,0,.82,.42)';
-        requestAnimationFrame(function(){ c.style.transform='translate('+cx+'px,'+eY+'px) rotate(28deg)'; });
-        setTimeout(function(){ if(then)then(); c.style.transition='opacity .25s ease'; c.style.opacity='0'; }, 600);
-        setTimeout(function(){ c.remove(); }, 920);
+
+      // --- stan / oś czasu (~8 s, pomijalne) ---
+      var start = performance.now(), raf = 0, killed = false;
+      var shake = 0, flash = 0, ignite = 0, heartIn = 0, titleP = 0;
+      var comet = null, cometFired = false, exploded = false, sec1 = false, sec2 = false, sec3 = false;
+      var rings = [], shards = [], chargeP = 0, heartAlive = 1;
+      var COMET_T = 0.8, COMET_DUR = 0.5, CHARGE_T = 5.3, EXPLODE_T = 6.05, TITLE_T = 6.6, END_T = 9.9;
+      var PAL = ['#fff6d0', '#fcd34d', '#fb923c', '#f43f5e', '#ffe9c7'];
+
+      function launchComet() {
+        comet = { sx: W * 0.14, sy: -H * 0.14, ex: W / 2, ey: H * 0.46, x: 0, y: 0, dx: 0, dy: 0 };
+        comet.x = comet.sx; comet.y = comet.sy;
       }
-      function heartEmber(){
-        if(killed||!embersBox) return;
-        var cx=innerWidth/2, cy=innerHeight*0.40, sz=3+Math.random()*5, s=mkE(sz);
-        s.style.left=(cx+(Math.random()*innerWidth*0.14-innerWidth*0.07))+'px'; s.style.top=cy+'px'; s.style.opacity='0.95';
-        var dur=1.2+Math.random()*1.2;
-        s.style.transition='transform '+dur+'s ease-out, opacity '+dur+'s ease';
-        embersBox.appendChild(s);
-        requestAnimationFrame(function(){ s.style.transform='translate('+(Math.random()*70-35)+'px,-'+(22+Math.random()*44)+'vh) scale(.3)'; s.style.opacity='0'; });
-        setTimeout(function(){ s.remove(); }, dur*1000+120);
+      function impact() {
+        shake = 1; flash = 1; ignite = Math.max(ignite, 0.06); ring(0.45);
+        for (var i = 0; i < 90; i++) {
+          var a = Math.random() * Math.PI * 2, sp = 2 + Math.random() * 7.5;
+          spawnFire(cx + (Math.random() - .5) * 22 * sc, cy + (Math.random() - .5) * 12 * sc,
+                    Math.cos(a) * sp, Math.sin(a) * sp - 2.5, 9 + Math.random() * 16);
+        }
       }
-      emberInt = setInterval(ambient, 95);
-      pl.classList.add('a1');
-      T(1400, function(){ if(killed) return; comet(function(){ if(killed) return; pl.classList.add('a2','shake'); flash(); ringPop(); burst(34,false); setTimeout(function(){ pl && pl.classList.remove('shake'); },420); }); });
-      T(3000, function(){ if(killed) return; pl.classList.add('a3'); burst(22,false); heartInt=setInterval(heartEmber,70); });
-      T(4300, function(){ if(killed) return; pl.classList.add('a4','shake'); flash(); burst(20,false); setTimeout(function(){ pl && pl.classList.remove('shake'); },420); });
-      T(5500, function(){ if(killed) return; pl.classList.add('a5'); });
-      T(6600, function(){ if(killed) return; pl.classList.add('aend','shake'); flash(); if(heartInt) clearInterval(heartInt); burst(64,true); setTimeout(function(){ if(!killed) burst(30,true); },260); setTimeout(function(){ pl && pl.classList.remove('shake'); },520); });
-      var killPl = function () {
+      function ring(strength) {
+        rings.push({ r: 12, max: Math.min(W, H) * (0.45 + 0.5 * strength), life: 0, maxLife: 32 + strength * 12, w: 3 + 6 * strength });
+      }
+      function spawnShards() {
+        for (var i = 0; i < 16; i++) {
+          var a = Math.random() * Math.PI * 2, sp = 4 + Math.random() * 10;
+          shards.push({ x: cx + (Math.random() - .5) * 18 * sc, y: cy + (Math.random() - .4) * 16 * sc,
+            vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 3.5, rot: Math.random() * 6.28, vr: (Math.random() - .5) * 0.5,
+            size: 7 + Math.random() * 11, life: 0, max: 74 + Math.random() * 70 });
+        }
+      }
+      function bigBurst(nFire, nSpark) {
+        for (var i = 0; i < nFire; i++) {
+          var a = Math.random() * Math.PI * 2, sp = 2 + Math.random() * 10;
+          spawnFire(cx + (Math.random() - .5) * 26 * sc, cy - (Math.random() * 8) * sc, Math.cos(a) * sp, Math.sin(a) * sp - 3, 10 + Math.random() * 20);
+        }
+        for (var j = 0; j < nSpark; j++) {
+          var a2 = Math.random() * Math.PI * 2, sp2 = 3 + Math.random() * 13;
+          sparks.push({ x: cx, y: cy, vx: Math.cos(a2) * sp2, vy: Math.sin(a2) * sp2 - (2 + Math.random() * 5),
+            life: 0, max: 80 + Math.random() * 95, size: 1.6 + Math.random() * 3.2, col: PAL[(Math.random() * PAL.length) | 0] });
+        }
+      }
+      function explode() {
+        exploded = true; shake = 1.5; flash = 1.5;
+        ring(1.15); ring(0.7); spawnShards(); bigBurst(190, 280);
+      }
+
+      function frame(now) {
+        if (killed) return;
+        var t = (now - start) / 1000;
+        sc = baseScale();
+        cx = W / 2; cy = H * 0.46;
+        var beat = 1 + Math.sin(t * (ignite > 0.2 ? 5.4 : 3.0)) * (0.03 + 0.055 * ignite);
+        sc *= beat;
+
+        // wyzwalacze osi czasu — szybszy start, dłuższy dramatyczny finał
+        if (t > 0.1) pl.classList.add('bars');
+        heartIn = Math.min(1, t / 0.7);
+        if (t >= COMET_T && !cometFired) { cometFired = true; launchComet(); }
+        if (comet) {
+          var cp = Math.min(1, (t - COMET_T) / COMET_DUR), e = cp * cp; // przyspieszenie
+          comet.x = comet.sx + (comet.ex - comet.sx) * e;
+          comet.y = comet.sy + (comet.ey - comet.sy) * e;
+          var ddx = comet.ex - comet.sx, ddy = comet.ey - comet.sy, dl = Math.hypot(ddx, ddy) || 1;
+          comet.dx = ddx / dl; comet.dy = ddy / dl;
+          if (cp >= 1) { comet = null; impact(); }
+        }
+        if (cometFired && !comet && !exploded) ignite = Math.min(1, ignite + 0.011);
+        // faza ładowania: implozja iskier do serca, rozgrzanie do białości
+        if (t >= CHARGE_T && t < EXPLODE_T) {
+          chargeP = (t - CHARGE_T) / (EXPLODE_T - CHARGE_T); ignite = 1;
+          shake = Math.max(shake, 0.12 * chargeP);
+          for (var ci2 = 0; ci2 < 5 && parts.length < CAP; ci2++) {
+            var ang = Math.random() * Math.PI * 2, rad = (0.32 + Math.random() * 0.32) * Math.min(W, H);
+            parts.push({ x: cx + Math.cos(ang) * rad, y: cy + Math.sin(ang) * rad,
+              vx: -Math.cos(ang) * (4 + Math.random() * 5), vy: -Math.sin(ang) * (4 + Math.random() * 5) - 0.4,
+              size: 5 + Math.random() * 7, life: 0, max: 24 + Math.random() * 14 });
+          }
+        }
+        if (t >= EXPLODE_T && !exploded) explode();
+        // łańcuch wtórnych eksplozji — więcej dramatu
+        if (exploded) {
+          heartAlive = Math.max(0, heartAlive - 0.055);
+          if (!sec1 && t >= EXPLODE_T + 0.4) { sec1 = true; shake = Math.max(shake, 1.0); flash = Math.max(flash, 0.9); ring(0.85); bigBurst(100, 130); }
+          if (!sec2 && t >= EXPLODE_T + 0.9) { sec2 = true; shake = Math.max(shake, 0.8); flash = Math.max(flash, 0.7); ring(0.65); bigBurst(80, 100); }
+          if (!sec3 && t >= EXPLODE_T + 1.5) { sec3 = true; shake = Math.max(shake, 0.6); flash = Math.max(flash, 0.55); ring(0.5); bigBurst(60, 80); }
+        }
+        if (t >= END_T) { killPl(); return; }
+
+        // wygaszenia
+        shake *= 0.9; flash *= 0.9;
+
+        // budujemy ścieżkę serca; test isPointInPath przy CTM = tożsamość
+        var hp = heartPath(sc, cx, cy);
+        if (heartIn >= 1) emitFromHeart(hp, cx, cy, sc, Math.round(2 + ignite * 11), 0.6 + ignite * 1.3);
+
+        // fizyka cząstek
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i]; p.life++;
+          if (p.life > p.max) { parts.splice(i, 1); continue; }
+          p.vy -= 0.022; p.vx *= 0.99; p.vx += (Math.random() - .5) * 0.16;
+          p.x += p.vx; p.y += p.vy;
+        }
+        for (var s = sparks.length - 1; s >= 0; s--) {
+          var q = sparks[s]; q.life++;
+          if (q.life > q.max) { sparks.splice(s, 1); continue; }
+          q.vy += 0.19; q.vx *= 0.992; q.x += q.vx; q.y += q.vy;
+        }
+        for (var ir = rings.length - 1; ir >= 0; ir--) { var rr = rings[ir]; rr.life++; if (rr.life > rr.maxLife) { rings.splice(ir, 1); continue; } rr.r += (rr.max - rr.r) * 0.13; }
+        for (var ish = shards.length - 1; ish >= 0; ish--) { var ss = shards[ish]; ss.life++; if (ss.life > ss.max) { shards.splice(ish, 1); continue; } ss.vy += 0.16; ss.vx *= 0.99; ss.x += ss.vx; ss.y += ss.vy; ss.rot += ss.vr; }
+
+        // ==== RYSOWANIE ====
+        // „smugi": półprzezroczysty clear co klatkę
+        g2d.globalCompositeOperation = 'source-over';
+        g2d.fillStyle = 'rgba(6,4,3,' + (exploded ? 0.15 : 0.26) + ')';
+        g2d.fillRect(0, 0, W, H);
+
+        var sx = (Math.random() - .5) * 24 * shake, sy = (Math.random() - .5) * 24 * shake;
+        g2d.save();
+        g2d.translate(sx, sy);
+
+        // wolumetryczny blask rosnący z intensywnością
+        if (ignite > 0.02) {
+          g2d.globalCompositeOperation = 'lighter';
+          var gg = g2d.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * (0.32 + 0.34 * ignite));
+          gg.addColorStop(0, 'rgba(255,140,52,' + (0.13 * ignite).toFixed(3) + ')');
+          gg.addColorStop(0.5, 'rgba(240,80,42,' + (0.06 * ignite).toFixed(3) + ')');
+          gg.addColorStop(1, 'rgba(0,0,0,0)');
+          g2d.fillStyle = gg; g2d.fillRect(-sx, -sy, W, H);
+        }
+
+        // korpus serca — żarzący rdzeń
+        if (heartIn > 0.01 && heartAlive > 0.01) {
+          g2d.globalCompositeOperation = 'source-over';
+          g2d.globalAlpha = heartIn * heartAlive;
+          var core = g2d.createRadialGradient(cx, cy + 3 * sc, 2, cx, cy, 16 * sc);
+          core.addColorStop(0, 'rgba(' + (120 + ignite * 135) + ',' + (22 + ignite * 118) + ',22,1)');
+          core.addColorStop(0.55, 'rgba(' + (92 + ignite * 70) + ',22,26,1)');
+          core.addColorStop(1, 'rgba(' + (48 + ignite * 26) + ',10,15,1)');
+          g2d.fillStyle = core; g2d.fill(hp);
+          // rozgrzanie do białości (faza ładowania)
+          if (chargeP > 0) {
+            g2d.globalCompositeOperation = 'lighter';
+            var wg = g2d.createRadialGradient(cx, cy, 0, cx, cy, 15 * sc);
+            wg.addColorStop(0, 'rgba(255,250,236,' + (0.9 * chargeP).toFixed(3) + ')');
+            wg.addColorStop(0.6, 'rgba(255,190,110,' + (0.5 * chargeP).toFixed(3) + ')');
+            wg.addColorStop(1, 'rgba(255,150,80,0)');
+            g2d.fillStyle = wg; g2d.fill(hp);
+          }
+          g2d.globalAlpha = 1;
+          // rim light
+          g2d.globalCompositeOperation = 'lighter';
+          g2d.lineWidth = 2.2 + chargeP * 2;
+          g2d.strokeStyle = 'rgba(255,' + Math.round(150 + ignite * 60 + chargeP * 40) + ',92,' + ((0.45 * heartIn + 0.42 * ignite) * heartAlive).toFixed(3) + ')';
+          g2d.shadowBlur = 22 + ignite * 26 + chargeP * 30; g2d.shadowColor = 'rgba(255,128,50,' + (0.6 + 0.4 * ignite).toFixed(3) + ')';
+          g2d.stroke(hp);
+          g2d.shadowBlur = 0;
+        }
+
+        // pęknięcia świecące
+        if (ignite > 0.06 && !exploded) {
+          var cg = (0.55 + 0.45 * Math.sin(t * 7)) * ignite;
+          g2d.globalCompositeOperation = 'lighter';
+          g2d.strokeStyle = 'rgba(255,240,190,' + cg.toFixed(3) + ')';
+          g2d.lineWidth = 1.6; g2d.lineJoin = 'round';
+          g2d.shadowBlur = 10; g2d.shadowColor = 'rgba(255,150,60,1)';
+          for (var ci = 0; ci < CRACKS.length; ci++) {
+            g2d.beginPath();
+            for (var cj = 0; cj < CRACKS[ci].length; cj++) {
+              var X = cx + CRACKS[ci][cj][0] * sc, Y = cy - CRACKS[ci][cj][1] * sc;
+              if (cj === 0) g2d.moveTo(X, Y); else g2d.lineTo(X, Y);
+            }
+            g2d.stroke();
+          }
+          g2d.shadowBlur = 0;
+        }
+
+        // cząstki ognia (drawImage, lighter)
+        g2d.globalCompositeOperation = 'lighter';
+        for (var d = 0; d < parts.length; d++) {
+          var pp = parts[d], k = pp.life / pp.max;
+          var idx = k < 0.14 ? 0 : k < 0.34 ? 1 : k < 0.6 ? 2 : k < 0.82 ? 3 : 4;
+          var sz = pp.size * (1 + k * 0.5);
+          g2d.globalAlpha = (1 - k) * 0.92;
+          g2d.drawImage(SP[idx], pp.x - sz / 2, pp.y - sz / 2, sz, sz);
+        }
+        // deszcz iskier
+        for (var e2 = 0; e2 < sparks.length; e2++) {
+          var qq = sparks[e2], kk = qq.life / qq.max;
+          g2d.globalAlpha = (1 - kk);
+          g2d.fillStyle = qq.col;
+          var qs = qq.size * (0.5 + (1 - kk) * 0.9);
+          g2d.beginPath(); g2d.arc(qq.x, qq.y, qs, 0, Math.PI * 2); g2d.fill();
+        }
+        g2d.globalAlpha = 1;
+
+        // odłamki serca (shatter)
+        for (var dsi = 0; dsi < shards.length; dsi++) {
+          var SS = shards[dsi], sk = 1 - SS.life / SS.max;
+          g2d.save(); g2d.translate(SS.x, SS.y); g2d.rotate(SS.rot);
+          g2d.globalCompositeOperation = 'lighter'; g2d.globalAlpha = Math.max(0, sk);
+          var sg = g2d.createRadialGradient(0, 0, 0, 0, 0, SS.size);
+          sg.addColorStop(0, 'rgba(255,224,158,1)'); sg.addColorStop(0.5, 'rgba(232,72,42,.85)'); sg.addColorStop(1, 'rgba(120,20,20,0)');
+          g2d.fillStyle = sg; g2d.beginPath(); g2d.moveTo(0, -SS.size); g2d.lineTo(SS.size * 0.7, SS.size * 0.62); g2d.lineTo(-SS.size * 0.7, SS.size * 0.62); g2d.closePath(); g2d.fill();
+          g2d.restore();
+        }
+        g2d.globalAlpha = 1;
+
+        // fale uderzeniowe (shockwave)
+        if (rings.length) {
+          g2d.globalCompositeOperation = 'lighter';
+          for (var dri = 0; dri < rings.length; dri++) {
+            var R = rings[dri], rk = 1 - R.life / R.maxLife;
+            g2d.globalAlpha = Math.max(0, rk) * 0.85;
+            g2d.lineWidth = R.w * rk + 0.5;
+            g2d.strokeStyle = 'rgba(255,224,170,1)';
+            g2d.beginPath(); g2d.arc(cx, cy, R.r, 0, Math.PI * 2); g2d.stroke();
+          }
+          g2d.globalAlpha = 1;
+        }
+
+        // kometa (jasna głowa + smuga)
+        if (comet) {
+          var tl = 190;
+          var tx = comet.x - comet.dx * tl, ty = comet.y - comet.dy * tl;
+          var tg = g2d.createLinearGradient(tx, ty, comet.x, comet.y);
+          tg.addColorStop(0, 'rgba(251,146,60,0)');
+          tg.addColorStop(0.7, 'rgba(251,146,60,.55)');
+          tg.addColorStop(1, 'rgba(255,245,210,.95)');
+          g2d.globalCompositeOperation = 'lighter';
+          g2d.strokeStyle = tg; g2d.lineWidth = 6; g2d.lineCap = 'round';
+          g2d.beginPath(); g2d.moveTo(tx, ty); g2d.lineTo(comet.x, comet.y); g2d.stroke();
+          g2d.drawImage(SP[0], comet.x - 20, comet.y - 20, 40, 40);
+        }
+
+        // błysk
+        if (flash > 0.02) {
+          g2d.globalCompositeOperation = 'lighter';
+          var fg = g2d.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.75);
+          fg.addColorStop(0, 'rgba(255,246,222,' + Math.min(1, 0.9 * flash).toFixed(3) + ')');
+          fg.addColorStop(0.4, 'rgba(255,150,80,' + (0.4 * flash).toFixed(3) + ')');
+          fg.addColorStop(1, 'rgba(0,0,0,0)');
+          g2d.fillStyle = fg; g2d.fillRect(-sx, -sy, W, H);
+        }
+
+        g2d.restore();
+
+        // tytuł wyłania się z ognia
+        if (t >= TITLE_T) {
+          titleP = Math.min(1, (t - TITLE_T) / 1.1);
+          var te = 1 - Math.pow(1 - titleP, 3);
+          plTitle.style.opacity = te.toFixed(3);
+          plTitle.style.transform = 'translate(' + sx.toFixed(1) + 'px,' + ((1 - te) * 34 + sy).toFixed(1) + 'px) scale(' + (0.92 + 0.08 * te).toFixed(3) + ')';
+        }
+
+        raf = requestAnimationFrame(frame);
+      }
+
+      function killPl() {
         if (killed) return; killed = true;
-        timers.forEach(clearTimeout); if (emberInt) clearInterval(emberInt); if (heartInt) clearInterval(heartInt);
+        cancelAnimationFrame(raf);
+        window.removeEventListener('resize', resize);
         var n = pl; pl = null; n.classList.add('ending');
-        setTimeout(function () { if (n) n.remove(); }, 580);
-      };
-      T(7800, killPl);
-      document.querySelector('.preloader').addEventListener('click', killPl);
+        setTimeout(function () { if (n && n.parentNode) n.parentNode.removeChild(n); }, 620);
+      }
+
+      pl.addEventListener('click', killPl);
       window.addEventListener('scroll', function () { killPl(); }, { once: true, passive: true });
+      raf = requestAnimationFrame(frame);
     }
   }
 
