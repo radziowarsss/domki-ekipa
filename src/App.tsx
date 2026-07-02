@@ -45,14 +45,6 @@ function oneBadge(o: string) {
 }
 
 const sel = 'bg-slate-800/70 border border-slate-700 rounded-xl px-3 py-2 text-sm outline-none focus:border-teal-400 transition';
-const TEAM = 3;
-
-// Brygada — wybór postaci po haśle (tylko chłopaki, żartobliwe fakty)
-const CREW: { id: string; name: string; emoji: string; grad: string; fact: string }[] = [
-  { id: 'radzio', name: 'Radzio', emoji: '🧠', grad: 'from-teal-400 to-sky-500', fact: 'Zamiast zadzwonić — zbudował całą stronę. Klasyk.' },
-  { id: 'lewarczyk', name: 'Lewy', emoji: '💪', grad: 'from-amber-400 to-orange-500', fact: 'Podniesie lodówkę, ale nie słuchawkę przed 12:00.' },
-  { id: 'bescik', name: 'Beścik', emoji: '😎', grad: 'from-fuchsia-400 to-purple-500', fact: 'Beściak. Nazwa zobowiązuje.' },
-];
 
 type Mode = 'loading' | 'login' | 'authed' | 'offline';
 
@@ -201,6 +193,7 @@ export default function App() {
     try { return localStorage.getItem('domki_intro_seen') !== '1'; } catch { return true; }
   });
   const [pw, setPw] = useState('');
+  const [pickName, setPickName] = useState('');
   const [loginErr, setLoginErr] = useState('');
   const [name, setName] = useState<string>(() => localStorage.getItem('domki_name') || '');
   const [votes, setVotes] = useState<Record<string, number>>({});
@@ -483,25 +476,26 @@ export default function App() {
   }
 
   if ((mode === 'authed' || mode === 'offline') && !name) {
-    const pick = (n: string) => { setName(n); try { localStorage.setItem('domki_name', n); } catch { /* ignore */ } burst(40); };
+    const pick = (n: string) => { const t = n.trim(); if (!t) return; setName(t); try { localStorage.setItem('domki_name', t); } catch { /* ignore */ } burst(40); };
     return (
       <div className="min-h-screen grid place-items-center px-4 relative">
         <div className="aurora" />
         <FloatingIcons />
-        <div className="w-full max-w-lg relative rounded-3xl border border-slate-800 bg-slate-900/70 p-7 text-center backdrop-blur-xl shadow-2xl shadow-black/40">
+        <div className="w-full max-w-sm relative rounded-3xl border border-slate-800 bg-slate-900/70 p-7 text-center backdrop-blur-xl shadow-2xl shadow-black/40">
+          <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl border border-slate-700 bg-gradient-to-br from-teal-500/20 to-fuchsia-500/20 text-3xl">🍺</div>
           <div className="text-[11px] font-bold uppercase tracking-[0.28em] text-teal-300/80">Kronika Ekipy · 2026</div>
-          <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Kto wbija? 🤙</h1>
-          <p className="mt-2 text-sm text-slate-400">Klepnij swoją ikonę — ekipa zobaczy Twoje głosy, RSVP i raporty.</p>
-          <div className="mt-6 grid grid-cols-3 gap-3">
-            {CREW.map((c) => (
-              <button key={c.id} onClick={() => pick(c.name)} className="group rounded-2xl border border-slate-700 bg-slate-800/60 p-3 hover:border-teal-400 hover:bg-slate-800 transition text-center">
-                <div className={'mx-auto grid h-14 w-14 place-items-center rounded-full bg-gradient-to-br ' + c.grad + ' text-2xl shadow-lg group-hover:scale-110 transition'}>{c.emoji}</div>
-                <div className="mt-2 font-bold text-slate-100">{c.name}</div>
-                <div className="text-[10px] text-slate-400 leading-snug mt-0.5">{c.fact}</div>
-              </button>
-            ))}
-          </div>
-          <div className="mt-5 text-[11px] text-slate-500">tylko ekipa 🤙 — klepnij swoją mordkę wyżej</div>
+          <h1 className="mt-1 text-3xl font-black bg-gradient-to-r from-teal-200 via-sky-300 to-fuchsia-300 bg-clip-text text-transparent">Jak Cię zwać? 🤙</h1>
+          <p className="mt-2 text-sm text-slate-400">Wbij ksywę — ekipa zobaczy Twoje głosy, RSVP i raporty.</p>
+          <input
+            value={pickName}
+            onChange={(e) => setPickName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && pick(pickName)}
+            placeholder="Twoja ksywa…"
+            maxLength={24}
+            className="mt-5 w-full rounded-xl border border-slate-700 bg-slate-800/80 px-4 py-3 text-center outline-none focus:border-teal-400 transition"
+            autoFocus
+          />
+          <button onClick={() => pick(pickName)} className="mt-3 w-full rounded-xl bg-gradient-to-r from-teal-400 to-sky-400 py-3 font-bold text-teal-950 shadow-lg shadow-teal-500/20 hover:brightness-105 transition">Wbijam 🤙</button>
         </div>
       </div>
     );
@@ -523,7 +517,7 @@ export default function App() {
           DOMKI EKIPA
         </h1>
         <p className="text-slate-300 mt-2">
-          Namierzamy chatę dla <b>naszej trójki</b> na legendarny weekend — sobota 4 → niedziela 5 lipca, do ~2h od Torunia i Inowrocławia. Głosuj, dzwoń, klep termin. 🍺
+          Namierzamy chatę dla <b>całej ekipy</b> na legendarny weekend — sobota 4 → niedziela 5 lipca, do ~2h od Torunia i Inowrocławia. Głosuj, dzwoń, klep termin. 🍺
         </p>
 
         <div className="mt-4 grid grid-cols-3 gap-2">
@@ -552,10 +546,7 @@ export default function App() {
             <div className="text-lg font-extrabold">Wbijasz z nami? 🔥</div>
             <div className="text-xs text-slate-400">Klepnij miejsce w ekipie — im nas więcej, tym taniej na łepka!</div>
           </div>
-          <div className="flex-1 min-w-[160px] h-4 rounded-full bg-slate-950/60 border border-slate-700/70 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-emerald-400 to-teal-400 transition-all" style={{ width: `${Math.min(going / TEAM, 1) * 100}%` }} />
-          </div>
-          <div className="font-extrabold whitespace-nowrap">{going}/{TEAM} w ekipie</div>
+          <div className="font-extrabold whitespace-nowrap ml-auto">{going} w ekipie 🙋</div>
           <button onClick={doRsvp} className="rounded-xl bg-gradient-to-br from-emerald-400 to-teal-400 px-5 py-2.5 font-extrabold text-emerald-950 shadow-lg shadow-emerald-500/20 hover:brightness-105 transition">WBIJAM! 🙋</button>
         </div>
         {going > 0 && (
@@ -728,9 +719,9 @@ export default function App() {
           <button onClick={replayIntro} className="rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition">
             ▶ Odtwórz intro ponownie
           </button>
-          {name === 'Radzio' && (
+          {['radek', 'radzio'].includes(name.trim().toLowerCase()) && (
             <button onClick={doReset} className="rounded-full border border-rose-500/40 bg-rose-500/10 px-4 py-2 font-semibold text-rose-300 hover:text-rose-100 hover:border-rose-500/70 transition">
-              🧹 Reset aktywności ekipy (tylko Radzio)
+              🧹 Reset aktywności ekipy
             </button>
           )}
         </div>
